@@ -1,0 +1,26 @@
+# NOTE: This create a very simple image that has the proper version of Node.
+# This image does not contain any project files.
+# See docker-container-dev-env.yml file and Readme for how this can be used
+# during development.
+
+FROM node:14.13-alpine3.10
+
+
+# Where inside the container the files will appear
+WORKDIR /home/app
+
+# Install bash and git (git is required for Husky)
+RUN apk add --no-cache bash
+RUN apk add --no-cache git
+RUN apk add --no-cache vim
+RUN apk add --no-cache openssh-client
+
+
+# Ports
+ENV PORT 3000
+EXPOSE 3000
+
+
+
+# Opens the terminal inside the container
+ENTRYPOINT /bin/bash

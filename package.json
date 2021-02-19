@@ -1,0 +1,159 @@
+{
+  "name": "sort_table",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "repository": "",
+  "engines": {
+    "node": "^12 || ^14"
+  },
+  "dependencies": {
+    "prop-types": "^15.7.2",
+    "react": "16.0.0 - 17.999.999",
+    "react-dom": "16.0.0 - 17.999.999",
+    "reactstrap": "^8.9.0"
+  },
+  "devDependencies": {
+    "@babel/preset-react": "^7.12.10",
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.4.0",
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "bootstrap": "^4.6.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.6",
+    "enzyme-to-json": "^3.6.1",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-config-prettier": "^7.1.0",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^3.3.0",
+    "eslint-watch": "^7.0.0",
+    "husky": "^4.3.6",
+    "jest-axe": "4.1.0",
+    "lint-staged": "^10.5.0",
+    "node-sass": "^4.14.1",
+    "prettier": "2.2.1",
+    "react-scripts": "^4.0.1",
+    "stylelint": "^13.8.0",
+    "stylelint-config-prettier": "^8.0.2",
+    "uglify-js": "^3.12.3",
+    "typescript": "^4.1.2"
+  },
+  "scripts": {
+    "d": "npm i && npm rebuild node-sass",
+    "installDependencies": "npm run d",
+    "start": "REACT_APP_GIT_SHA=`git rev-parse --short HEAD` react-scripts start",
+    "----------------------------------------------------------1": "",
+    "build": "npm run d && npm run test && npm run npmAudit && npm run build:ci",
+    "build:ci": "REACT_APP_GIT_SHA=`git rev-parse --short HEAD` react-scripts build",
+    "test": "react-scripts test --coverage --watchAll=false --passWithNoTests",
+    "test:watch": "react-scripts test ",
+    "test:update": "npm run test -- -u",
+    "----------------------------------------------------------2": "",
+    "lint": "npm run lint:js && npm run prettier:all && npm run lint:scss:all",
+    "lint:fix": "npm run prettier:fix:all && npm run lint:js:fix &&  npm run lint:scss:fix:all",
+    "lint:watch": "onchange 'src/**/*.*' -- npm run lint:fix",
+    "----------------------------------------------------------3": "",
+    "lint:js": "esw --ext .jsx,.js --color ",
+    "lint:js:fix": "npm run lint:js -- --fix",
+    "prettier": "prettier  --ignore-path ./.eslintignore --check",
+    "prettier:all": "npm run prettier '**/*.+(js|jsx|html|css|scss|json)'",
+    "prettier:fix": "prettier  --ignore-path ./.eslintignore --write",
+    "prettier:fix:all": "npm run prettier:fix '**/*.+(js|jsx|html|css|scss|json)'",
+    "lint:scss": "stylelint --ignore-path ./.eslintignore ",
+    "lint:scss:all": "npm run lint:scss './**/*.+(css|scss)'",
+    "lint:scss:fix:all": "npm run lint:scss -- --fix './**/*.+(css|scss)'",
+    "----------------------------------------------------------4": "",
+    "clean": "rm -rf node_modules && rm package-lock.json && npm run d",
+    "uglify": "uglifyjs ",
+    "checkCoverage": "node ./utils/testCoverage.js",
+    "npmAudit": "npm audit --audit-level=high --registry=https://registry.npmjs.org",
+    "buildPackage": "npm run d && npm run npmAudit && npm run test && bash  utils/buildPackage.sh"
+  },
+  "babel": {
+    "presets": [
+      "react",
+      "env"
+    ]
+  },
+  "prettier": {
+    "singleQuote": true,
+    "jsxSingleQuote": true,
+    "printWidth": 80
+  },
+  "eslintConfig": {
+    "extends": [
+      "airbnb",
+      "airbnb/hooks",
+      "prettier/react",
+      "prettier",
+      "react-app",
+      "react-app/jest"
+    ],
+    "globals": {
+      "styles": true
+    },
+    "env": {
+      "browser": true,
+      "commonjs": true,
+      "jest": true,
+      "es6": true,
+      "jquery": true
+    },
+    "parser": "babel-eslint",
+    "plugins": [
+      "prettier",
+      "eslint-plugin-react"
+    ],
+    "rules": {
+      "prettier/prettier": "error",
+      "no-var": "error",
+      "curly": "error",
+      "one-var": "error",
+      "no-console": "error",
+      "no-unused-vars": "error",
+      "arrow-body-style": [
+        "error",
+        "as-needed"
+      ]
+    }
+  },
+  "stylelint": {
+    "extends": "stylelint-config-prettier"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && npm run npmAudit"
+    }
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!<rootDir>/node_modules/",
+      "!<rootDir>/src/Components/index.jsx",
+      "!<rootDir>/src/index.jsx",
+      "!<rootDir>/src/setupTests.js",
+      "!<rootDir>/src/App.jsx"
+    ],
+    "coverageReporters": [
+      "html",
+      "json-summary",
+      "text-summary"
+    ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
