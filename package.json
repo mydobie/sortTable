@@ -9,13 +9,15 @@
   },
   "dependencies": {
     "prop-types": "^15.7.2",
-    "react": "16.0.0 - 17.999.999",
-    "react-dom": "16.0.0 - 17.999.999",
-    "reactstrap": "^8.9.0"
+    "react": "16.0.0 - 16.999.999",
+    "react-dom": "16.0.0 - 16.999.999"
   },
   "devDependencies": {
     "react-bootstrap": "^1.5.0",
     "@instructure/canvas-theme": "^7.4.0",
+    "@instructure/ui-pagination": "^7.4.0",
+    "@instructure/ui-table": "^7.4.0",
+    "@instructure/ui-grid": "^7.4.0",
     "@babel/preset-react": "^7.12.10",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.4.0",
     "babel-cli": "^6.26.0",

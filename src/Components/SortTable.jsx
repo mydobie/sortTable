@@ -33,19 +33,18 @@ tableData: [
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  Table,
-  Input,
-  FormGroup,
-  Label,
-  Pagination,
-  PaginationItem,
-  PaginationLink,
-  Container,
-  Row,
-  Col,
-} from 'reactstrap';
+import Cell from './UIAtoms/Cell';
+import TableRow from './UIAtoms/TableRow';
+import TContainer from './UIAtoms/TContainer';
+import Table from './UIAtoms/Table';
 import SortIcons from './SortIcons';
+import Pagination from './UIAtoms/Pagination';
+import Page from './UIAtoms/Page';
+import Select from './UIAtoms/Select';
+import Filter from './UIAtoms/Filter';
+import Container from './UIAtoms/Container';
+import Row from './UIAtoms/Row';
+import Col from './UIAtoms/Col';
 
 export default class SortTable extends React.Component {
   constructor(props) {
@@ -104,23 +103,23 @@ export default class SortTable extends React.Component {
   }
 
   buildHeaders() {
-    const { headers } = this.props;
+    const { headers, ui } = this.props;
     return (
-      <thead>
-        <tr>
+      <TContainer thead ui={ui}>
+        <TableRow ui={ui}>
           {headers.map((header) => (
-            <th scope='col' key={header.key}>
+            <Cell colHeader key={header.key} ui={ui}>
               {this.headerButton(header)}
-            </th>
+            </Cell>
           ))}
-        </tr>
-      </thead>
+        </TableRow>
+      </TContainer>
     );
   }
 
   buildData() {
     const { tableDisplayRows, maxNumber, startRow } = this.state;
-    const { showPagination } = this.props;
+    const { showPagination, ui } = this.props;
 
     const rows =
       !showPagination || maxNumber === ''
@@ -129,14 +128,18 @@ export default class SortTable extends React.Component {
             .filter((row) => !row.hide)
             .slice(startRow, startRow + maxNumber);
 
-    return <tbody>{rows.map((row) => this.buildDataRow(row))}</tbody>;
+    return (
+      <TContainer ui={ui}>
+        {rows.map((row) => this.buildDataRow(row))}
+      </TContainer>
+    );
   }
 
   buildDataRow(rowData) {
-    const { headers, dangerouslySetInnerHTML } = this.props;
+    const { headers, dangerouslySetInnerHTML, ui } = this.props;
 
     return (
-      <tr key={rowData.id}>
+      <TableRow key={rowData.id} ui={ui}>
         {headers.map((header) => {
           const data = dangerouslySetInnerHTML ? (
             // eslint-disable-next-line react/no-danger
@@ -144,9 +147,13 @@ export default class SortTable extends React.Component {
           ) : (
             rowData[header.key]
           );
-          return <td key={`${rowData.id}${header.key}`}>{data}</td>;
+          return (
+            <Cell key={`${rowData.id}${header.key}`} ui={ui}>
+              {data}
+            </Cell>
+          );
         })}
-      </tr>
+      </TableRow>
     );
   }
 
@@ -210,34 +217,19 @@ export default class SortTable extends React.Component {
 
   filterInput() {
     const { filterValue } = this.state;
-    return (
-      <FormGroup check inline id='tableFilter' style={{ marginBottom: '20px' }}>
-        <Label
-          htmlFor='tableFilterInput'
-          style={{ fontWeight: 'bold', marginRight: '10px' }}
-        >
-          Filter:
-        </Label>
-
-        <Input
-          value={filterValue}
-          onChange={this.filterRows}
-          id='tableFilterInput'
-        />
-      </FormGroup>
-    );
+    const { ui } = this.props;
+    return <Filter value={filterValue} onChange={this.filterRows} ui={ui} />;
   }
 
   showNumberInput() {
     const { maxNumber } = this.state;
-    const { viewSteps } = this.props;
+    const { viewSteps, ui } = this.props;
 
     return (
-      <FormGroup className='sortTableShowResultsSelect'>
+      <div className='sortTableShowResultsSelect'>
         Show{' '}
-        <Input
-          type='select'
-          aria-label='Number of items shown per page'
+        <Select
+          ariaLabel='Number of items shown per page'
           value={maxNumber}
           style={{ width: '75px', display: 'inline-block' }}
           onChange={(e) =>
@@ -246,6 +238,7 @@ export default class SortTable extends React.Component {
               startRow: 0,
             })
           }
+          ui={ui}
         >
           {viewSteps.map((step) => (
             <option value={step} key={step}>
@@ -253,14 +246,15 @@ export default class SortTable extends React.Component {
             </option>
           ))}
           <option value=''>All</option>
-        </Input>
+        </Select>
         results
-      </FormGroup>
+      </div>
     );
   }
 
   showPagination() {
     const { maxNumber, startRow, tableDisplayRows } = this.state;
+    const { ui } = this.props;
 
     const rows = tableDisplayRows.filter((row) => !row.hide).length;
 
@@ -271,23 +265,15 @@ export default class SortTable extends React.Component {
     for (let i = 0; i < rows; i += max) {
       const pageNumber = pageButtons.length + 1;
       pageButtons.push(
-        <PaginationItem
+        <Page
           key={pageNumber}
           active={startRow === i}
-          className='sortTablePaginationItem'
+          value={i}
+          onClick={(e) => this.setState({ startRow: parseInt(i, 10) })}
+          ui={ui}
         >
-          <PaginationLink
-            data-page-number={pageNumber}
-            data-page-row={i}
-            value={i}
-            className='sortTablePaginationButton'
-            onClick={(e) =>
-              this.setState({ startRow: parseInt(e.target.value, 10) })
-            }
-          >
-            {pageNumber}
-          </PaginationLink>
-        </PaginationItem>
+          {pageNumber}
+        </Page>
       );
     }
 
@@ -299,30 +285,21 @@ export default class SortTable extends React.Component {
         <Pagination
           aria-label='Results page'
           style={{ position: 'absolute', right: '0' }}
+          prevOnClick={() => {
+            if (startRow >= maxNumber) {
+              this.setState({ startRow: startRow - maxNumber });
+            }
+          }}
+          nextOnClick={() => {
+            if (startRow + maxNumber < rows) {
+              this.setState({
+                startRow: startRow + maxNumber,
+              });
+            }
+          }}
+          ui={ui}
         >
-          <PaginationItem>
-            <PaginationLink
-              previous
-              disabled={startRow < maxNumber}
-              onClick={() => this.setState({ startRow: startRow - maxNumber })}
-            >
-              Previous
-            </PaginationLink>
-          </PaginationItem>
           {pageButtons.map((button) => button)}
-          <PaginationItem>
-            <PaginationLink
-              next
-              disabled={startRow + maxNumber > rows}
-              onClick={() => {
-                this.setState({
-                  startRow: startRow + maxNumber,
-                });
-              }}
-            >
-              Next
-            </PaginationLink>
-          </PaginationItem>
         </Pagination>
       </div>
     );
@@ -330,20 +307,26 @@ export default class SortTable extends React.Component {
 
   render() {
     const { tableDisplayRows } = this.state;
-    const { showFilter, showPagination } = this.props;
+    const { showFilter, showPagination, ui } = this.props;
     if (tableDisplayRows.length === 0) {
       return <p id='noDataToTableMessage'>{this.noDataMessage}</p>;
     }
     return (
-      <Container fluid>
-        <Row>
-          <Col sm='6'>{showPagination ? this.showNumberInput() : null}</Col>
-          <Col sm='6' style={{ textAlign: 'right' }}>
+      <Container fluid ui={ui}>
+        <Row ui={ui}>
+          <Col sm={6} ui={ui}>
+            {showPagination ? this.showNumberInput() : null}
+          </Col>
+          <Col
+            sm={6}
+            ui={ui}
+            style={{ textAlign: 'right', marginBottom: '15px' }}
+          >
             {showFilter ? this.filterInput() : null}
           </Col>
         </Row>
 
-        <Table>
+        <Table ui={ui}>
           {this.buildHeaders()}
           {this.buildData()}
         </Table>
@@ -368,6 +351,7 @@ SortTable.propTypes = {
   dangerouslySetInnerHTML: PropTypes.bool,
   viewSteps: PropTypes.arrayOf(PropTypes.number),
   defaultToAll: PropTypes.bool,
+  ui: PropTypes.oneOf(['instructure', undefined, 'boostrap']),
 };
 SortTable.defaultProps = {
   tableData: [],
@@ -379,4 +363,5 @@ SortTable.defaultProps = {
   dangerouslySetInnerHTML: false,
   viewSteps: [10, 25, 50, 100],
   defaultToAll: false,
+  ui: undefined,
 };
