@@ -7,7 +7,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const PaginationButton = (props) => {
-  const { children, active, onClick, ui } = props;
+  const { children, active, onClick, ui, pageNum } = props;
 
   try {
     if (
@@ -20,13 +20,12 @@ const PaginationButton = (props) => {
 
     // Import Instructure's component
     require.resolve('@instructure/ui-pagination');
-    // const { Pagination } = require('@instructure/ui-pagination');
+    const { Pagination } = require('@instructure/ui-pagination');
 
     return (
-      // <Pagination.Item current={active} onClick={onClick}>
-      //   {children}
-      // </Pagination.Item>
-      <div>Cannot display pagination page</div>
+      <Pagination.Page current={active} onClick={onClick} key={pageNum}>
+        {children}
+      </Pagination.Page>
     );
   } catch (error) {
     try {
@@ -52,13 +51,14 @@ PaginationButton.propTypes = {
     PropTypes.number,
   ]),
   ui: PropTypes.string,
-
+  pageNum: PropTypes.number,
   onClick: PropTypes.func,
   active: PropTypes.bool,
 };
 PaginationButton.defaultProps = {
   children: '',
   ui: undefined,
+  pageNum: 0,
   onClick: () => {},
   active: false,
 };

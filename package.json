@@ -18,6 +18,7 @@
     "@instructure/ui-pagination": "^7.4.0",
     "@instructure/ui-table": "^7.4.0",
     "@instructure/ui-grid": "^7.4.0",
+    "@instructure/ui-text-input": "^7.4.0",
     "@babel/preset-react": "^7.12.10",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.4.0",
     "babel-cli": "^6.26.0",

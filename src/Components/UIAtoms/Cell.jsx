@@ -7,7 +7,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Cell = (props) => {
-  const { children, colHeader, rowHeader, ui } = props;
+  const { children, colHeader, rowHeader, ui, id } = props;
 
   try {
     if (
@@ -23,7 +23,7 @@ const Cell = (props) => {
     const { Table } = require('@instructure/ui-table');
 
     if (rowHeader) return <Table.RowHeader>{children}</Table.RowHeader>;
-    if (colHeader) return <Table.ColHeader>{children}</Table.ColHeader>;
+    if (colHeader) return <Table.ColHeader id={id}>{children}</Table.ColHeader>;
     return <Table.Cell>{children}</Table.Cell>;
   } catch (error) {
     try {
@@ -51,12 +51,14 @@ Cell.propTypes = {
   ui: PropTypes.string,
   colHeader: PropTypes.bool,
   rowHeader: PropTypes.bool,
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 Cell.defaultProps = {
   children: '',
   ui: undefined,
   colHeader: false,
   rowHeader: false,
+  id: undefined,
 };
 
 export default Cell;

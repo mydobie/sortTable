@@ -20,8 +20,21 @@ const Select = (props) => {
 
     // Import Instructure's component
     require.resolve('@instructure/ui-table');
-
-    return <div>Cannot display select element</div>;
+    return (
+      <select
+        onChange={onChange}
+        aria-label={ariaLabel}
+        value={value}
+        style={{
+          ...style,
+          padding: '5px',
+          borderRadius: '5px',
+          borderColor: '#ccc',
+        }}
+      >
+        {children}
+      </select>
+    );
   } catch (error) {
     try {
       // Import react-bootstrap's component

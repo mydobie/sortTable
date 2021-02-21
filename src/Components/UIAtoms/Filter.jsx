@@ -17,15 +17,21 @@ const Filter = (props) => {
     ) {
       throw 'Purposely skipping Instructure UI and using react-bootstrap';
     }
-    return <div>Cannot display filter box</div>;
 
     // // Import Instructure's component
-    // require.resolve('@instructure/ui-table');
-    // const { Table } = require('@instructure/ui-table');
+    require.resolve('@instructure/ui-text-input');
+    const { TextInput } = require('@instructure/ui-text-input');
 
-    // if (rowHeader) return <Table.RowHeader>{children}</Table.RowHeader>;
-    // if (colHeader) return <Table.ColHeader>{children}</Table.ColHeader>;
-    // return <Table.Cell>{children}</Table.Cell>;
+    return (
+      <TextInput
+        renderLabel={label}
+        onChange={(event) => {
+          onChange(event);
+        }}
+        display='inline-block'
+        width='20rem'
+      />
+    );
   } catch (error) {
     try {
       // Import react-bootstrap's component

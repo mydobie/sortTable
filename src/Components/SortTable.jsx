@@ -35,7 +35,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Cell from './UIAtoms/Cell';
 import TableRow from './UIAtoms/TableRow';
-import TContainer from './UIAtoms/TContainer';
+import Head from './UIAtoms/Head';
+import Body from './UIAtoms/Body';
 import Table from './UIAtoms/Table';
 import SortIcons from './SortIcons';
 import Pagination from './UIAtoms/Pagination';
@@ -105,15 +106,15 @@ export default class SortTable extends React.Component {
   buildHeaders() {
     const { headers, ui } = this.props;
     return (
-      <TContainer thead ui={ui}>
+      <Head ui={ui}>
         <TableRow ui={ui}>
           {headers.map((header) => (
-            <Cell colHeader key={header.key} ui={ui}>
+            <Cell colHeader id={header.key} key={header.key} ui={ui}>
               {this.headerButton(header)}
             </Cell>
           ))}
         </TableRow>
-      </TContainer>
+      </Head>
     );
   }
 
@@ -128,11 +129,7 @@ export default class SortTable extends React.Component {
             .filter((row) => !row.hide)
             .slice(startRow, startRow + maxNumber);
 
-    return (
-      <TContainer ui={ui}>
-        {rows.map((row) => this.buildDataRow(row))}
-      </TContainer>
-    );
+    return <Body ui={ui}>{rows.map((row) => this.buildDataRow(row))}</Body>;
   }
 
   buildDataRow(rowData) {
@@ -267,6 +264,7 @@ export default class SortTable extends React.Component {
       pageButtons.push(
         <Page
           key={pageNumber}
+          pageNum={pageNumber}
           active={startRow === i}
           value={i}
           onClick={(e) => this.setState({ startRow: parseInt(i, 10) })}
@@ -313,29 +311,26 @@ export default class SortTable extends React.Component {
     }
     return (
       <Container fluid ui={ui}>
-        <Row ui={ui}>
-          <Col sm={6} ui={ui}>
-            {showPagination ? this.showNumberInput() : null}
-          </Col>
-          <Col
-            sm={6}
-            ui={ui}
-            style={{ textAlign: 'right', marginBottom: '15px' }}
-          >
+        <Row ui={ui} style={{ marginBottom: '15px' }}>
+          <Col ui={ui}>{showPagination ? this.showNumberInput() : null}</Col>
+          <Col ui={ui} style={{ textAlign: 'right' }}>
             {showFilter ? this.filterInput() : null}
           </Col>
         </Row>
+        <Row>
+          <Col>
+            <Table ui={ui}>
+              {this.buildHeaders()}
+              {this.buildData()}
+            </Table>
 
-        <Table ui={ui}>
-          {this.buildHeaders()}
-          {this.buildData()}
-        </Table>
+            {tableDisplayRows.findIndex((row) => !row.hide) === -1 ? (
+              <p id='dataAllFilteredOut'>{this.allFilteredMessage}</p>
+            ) : null}
 
-        {tableDisplayRows.findIndex((row) => !row.hide) === -1 ? (
-          <p id='dataAllFilteredOut'>{this.allFilteredMessage}</p>
-        ) : null}
-
-        {showPagination ? this.showPagination() : null}
+            {showPagination ? this.showPagination() : null}
+          </Col>
+        </Row>
       </Container>
     );
   }

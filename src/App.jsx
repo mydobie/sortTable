@@ -1,6 +1,9 @@
 import React from 'react';
 import SortTable from './Components/index';
 
+// eslint-disable-next-line import/no-extraneous-dependencies
+require('@instructure/canvas-theme');
+
 function App() {
   const headers = [
     { name: 'Product Name', key: 'name', type: 'alpha' },

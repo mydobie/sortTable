@@ -6,7 +6,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const CustCol = (props) => {
+const GridCol = (props) => {
   const { children, ui, width, style } = props;
 
   try {
@@ -22,9 +22,8 @@ const CustCol = (props) => {
     // Import Instructure's component
     require.resolve('@instructure/ui-grid');
     const { Grid } = require('@instructure/ui-grid');
-
     return width ? (
-      <Grid.Col width={width} style={style}>
+      <Grid.Col width={width} style={style} startAt='small'>
         {children}
       </Grid.Col>
     ) : (
@@ -52,7 +51,7 @@ const CustCol = (props) => {
   }
 };
 
-CustCol.propTypes = {
+GridCol.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node,
@@ -62,11 +61,11 @@ CustCol.propTypes = {
   width: PropTypes.number,
   style: PropTypes.objectOf(PropTypes.string),
 };
-CustCol.defaultProps = {
+GridCol.defaultProps = {
   children: '',
   ui: undefined,
   width: undefined,
   style: {},
 };
 
-export default CustCol;
+export default GridCol;

@@ -6,8 +6,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const GridRow = (props) => {
-  const { children, ui, style } = props;
+const Head = (props) => {
+  const { children, ui } = props;
 
   try {
     // Code to skip to reactstrap
@@ -20,39 +20,33 @@ const GridRow = (props) => {
     }
 
     // Import Instructure's component
-    require.resolve('@instructure/ui-grid');
-    const { Grid } = require('@instructure/ui-grid');
+    require.resolve('@instructure/ui-table');
+    const { Table } = require('@instructure/ui-table');
 
-    return <Grid.Row style={style}>{children}</Grid.Row>;
-
-    // type = 'instructure';
+    return <Table.Head>{children}</Table.Head>;
   } catch (error) {
     try {
       // Import react-bootstrap's component
       require.resolve('react-bootstrap');
-      const { Row } = require('react-bootstrap');
-      // type = 'reactBootstrap';
-      return <Row style={style}>{children}</Row>;
+      return <thead>{children}</thead>;
     } catch (e) {
       //  console.log('Instructor nor reactstrap UI object available: ', e);
-      return <div>The container component cannot be displayed.</div>;
+      return <div>Cannot display table header or body</div>;
     }
   }
 };
 
-GridRow.propTypes = {
+Head.propTypes = {
   children: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.node,
     PropTypes.number,
   ]),
   ui: PropTypes.string,
-  style: PropTypes.objectOf(PropTypes.string),
 };
-GridRow.defaultProps = {
+Head.defaultProps = {
   children: '',
   ui: undefined,
-  style: {},
 };
 
-export default GridRow;
+export default Head;
