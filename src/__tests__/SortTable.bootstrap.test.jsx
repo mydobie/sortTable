@@ -39,7 +39,7 @@ describe('Sort Table tests', () => {
         headers={headers}
         initialSort='name'
         showFilter
-        ui='instructure'
+        ui='bootstrap'
       />
     );
     wrapper.update();
@@ -50,7 +50,7 @@ describe('Sort Table tests', () => {
         showFilter
         showPagination
         viewSteps={viewSteps}
-        ui='instructure'
+        ui='bootstrap'
       />
     );
     wrapperPaginated.update();
@@ -87,14 +87,14 @@ describe('Sort Table tests', () => {
         tableData={dataHtml}
         headers={headers}
         dangerouslySetInnerHTML
-        ui='instructure'
+        ui='bootstrap'
       />
     );
     const firstCell = wrapperHTML.find('Body Row Cell').first().html();
     expect(firstCell).toMatch(/<span><strong>Cheese<\/strong><\/span>/);
 
     const wrapperNoHTML = shallow(
-      <SortTable tableData={dataHtml} headers={headers} ui='instructure' />
+      <SortTable tableData={dataHtml} headers={headers} ui='bootstrap' />
     );
     const firstNoHtmlCell = wrapperNoHTML.find('Body Row Cell').first().html();
     expect(firstNoHtmlCell).toMatch(/&lt;strong&gt;Cheese&lt;\/strong&gt;/);
@@ -271,7 +271,7 @@ describe('Sort Table tests', () => {
           tableData={data}
           headers={headers}
           showFilter={false}
-          ui='instructure'
+          ui='bootstrap'
         />
       );
       wrapper.update();
@@ -348,7 +348,7 @@ describe('Sort Table tests', () => {
           headers={headers}
           initialSort='name'
           caseSensitiveFilter
-          ui='instructure'
+          ui='bootstrap'
         />
       );
       wrapper.find('Filter').simulate('change', { target: { value: '' } });
@@ -391,7 +391,7 @@ describe('Sort Table tests', () => {
           tableData={[]}
           headers={headers}
           initialSort='name'
-          ui='instructure'
+          ui='bootstrap'
         />
       );
       wrapper.update();
@@ -404,7 +404,7 @@ describe('Sort Table tests', () => {
           tableData={data}
           headers={headers}
           initialSort='name'
-          ui='instructure'
+          ui='bootstrap'
         />
       );
       wrapper.update();

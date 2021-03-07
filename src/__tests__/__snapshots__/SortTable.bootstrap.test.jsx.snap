@@ -3,7 +3,7 @@
 exports[`Sort Table tests Expected number of rows in table 1`] = `
 <CustContainer
   fluid={true}
-  ui="instructure"
+  ui="bootstrap"
 >
   <GridRow
     style={
@@ -11,11 +11,11 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
         "marginBottom": "15px",
       }
     }
-    ui="instructure"
+    ui="bootstrap"
   >
     <GridCol
       style={Object {}}
-      ui="instructure"
+      ui="bootstrap"
     />
     <GridCol
       style={
@@ -23,12 +23,12 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
           "textAlign": "right",
         }
       }
-      ui="instructure"
+      ui="bootstrap"
     >
       <Filter
         label="Filter"
         onChange={[Function]}
-        ui="instructure"
+        ui="bootstrap"
         value=""
       />
     </GridCol>
@@ -41,20 +41,20 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
     >
       <CustTable
         caption=""
-        ui="instructure"
+        ui="bootstrap"
       >
         <Head
-          ui="instructure"
+          ui="bootstrap"
         >
           <Row
-            ui="instructure"
+            ui="bootstrap"
           >
             <Cell
               colHeader={true}
               id="name"
               key="name"
               rowHeader={false}
-              ui="instructure"
+              ui="bootstrap"
             >
               <button
                 onClick={[Function]}
@@ -81,7 +81,7 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
               id="price"
               key="price"
               rowHeader={false}
-              ui="instructure"
+              ui="bootstrap"
             >
               <button
                 onClick={[Function]}
@@ -108,7 +108,7 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
               id="stock"
               key="stock"
               rowHeader={false}
-              ui="instructure"
+              ui="bootstrap"
             >
               <button
                 onClick={[Function]}
@@ -135,24 +135,24 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
               id="url"
               key="url"
               rowHeader={false}
-              ui="instructure"
+              ui="bootstrap"
             >
               Link
             </Cell>
           </Row>
         </Head>
         <Body
-          ui="instructure"
+          ui="bootstrap"
         >
           <Row
             key="5"
-            ui="instructure"
+            ui="bootstrap"
           >
             <Cell
               colHeader={false}
               key="5name"
               rowHeader={false}
-              ui="instructure"
+              ui="bootstrap"
             >
               Butter
             </Cell>
@@ -160,7 +160,7 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
               colHeader={false}
               key="5price"
               rowHeader={false}
-              ui="instructure"
+              ui="bootstrap"
             >
               $0.90
             </Cell>
@@ -168,7 +168,7 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
               colHeader={false}
               key="5stock"
               rowHeader={false}
-              ui="instructure"
+              ui="bootstrap"
             >
               99
             </Cell>
@@ -176,18 +176,18 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
               colHeader={false}
               key="5url"
               rowHeader={false}
-              ui="instructure"
+              ui="bootstrap"
             />
           </Row>
           <Row
             key="1"
-            ui="instructure"
+            ui="bootstrap"
           >
             <Cell
               colHeader={false}
               key="1name"
               rowHeader={false}
-              ui="instructure"
+              ui="bootstrap"
             >
               Cheese
             </Cell>
@@ -195,7 +195,7 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
               colHeader={false}
               key="1price"
               rowHeader={false}
-              ui="instructure"
+              ui="bootstrap"
             >
               $4.90
             </Cell>
@@ -203,7 +203,7 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
               colHeader={false}
               key="1stock"
               rowHeader={false}
-              ui="instructure"
+              ui="bootstrap"
             >
               20
             </Cell>
@@ -211,18 +211,18 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
               colHeader={false}
               key="1url"
               rowHeader={false}
-              ui="instructure"
+              ui="bootstrap"
             />
           </Row>
           <Row
             key="7"
-            ui="instructure"
+            ui="bootstrap"
           >
             <Cell
               colHeader={false}
               key="7name"
               rowHeader={false}
-              ui="instructure"
+              ui="bootstrap"
             >
               Fancy French Cheese
             </Cell>
@@ -230,7 +230,7 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
               colHeader={false}
               key="7price"
               rowHeader={false}
-              ui="instructure"
+              ui="bootstrap"
             >
               $99.0
             </Cell>
@@ -238,7 +238,7 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
               colHeader={false}
               key="7stock"
               rowHeader={false}
-              ui="instructure"
+              ui="bootstrap"
             >
               15
             </Cell>
@@ -246,7 +246,7 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
               colHeader={false}
               key="7url"
               rowHeader={false}
-              ui="instructure"
+              ui="bootstrap"
             >
               <a
                 href="https://google.com"
@@ -257,13 +257,13 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
           </Row>
           <Row
             key="4"
-            ui="instructure"
+            ui="bootstrap"
           >
             <Cell
               colHeader={false}
               key="4name"
               rowHeader={false}
-              ui="instructure"
+              ui="bootstrap"
             >
               Heavy Cream
             </Cell>
@@ -271,7 +271,7 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
               colHeader={false}
               key="4price"
               rowHeader={false}
-              ui="instructure"
+              ui="bootstrap"
             >
               $3.90
             </Cell>
@@ -279,7 +279,7 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
               colHeader={false}
               key="4stock"
               rowHeader={false}
-              ui="instructure"
+              ui="bootstrap"
             >
               9
             </Cell>
@@ -287,18 +287,18 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
               colHeader={false}
               key="4url"
               rowHeader={false}
-              ui="instructure"
+              ui="bootstrap"
             />
           </Row>
           <Row
             key="2"
-            ui="instructure"
+            ui="bootstrap"
           >
             <Cell
               colHeader={false}
               key="2name"
               rowHeader={false}
-              ui="instructure"
+              ui="bootstrap"
             >
               Milk
             </Cell>
@@ -306,7 +306,7 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
               colHeader={false}
               key="2price"
               rowHeader={false}
-              ui="instructure"
+              ui="bootstrap"
             >
               $1.90
             </Cell>
@@ -314,7 +314,7 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
               colHeader={false}
               key="2stock"
               rowHeader={false}
-              ui="instructure"
+              ui="bootstrap"
             >
               4
             </Cell>
@@ -322,18 +322,18 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
               colHeader={false}
               key="2url"
               rowHeader={false}
-              ui="instructure"
+              ui="bootstrap"
             />
           </Row>
           <Row
             key="6"
-            ui="instructure"
+            ui="bootstrap"
           >
             <Cell
               colHeader={false}
               key="6name"
               rowHeader={false}
-              ui="instructure"
+              ui="bootstrap"
             >
               Sour Cream
             </Cell>
@@ -341,7 +341,7 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
               colHeader={false}
               key="6price"
               rowHeader={false}
-              ui="instructure"
+              ui="bootstrap"
             >
               $2.90
             </Cell>
@@ -349,7 +349,7 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
               colHeader={false}
               key="6stock"
               rowHeader={false}
-              ui="instructure"
+              ui="bootstrap"
             >
               86
             </Cell>
@@ -357,18 +357,18 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
               colHeader={false}
               key="6url"
               rowHeader={false}
-              ui="instructure"
+              ui="bootstrap"
             />
           </Row>
           <Row
             key="3"
-            ui="instructure"
+            ui="bootstrap"
           >
             <Cell
               colHeader={false}
               key="3name"
               rowHeader={false}
-              ui="instructure"
+              ui="bootstrap"
             >
               Yoghurt
             </Cell>
@@ -376,7 +376,7 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
               colHeader={false}
               key="3price"
               rowHeader={false}
-              ui="instructure"
+              ui="bootstrap"
             >
               $2.40
             </Cell>
@@ -384,7 +384,7 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
               colHeader={false}
               key="3stock"
               rowHeader={false}
-              ui="instructure"
+              ui="bootstrap"
             >
               12
             </Cell>
@@ -392,7 +392,7 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
               colHeader={false}
               key="3url"
               rowHeader={false}
-              ui="instructure"
+              ui="bootstrap"
             />
           </Row>
         </Body>
