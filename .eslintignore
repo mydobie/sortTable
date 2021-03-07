@@ -7,3 +7,4 @@ src/serviceWorker.js
 src/setupTests.js
 npm-cache/
 /docs
+/dist
