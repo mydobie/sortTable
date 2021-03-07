@@ -346,7 +346,7 @@ SortTable.propTypes = {
   dangerouslySetInnerHTML: PropTypes.bool,
   viewSteps: PropTypes.arrayOf(PropTypes.number),
   defaultToAll: PropTypes.bool,
-  ui: PropTypes.oneOf(['instructure', undefined, 'boostrap']),
+  ui: PropTypes.oneOf(['instructure', undefined, 'bootstrap']),
 };
 SortTable.defaultProps = {
   tableData: [],

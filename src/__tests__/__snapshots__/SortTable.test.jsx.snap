@@ -1,0 +1,360 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Sort Table tests Expected number of rows in table 1`] = `
+<CustContainer
+  fluid={true}
+>
+  <GridRow
+    style={
+      Object {
+        "marginBottom": "15px",
+      }
+    }
+  >
+    <GridCol
+      style={Object {}}
+    />
+    <GridCol
+      style={
+        Object {
+          "textAlign": "right",
+        }
+      }
+    >
+      <Filter
+        label="Filter"
+        onChange={[Function]}
+        value=""
+      />
+    </GridCol>
+  </GridRow>
+  <GridRow
+    style={Object {}}
+  >
+    <GridCol
+      style={Object {}}
+    >
+      <CustTable
+        caption=""
+      >
+        <Head>
+          <Row>
+            <Cell
+              colHeader={true}
+              id="name"
+              key="name"
+              rowHeader={false}
+            >
+              <button
+                onClick={[Function]}
+                style={
+                  Object {
+                    "background": "none",
+                    "border": "none",
+                    "padding": "none",
+                  }
+                }
+                type="button"
+              >
+                <SortIcons
+                  color="#000000"
+                  size="20px"
+                  sortAsc={true}
+                  type="alpha"
+                />
+                Product Name
+              </button>
+            </Cell>
+            <Cell
+              colHeader={true}
+              id="price"
+              key="price"
+              rowHeader={false}
+            >
+              <button
+                onClick={[Function]}
+                style={
+                  Object {
+                    "background": "none",
+                    "border": "none",
+                    "padding": "none",
+                  }
+                }
+                type="button"
+              >
+                <SortIcons
+                  color="#ccc"
+                  size="20px"
+                  sortAsc={true}
+                  type="sortable"
+                />
+                Price
+              </button>
+            </Cell>
+            <Cell
+              colHeader={true}
+              id="stock"
+              key="stock"
+              rowHeader={false}
+            >
+              <button
+                onClick={[Function]}
+                style={
+                  Object {
+                    "background": "none",
+                    "border": "none",
+                    "padding": "none",
+                  }
+                }
+                type="button"
+              >
+                <SortIcons
+                  color="#ccc"
+                  size="20px"
+                  sortAsc={true}
+                  type="sortable"
+                />
+                Stock
+              </button>
+            </Cell>
+            <Cell
+              colHeader={true}
+              id="url"
+              key="url"
+              rowHeader={false}
+            >
+              Link
+            </Cell>
+          </Row>
+        </Head>
+        <Body>
+          <Row
+            key="5"
+          >
+            <Cell
+              colHeader={false}
+              key="5name"
+              rowHeader={false}
+            >
+              Butter
+            </Cell>
+            <Cell
+              colHeader={false}
+              key="5price"
+              rowHeader={false}
+            >
+              $0.90
+            </Cell>
+            <Cell
+              colHeader={false}
+              key="5stock"
+              rowHeader={false}
+            >
+              99
+            </Cell>
+            <Cell
+              colHeader={false}
+              key="5url"
+              rowHeader={false}
+            />
+          </Row>
+          <Row
+            key="1"
+          >
+            <Cell
+              colHeader={false}
+              key="1name"
+              rowHeader={false}
+            >
+              Cheese
+            </Cell>
+            <Cell
+              colHeader={false}
+              key="1price"
+              rowHeader={false}
+            >
+              $4.90
+            </Cell>
+            <Cell
+              colHeader={false}
+              key="1stock"
+              rowHeader={false}
+            >
+              20
+            </Cell>
+            <Cell
+              colHeader={false}
+              key="1url"
+              rowHeader={false}
+            />
+          </Row>
+          <Row
+            key="7"
+          >
+            <Cell
+              colHeader={false}
+              key="7name"
+              rowHeader={false}
+            >
+              Fancy French Cheese
+            </Cell>
+            <Cell
+              colHeader={false}
+              key="7price"
+              rowHeader={false}
+            >
+              $99.0
+            </Cell>
+            <Cell
+              colHeader={false}
+              key="7stock"
+              rowHeader={false}
+            >
+              15
+            </Cell>
+            <Cell
+              colHeader={false}
+              key="7url"
+              rowHeader={false}
+            >
+              <a
+                href="https://google.com"
+              >
+                hello google
+              </a>
+            </Cell>
+          </Row>
+          <Row
+            key="4"
+          >
+            <Cell
+              colHeader={false}
+              key="4name"
+              rowHeader={false}
+            >
+              Heavy Cream
+            </Cell>
+            <Cell
+              colHeader={false}
+              key="4price"
+              rowHeader={false}
+            >
+              $3.90
+            </Cell>
+            <Cell
+              colHeader={false}
+              key="4stock"
+              rowHeader={false}
+            >
+              9
+            </Cell>
+            <Cell
+              colHeader={false}
+              key="4url"
+              rowHeader={false}
+            />
+          </Row>
+          <Row
+            key="2"
+          >
+            <Cell
+              colHeader={false}
+              key="2name"
+              rowHeader={false}
+            >
+              Milk
+            </Cell>
+            <Cell
+              colHeader={false}
+              key="2price"
+              rowHeader={false}
+            >
+              $1.90
+            </Cell>
+            <Cell
+              colHeader={false}
+              key="2stock"
+              rowHeader={false}
+            >
+              4
+            </Cell>
+            <Cell
+              colHeader={false}
+              key="2url"
+              rowHeader={false}
+            />
+          </Row>
+          <Row
+            key="6"
+          >
+            <Cell
+              colHeader={false}
+              key="6name"
+              rowHeader={false}
+            >
+              Sour Cream
+            </Cell>
+            <Cell
+              colHeader={false}
+              key="6price"
+              rowHeader={false}
+            >
+              $2.90
+            </Cell>
+            <Cell
+              colHeader={false}
+              key="6stock"
+              rowHeader={false}
+            >
+              86
+            </Cell>
+            <Cell
+              colHeader={false}
+              key="6url"
+              rowHeader={false}
+            />
+          </Row>
+          <Row
+            key="3"
+          >
+            <Cell
+              colHeader={false}
+              key="3name"
+              rowHeader={false}
+            >
+              Yoghurt
+            </Cell>
+            <Cell
+              colHeader={false}
+              key="3price"
+              rowHeader={false}
+            >
+              $2.40
+            </Cell>
+            <Cell
+              colHeader={false}
+              key="3stock"
+              rowHeader={false}
+            >
+              12
+            </Cell>
+            <Cell
+              colHeader={false}
+              key="3url"
+              rowHeader={false}
+            />
+          </Row>
+        </Body>
+      </CustTable>
+    </GridCol>
+  </GridRow>
+</CustContainer>
+`;
+
+exports[`Sort Table tests Filtering Entering a value in to the filter, filters columns 1`] = `
+<Filter
+  label="Filter"
+  onChange={[Function]}
+  value=""
+/>
+`;

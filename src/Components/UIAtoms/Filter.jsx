@@ -30,6 +30,7 @@ const Filter = (props) => {
         }}
         display='inline-block'
         width='20rem'
+        id='tableFilterInput'
       />
     );
   } catch (error) {
@@ -41,13 +42,13 @@ const Filter = (props) => {
         <Form>
           <Form.Label
             style={{ display: 'inline-block', paddingRight: '10px' }}
-            htmlFor='inlineFilterText'
+            htmlFor='tableFilterInput'
           >
             {label}
           </Form.Label>
           <Form.Control
             style={{ display: 'inline-block', width: 'auto' }}
-            id='inlineFilterText'
+            id='tableFilterInput'
             onChange={onChange}
             value={value}
           />

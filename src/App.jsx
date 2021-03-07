@@ -18,7 +18,13 @@ function App() {
     { id: 3, name: 'Yoghurt', price: '$2.40', stock: 12 },
     { id: 4, name: 'Heavy Cream', price: '$3.90', stock: 9 },
     { id: 5, name: 'Butter', price: '$0.90', stock: 99 },
-    { id: 6, name: 'Sour Cream ', price: '$2.90', stock: 86 },
+    {
+      id: 6,
+      name: 'Sour Cream ',
+      price: '$2.90',
+      stock: 86,
+      // url: <a href='https://umn.edu'>Link to UMN</a>,
+    },
     {
       id: 7,
       name: 'Fancy French Cheese',
@@ -37,8 +43,9 @@ function App() {
         initialSort='name'
         showFilter
         showPagination
-        dangerouslySetInnerHTML
         defaultToAll
+        dangerouslySetInnerHTML
+        ui='bootstrap'
         viewSteps={[2, 4, 50]}
       />
       <hr />
