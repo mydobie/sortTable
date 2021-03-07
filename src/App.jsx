@@ -37,6 +37,7 @@ function App() {
   return (
     <div>
       <h1>Sample Filtering and Sorting Table</h1>
+      <h2>Bootstrap version:</h2>
       <SortTable
         tableData={data}
         headers={headers}
@@ -46,6 +47,19 @@ function App() {
         defaultToAll
         dangerouslySetInnerHTML
         ui='bootstrap'
+        viewSteps={[2, 4, 50]}
+      />
+      <hr />
+      <h2>Instructure version:</h2>
+      <SortTable
+        tableData={data}
+        headers={headers}
+        initialSort='name'
+        showFilter
+        showPagination
+        defaultToAll
+        dangerouslySetInnerHTML
+        ui='instructure'
         viewSteps={[2, 4, 50]}
       />
       <hr />
