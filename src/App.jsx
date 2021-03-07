@@ -1,0 +1,84 @@
+import React from 'react';
+import SortTable from './Components/index';
+
+// eslint-disable-next-line import/no-extraneous-dependencies
+require('@instructure/canvas-theme');
+
+function App() {
+  const headers = [
+    { name: 'Product Name', key: 'name', type: 'alpha' },
+    { name: 'Price', key: 'price' },
+    { name: 'Stock', key: 'stock' },
+    { name: 'Link', key: 'url', noSort: true, noFilter: true },
+  ];
+
+  const data = [
+    { id: 1, name: 'Cheese', price: '$4.90', stock: 20 },
+    { id: 2, name: 'Milk', price: '$1.90', stock: 4 },
+    { id: 3, name: 'Yoghurt', price: '$2.40', stock: 12 },
+    { id: 4, name: 'Heavy Cream', price: '$3.90', stock: 9 },
+    { id: 5, name: 'Butter', price: '$0.90', stock: 99 },
+    {
+      id: 6,
+      name: 'Sour Cream ',
+      price: '$2.90',
+      stock: 86,
+      // url: <a href='https://umn.edu'>Link to UMN</a>,
+    },
+    {
+      id: 7,
+      name: 'Fancy French Cheese',
+      price: '$99.0',
+      stock: 12,
+      url: "<a href='https://google.com'>hello google</a>",
+    },
+  ];
+
+  return (
+    <div>
+      <h1>Sample Filtering and Sorting Table</h1>
+      <h2>Bootstrap version:</h2>
+      <SortTable
+        tableData={data}
+        headers={headers}
+        initialSort='name'
+        showFilter
+        showPagination
+        defaultToAll
+        dangerouslySetInnerHTML
+        ui='bootstrap'
+        viewSteps={[2, 4, 50]}
+      />
+      <hr />
+      <h2>Instructure version:</h2>
+      <SortTable
+        tableData={data}
+        headers={headers}
+        initialSort='name'
+        showFilter
+        showPagination
+        defaultToAll
+        dangerouslySetInnerHTML
+        ui='instructure'
+        viewSteps={[2, 4, 50]}
+      />
+      <hr />
+      <ul>
+        <li>
+          <strong>Project Name:</strong>
+          {process.env.REACT_APP_NAME}
+        </li>
+        <li>
+          <strong>Project Version:</strong>
+          {process.env.REACT_APP_VERSION}
+        </li>
+        <li>
+          <strong>Git Commit:</strong>
+          {process.env.REACT_APP_GIT_SHA}
+        </li>
+      </ul>
+    </div>
+  );
+}
+
+export default App;

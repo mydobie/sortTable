@@ -1,0 +1,36 @@
+name: Test and build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: test and build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - name: Install dependencies
+        run: npm run d
+
+      - name: Tests
+        run: npm run test
+
+      - name: Test coverage
+        run: npm run checkCoverage
+
+      - name: Linting
+        run: npm run lint
+
+      - name: Security audit
+        run: npm run npmAudit
+
+      - name: Can module be built
+        run: bash  utils/buildPackage.sh

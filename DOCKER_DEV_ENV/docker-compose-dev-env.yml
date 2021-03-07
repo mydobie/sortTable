@@ -1,0 +1,15 @@
+#NOTE: This creates a container where NPM scripts (like npm run d) can be run during development.
+# It creates a link between the current developer and /home/app within the container.
+# See the README in this project for more information.
+
+version: '3'
+services:
+  node_dev_env:
+    build:
+      context: ../
+      dockerfile: DOCKER_DEV_ENV/Dockerfile-dev-env
+    image: node-dev-env:14.13
+    ports:
+      - 3000:3000 # port in the browser: port used by app (should stay 3000)
+    volumes:
+      - ../:/home/app

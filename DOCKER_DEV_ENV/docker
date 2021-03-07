@@ -1,0 +1,35 @@
+#!/bin/bash
+set -e
+cd "$(dirname "$0")/.."
+
+containername=node-dev-env
+
+# imagename must match the value for image: in the docker-compose-dev-env.yml file
+imagename=node-dev-env:14.13
+
+
+
+case $1 in
+  create) 
+          echo "Creating image and container $containername ..."; 
+          docker-compose --file DOCKER_DEV_ENV/docker-compose-dev-env.yml run --service-ports --name $containername node_dev_env;;
+
+  start) 
+          echo "Starting container $containername ...";
+          docker start $containername && docker exec -it $containername /bin/bash;;
+
+  stop) 
+          echo "Stoppping container $containername ...";
+          docker stop $containername ;;
+
+  delete) 
+          echo "Deleting container $containername ...";
+          docker container rm $containername -f;;
+
+  destroy) 
+          echo "Destroying both image and container $containername ...";
+          docker container ls -a | grep "$imagename" | awk '{print $1}' | xargs docker container rm && docker image rm $imagename;;
+
+  *) 
+        bash ./DOCKER_DEV_ENV/docker create;;
+esac
