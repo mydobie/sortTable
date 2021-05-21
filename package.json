@@ -8,11 +8,19 @@
     "node": "^12 || ^14"
   },
   "dependencies": {
+    "@types/prop-types": "^15.7.3",
+    "@types/react": "^17.0.3",
+    "@types/react-dom": "^17.0.3",
+    "eslint-import-resolver-typescript": "^2.4.0",
     "prop-types": "^15.7.2",
-    "react": "16.0.0 - 16.999.999",
+    "react": "17.0.0 - 17.999.999",
     "react-dom": "16.0.0 - 16.999.999"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.20.0",
+    "@typescript-eslint/parser": "^4.20.0",
+    "@types/jest": "^26.0.22",
+    "@types/react-router-dom": "^5.1.7",
     "react-bootstrap": "^1.5.0",
     "@instructure/canvas-theme": "^7.4.0",
     "@instructure/ui-pagination": "^7.4.0",
@@ -29,7 +37,7 @@
     "enzyme-adapter-react-16": "^1.15.6",
     "enzyme-to-json": "^3.6.1",
     "eslint-config-airbnb": "^18.2.1",
-    "eslint-config-prettier": "^7.1.0",
+    "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-prettier": "^3.3.0",
     "eslint-watch": "^7.0.0",
@@ -87,13 +95,17 @@
     "printWidth": 80
   },
   "eslintConfig": {
+    "settings": {
+      "import/resolver": {
+        "typescript": {}
+      }
+    },
     "extends": [
       "airbnb",
       "airbnb/hooks",
-      "prettier/react",
-      "prettier",
       "react-app",
-      "react-app/jest"
+      "react-app/jest",
+      "prettier"
     ],
     "globals": {
       "styles": true
@@ -111,6 +123,7 @@
       "eslint-plugin-react"
     ],
     "rules": {
+      "react/static-property-placement": "off",
       "prettier/prettier": "error",
       "no-var": "error",
       "curly": "error",
@@ -120,6 +133,27 @@
       "arrow-body-style": [
         "error",
         "as-needed"
+      ],
+      "react/jsx-filename-extension": [
+        2,
+        {
+          "extensions": [
+            ".js",
+            ".jsx",
+            ".ts",
+            ".tsx"
+          ]
+        }
+      ],
+      "import/extensions": [
+        "error",
+        "ignorePackages",
+        {
+          "js": "never",
+          "jsx": "never",
+          "ts": "never",
+          "tsx": "never"
+        }
       ]
     }
   },

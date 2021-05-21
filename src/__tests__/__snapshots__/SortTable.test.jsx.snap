@@ -68,8 +68,6 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
                 type="button"
               >
                 <SortIcons
-                  color="#000000"
-                  size="20px"
                   sortAsc={true}
                   type="alpha"
                 />
@@ -96,7 +94,6 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
               >
                 <SortIcons
                   color="#ccc"
-                  size="20px"
                   sortAsc={true}
                   type="sortable"
                 />
@@ -123,7 +120,6 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
               >
                 <SortIcons
                   color="#ccc"
-                  size="20px"
                   sortAsc={true}
                   type="sortable"
                 />

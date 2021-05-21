@@ -6,10 +6,9 @@ import React from 'react';
 import STable from './SortTable';
 
 // /* *********************************************************************************************************** */
-// EXAMPLE - SINGLE COMPONENT
 // There is only one component available.
 // When called, an import like this would be used:
-//    import MyComponent from 'MyComponent'
+//    import SortTable from 'SortTable'
 
 const SortTable = (props) => <STable {...props} />;
 
