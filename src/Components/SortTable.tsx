@@ -41,13 +41,6 @@ import SortIcons from './SortIcons';
 import Pagination from './UIAtoms/Pagination';
 import Filter from './UIAtoms/Filter';
 
-/*
-TODO:
-   - Change all of UI Atoms to straight up HTML with BS classes.  MAYBE START HERE before doing this as tsx file
-   - Figure out how to package as a compiled JS file.  This will allow for use of TS inside of JSX projects
-   - Figure out how to create a type file ... aka how can I add this to a typescript project
-*/
-
 type sortType = 'size' | 'alpha' | 'sortable'; // TODO make this export or import and share with SortIcons
 type tableDataType = { [key: string]: any; id: string | number };
 
@@ -97,14 +90,6 @@ const SortTable = (props: Props) => {
 
   const noDataMessage = 'No data is available';
   const allFilteredMessage = 'No data meets filtering criteria';
-
-  React.useEffect(() => {
-    console.log('Start row is now:', startRow);
-  }, [startRow]);
-
-  React.useEffect(() => {
-    console.log('Max number is now:', maxNumber);
-  }, [maxNumber]);
 
   /* ********************************* */
   React.useEffect(() => {
@@ -271,10 +256,11 @@ const SortTable = (props: Props) => {
 
   /* ********************************* */
   const rowsShownSummary = () => {
+    console.log('***** Calling rows summary ******');
     const totalRows = tableDisplayRows.length;
     const totalFiltered = tableDisplayRows.filter((row) => !row.hide).length;
 
-    let endRow = totalRows;
+    let endRow = totalFiltered;
 
     if (maxNumber) {
       endRow = startRow + maxNumber;

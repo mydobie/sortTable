@@ -16,10 +16,17 @@ const CustomPagination = (props: Props) => {
     onPageChange(activePage);
   }, [activePage, onPageChange]);
 
+  React.useEffect(() => {
+    setActivePage(1);
+    onPageChange(1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [numberOfPages]);
+
   for (let i = 1; i <= numberOfPages; i += 1) {
     pages.push(
       <Page
         pageNumber={i}
+        key={i}
         active={activePage === i}
         onClick={() => {
           setActivePage(i);
