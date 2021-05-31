@@ -3,7 +3,7 @@ import SortTable from './Components/index';
 
 function App() {
   const headers = [
-    { name: 'Product Name', key: 'name', type: 'alpha' },
+    { name: 'Product Name', key: 'name', type: 'alpha', rowheader: true },
     { name: 'Price', key: 'price' },
     { name: 'Stock', key: 'stock' },
     { name: 'Month', key: 'month', sortKey: 'monthValue' },

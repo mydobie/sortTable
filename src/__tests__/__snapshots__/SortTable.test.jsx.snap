@@ -7,6 +7,7 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
       Object {
         "key": "name",
         "name": "Product Name",
+        "rowheader": true,
         "type": "alpha",
       },
       Object {
@@ -298,12 +299,13 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
           <tr
             key="5"
           >
-            <td
+            <th
               data-sorttable-data-cell={true}
               key="5name"
+              scope="row"
             >
               Butter
-            </td>
+            </th>
             <td
               data-sorttable-data-cell={true}
               key="5price"
@@ -324,12 +326,13 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
           <tr
             key="1"
           >
-            <td
+            <th
               data-sorttable-data-cell={true}
               key="1name"
+              scope="row"
             >
               Cheese
-            </td>
+            </th>
             <td
               data-sorttable-data-cell={true}
               key="1price"
@@ -350,12 +353,13 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
           <tr
             key="7"
           >
-            <td
+            <th
               data-sorttable-data-cell={true}
               key="7name"
+              scope="row"
             >
               Fancy French Cheese
-            </td>
+            </th>
             <td
               data-sorttable-data-cell={true}
               key="7price"
@@ -382,12 +386,13 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
           <tr
             key="4"
           >
-            <td
+            <th
               data-sorttable-data-cell={true}
               key="4name"
+              scope="row"
             >
               Heavy Cream
-            </td>
+            </th>
             <td
               data-sorttable-data-cell={true}
               key="4price"
@@ -408,12 +413,13 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
           <tr
             key="2"
           >
-            <td
+            <th
               data-sorttable-data-cell={true}
               key="2name"
+              scope="row"
             >
               Milk
-            </td>
+            </th>
             <td
               data-sorttable-data-cell={true}
               key="2price"
@@ -434,12 +440,13 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
           <tr
             key="6"
           >
-            <td
+            <th
               data-sorttable-data-cell={true}
               key="6name"
+              scope="row"
             >
               Sour Cream
-            </td>
+            </th>
             <td
               data-sorttable-data-cell={true}
               key="6price"
@@ -460,12 +467,13 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
           <tr
             key="3"
           >
-            <td
+            <th
               data-sorttable-data-cell={true}
               key="3name"
+              scope="row"
             >
               Yoghurt
-            </td>
+            </th>
             <td
               data-sorttable-data-cell={true}
               key="3price"

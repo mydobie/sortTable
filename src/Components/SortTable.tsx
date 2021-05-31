@@ -1,39 +1,20 @@
 /* Component to create a sortable and filterable table
 Like a lightweight data tables (https://datatables.net/)
-
-Two arrays should be passed as props.  Both need to be in the following format:
-
-headers: [
-  { 
-    name: 'Column header display text', 
-    key: 'id_to_tie_header_to_data', 
-    noSort: true, // set if you do not want this column sortable
-    noFilter: true // set if you don not want data from this column to be filtered
-   },
-   ...
-]
-
-Example Headers:
-[
-   { name: 'Product Name', key: 'name', type: 'alpha' sortKey:''},
-   { name: 'Price', key: 'price' },
-]
-
-Data is passed as the tableData prop.  Each items must include an id
-and the data set using the keys defined in the headers
-
-Here is an example:
-tableData: [
-   { "id": 1, "name": "Cheese", "price": "$4.90" },
-   { "id": 2, "name": "Milk", "price": "$1.90"},
-]
-
-
-
 */
 
-import React from 'react';
+/* TODO:
+  - Add ability to add row header
+  - Add all the accessibility stuff
+  - package bundle
+      - See https://itnext.io/step-by-step-building-and-publishing-an-npm-typescript-package-44fe7164964c
+  - ensure it works in both a jsx and tsx based project
+  - Update read me.
+  - Add responsive piece
+    - Hide column on small screen AND/OR
+    - Move to list (export CSS file)
+    */
 
+import React from 'react';
 import SortIcons, { sortType } from './SortIcons';
 import Pagination from './UIAtoms/Pagination';
 import Filter from './UIAtoms/Filter';
@@ -48,6 +29,7 @@ type headerDataType = {
   type?: sortType;
   noSort?: boolean;
   noFilter?: boolean;
+  rowheader?: boolean;
 };
 
 interface Props {
@@ -185,6 +167,17 @@ const SortTable = (props: Props) => {
         ) : (
           rowData[header.key]
         );
+        if (header.rowheader) {
+          return (
+            <th
+              scope='row'
+              key={`${rowData.id}${header.key}`}
+              data-sorttable-data-cell
+            >
+              {data}
+            </th>
+          );
+        }
         return (
           <td key={`${rowData.id}${header.key}`} data-sorttable-data-cell>
             {data}

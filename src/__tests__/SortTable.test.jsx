@@ -19,7 +19,7 @@ const data = [
   },
 ];
 const headers = [
-  { name: 'Product Name', key: 'name', type: 'alpha' },
+  { name: 'Product Name', key: 'name', type: 'alpha', rowheader: true },
   { name: 'Price', key: 'price' },
   {
     name: 'Stock',
@@ -64,11 +64,9 @@ describe('Sort Table tests', () => {
   test('Expected number of rows in table', () => {
     // header row columns
     expect(wrapper).toMatchSnapshot();
-    expect(
-      wrapper.find('thead').first().find('tr').first().find('th')
-    ).toHaveLength(headers.length);
+    expect(wrapper.find('thead tr th')).toHaveLength(headers.length);
 
-    const tbodyRows = wrapper.find('tbody').first().find('tr');
+    const tbodyRows = wrapper.find('tbody tr');
 
     // data rows
     expect(tbodyRows).toHaveLength(data.length);
@@ -77,6 +75,18 @@ describe('Sort Table tests', () => {
     expect(
       tbodyRows.first().find('td').length + tbodyRows.first().find('th').length
     ).toEqual(headers.length);
+  });
+
+  test('Header marked as row header is a th', () => {
+    // verify header is marked
+    expect(headers[0].rowheader).toEqual(true);
+    expect(wrapper.find('tbody tr th').first()).toHaveLength(1);
+
+    expect(headers[1].rowheader).toBeUndefined();
+
+    expect(wrapper.find('tbody tr').first().find('td')).toHaveLength(
+      headers.length - 1
+    );
   });
 
   test('Set dangerouslySetInnerHTML allows for rendered html', () => {
@@ -90,13 +100,19 @@ describe('Sort Table tests', () => {
         dangerouslySetInnerHTML
       />
     );
-    const firstCell = wrapperHTML.find('tbody tr td').first().html();
+    const firstCell = wrapperHTML
+      .find('tbody tr [data-sorttable-data-cell]')
+      .first()
+      .html();
     expect(firstCell).toMatch(/<span><strong>Cheese<\/strong><\/span>/);
 
     const wrapperNoHTML = mount(
       <SortTable tableData={dataHtml} headers={headers} />
     );
-    const firstNoHtmlCell = wrapperNoHTML.find('tbody tr td').first().html();
+    const firstNoHtmlCell = wrapperNoHTML
+      .find('tbody tr [data-sorttable-data-cell]')
+      .first()
+      .html();
     expect(firstNoHtmlCell).toMatch(/&lt;strong&gt;Cheese&lt;\/strong&gt;/);
   });
 
@@ -123,8 +139,10 @@ describe('Sort Table tests', () => {
         'Yoghurt',
       ];
       // const find = [];
-      const rows = wrapper.find('tbody').first().find('tr');
-      const find = rows.map((row) => row.find('td').first().children().text());
+      const rows = wrapper.find('tbody tr');
+      const find = rows.map((row) =>
+        row.find('[data-sorttable-data-cell]').first().text()
+      );
       expect(find).toEqual(expectedNames);
     });
 
@@ -145,46 +163,27 @@ describe('Sort Table tests', () => {
 
       // first column is sorted on page load
       expect(
-        headerRow.find('th').first().find('button').find('SortIcons').props()
-          .type
+        headerRow.find('th').first().find('button SortIcons').props().type
       ).toBe('alpha');
 
       // second column is sortable but not sorted
       expect(
-        headerRow.find('th').at(1).find('button').find('SortIcons').props().type
+        headerRow.find('th').at(1).find('button SortIcons').props().type
       ).toBe('sortable');
 
       // Click on second column and ensure that the icons change
-      wrapper
-        .find('thead')
-        .first()
-        .find('tr')
-        .first()
-        .find('th')
-        .at(1)
-        .find('button')
-        .simulate('click');
+      wrapper.find('thead tr th').at(1).find('button').simulate('click');
       wrapper.update();
 
-      const changedHeaderRow = wrapper.find('thead').first().find('tr').first();
+      const changedHeaderRow = wrapper.find('thead tr').first();
 
       expect(
-        changedHeaderRow
-          .find('th')
-          .first()
-          .find('button')
-          .find('SortIcons')
-          .props().type
+        changedHeaderRow.find('th button SortIcons').first().props().type
       ).toBe('sortable');
 
       // second column is sorted
       expect(
-        changedHeaderRow
-          .find('th')
-          .at(1)
-          .find('button')
-          .find('SortIcons')
-          .props().type
+        changedHeaderRow.find('th').at(1).find('button SortIcons').props().type
       ).toBe(undefined);
     });
 
@@ -192,26 +191,19 @@ describe('Sort Table tests', () => {
       const expected = ['4', '9', '12', '15', '20', '86', '99'];
       let find = [];
       // ensure that it is not currently sorted
-      let rows = wrapper.find('tbody').first().find('tr');
+      let rows = wrapper.find('tbody tr');
       rows.forEach((row) => {
         find.push(row.find('td').at(2).text());
       });
       expect(find).not.toEqual(expected);
 
       // click on button
-      wrapper
-        .find('thead')
-        .first()
-        .find('th')
-        .at(2)
-        .find('button')
-        .first()
-        .simulate('click');
+      wrapper.find('thead').find('th').at(2).find('button').simulate('click');
       wrapper.update();
       find = [];
-      rows = wrapper.find('tbody').first().find('tr');
+      rows = wrapper.find('tbody tr');
       rows.forEach((row) => {
-        find.push(row.find('td').at(2).children().text());
+        find.push(row.find('[data-sorttable-data-cell]').at(2).text());
       });
       expect(find).toEqual(expected);
     });
@@ -227,28 +219,23 @@ describe('Sort Table tests', () => {
         'Sour Cream',
         'Yoghurt',
       ];
-      let rows = wrapper.find('tbody').first().find('tr');
-      let find = rows.map((row) => row.find('td').first().children().text());
+      let rows = wrapper.find('tbody tr');
+      let find = rows.map((row) =>
+        row.find('[data-sorttable-data-cell]').first().text()
+      );
       expect(find).toEqual(expectedNames); // ensure it is currently sorted
 
       // reverse expected
       expectedNames.reverse();
       expect(expectedNames[0]).toEqual('Yoghurt'); // Check reverse worked
 
-      wrapper
-        .find('thead')
-        .first()
-        .find('th')
-        .at(0)
-        .find('button')
-        .first()
-        .simulate('click');
+      wrapper.find('thead th button').first().simulate('click');
       wrapper.update();
 
       find = [];
-      rows = wrapper.find('tbody').first().find('tr');
+      rows = wrapper.find('tbody tr');
       rows.forEach((row) => {
-        find.push(row.find('td').first().children().text());
+        find.push(row.find('[data-sorttable-data-cell]').first().text());
       });
       expect(find).toEqual(expectedNames);
     });
@@ -264,8 +251,6 @@ describe('Sort Table tests', () => {
     });
 
     test('Entering a value in to the filter, filters columns', () => {
-      // Note ... this test assumes that the filter is on by default
-      // Note ... this test assumes that filtering is case insensitive by default
       expect(wrapper.find('Filter')).toHaveLength(1);
 
       // check that all row are showing and sorted
@@ -279,24 +264,24 @@ describe('Sort Table tests', () => {
         'Yoghurt',
       ];
       let find = [];
-      let rows = wrapper.find('tbody').first().find('tr');
+      let rows = wrapper.find('tbody tr');
       rows.forEach((row) => {
-        find.push(row.find('td').first().children().text());
+        find.push(row.find('[data-sorttable-data-cell]').first().text());
       });
       expect(find).toEqual(expectedNames);
 
       wrapper
         .find('[data-filter-input]')
-        .simulate('change', { target: { value: 'm' } });
+        .simulate('change', { target: { value: 'M' } });
 
       wrapper.update();
 
       // Now after typing, verify filtering
       const expectedNamesSorted = ['Heavy Cream', 'Milk', 'Sour Cream'];
       find = [];
-      rows = wrapper.find('tbody').first().find('tr');
+      rows = wrapper.find('tbody tr');
       rows.forEach((row) => {
-        find.push(row.find('td').first().children().text());
+        find.push(row.find('[data-sorttable-data-cell]').first().text());
       });
       expect(find).toEqual(expectedNamesSorted);
     });
@@ -311,9 +296,9 @@ describe('Sort Table tests', () => {
       // verify all rows are showing
       const expectedStock = ['99', '20', '15', '9', '4', '86', '12'];
       let find = [];
-      let rows = wrapper.find('tbody').first().find('tr');
+      let rows = wrapper.find('tbody tr');
       rows.forEach((row) => {
-        find.push(row.find('td').at(2).children().text());
+        find.push(row.find('[data-sorttable-data-cell]').at(2).text());
       });
       expect(find).toEqual(expectedStock);
 
@@ -325,9 +310,9 @@ describe('Sort Table tests', () => {
       // verify '4' is not in the expected results
       const expectedStockFiltered = ['20', '12'];
       find = [];
-      rows = wrapper.find('tbody').first().find('tr');
+      rows = wrapper.find('tbody tr');
       rows.forEach((row) => {
-        find.push(row.find('td').at(2).children().text());
+        find.push(row.find('[data-sorttable-data-cell]').at(2).text());
       });
 
       expect(find).toEqual(expectedStockFiltered);
@@ -357,9 +342,9 @@ describe('Sort Table tests', () => {
         'Yoghurt',
       ];
       let find = [];
-      let rows = wrapper.find('tbody').first().find('tr');
+      let rows = wrapper.find('tbody tr');
       rows.forEach((row) => {
-        find.push(row.find('td').first().children().text());
+        find.push(row.find('[data-sorttable-data-cell]').first().text());
       });
       expect(find).toEqual(expectedNames);
 
@@ -370,9 +355,9 @@ describe('Sort Table tests', () => {
 
       const expectedNamesFiltered = ['Milk'];
       find = [];
-      rows = wrapper.find('tbody').first().find('tr');
+      rows = wrapper.find('tbody tr');
       rows.forEach((row) => {
-        find.push(row.find('td').at(0).children().text());
+        find.push(row.find('[data-sorttable-data-cell]').at(0).text());
       });
 
       expect(find).toEqual(expectedNamesFiltered);
@@ -453,70 +438,52 @@ describe('Sort Table tests', () => {
       );
       wrapperPaginated.update();
 
-      const rows = wrapperPaginated.find('tbody').find('tr');
+      const rows = wrapperPaginated.find('tbody tr');
 
       expect(rows.length).toEqual(data.length);
     });
 
     test('Changing show results changes number of rows shown', () => {
-      let select = wrapperPaginated
-        .find('[data-sort-number-of-inputs]')
-        .find('select');
+      let select = wrapperPaginated.find('[data-sort-number-of-inputs] select');
       // check select is defaulting to first value
       expect(select.props().value).toEqual(viewSteps[0]);
-      expect(wrapperPaginated.find('tbody').first().find('tr')).toHaveLength(
-        viewSteps[0]
-      );
+      expect(wrapperPaginated.find('tbody tr')).toHaveLength(viewSteps[0]);
 
       // change select to next value
       wrapperPaginated
-        .find('[data-sort-number-of-inputs]')
-        .find('select')
+        .find('[data-sort-number-of-inputs] select')
         .simulate('change', { target: { value: viewSteps[1] } });
       wrapperPaginated.update();
 
-      select = wrapperPaginated
-        .find('[data-sort-number-of-inputs]')
-        .find('select');
+      select = wrapperPaginated.find('[data-sort-number-of-inputs] select');
       expect(select.props().value).toEqual(viewSteps[1]);
-      expect(wrapperPaginated.find('tbody').first().find('tr')).toHaveLength(
-        viewSteps[1]
-      );
+      expect(wrapperPaginated.find('tbody tr')).toHaveLength(viewSteps[1]);
 
       // change to "all" rows
       wrapperPaginated
-        .find('[data-sort-number-of-inputs]')
-        .find('select')
+        .find('[data-sort-number-of-inputs] select')
         .simulate('change', { target: { value: '' } });
       wrapperPaginated.update();
 
-      select = wrapperPaginated
-        .find('[data-sort-number-of-inputs]')
-        .find('select');
+      select = wrapperPaginated.find('[data-sort-number-of-inputs] select');
       expect(select.props().value).toEqual('');
-      expect(wrapperPaginated.find('tbody').first().find('tr')).toHaveLength(
-        data.length
-      );
+      expect(wrapperPaginated.find('tbody tr')).toHaveLength(data.length);
     });
 
     test('Correct number of pages shown', () => {
       const maxPerPage = wrapperPaginated
-        .find('[data-sort-number-of-inputs]')
-        .find('select')
+        .find('[data-sort-number-of-inputs] select')
         .props().value;
       const pagesNum = Math.ceil(data.length / maxPerPage);
 
       expect(
-        wrapperPaginated
-          .find('[data-pagination]')
-          .find('[data-pagination-button]')
+        wrapperPaginated.find('[data-pagination] [data-pagination-button]')
       ).toHaveLength(pagesNum);
     });
 
     test('Number of pages changes when changing show results changes', () => {
       const maxPerPage = wrapperPaginated
-        .find('[data-sort-number-of-inputs]')
-        .find('select')
+        .find('[data-sort-number-of-inputs] select')
         .props().value;
       let pagesNum = Math.ceil(data.length / maxPerPage);
       expect(wrapperPaginated.find('[data-pagination-button]')).toHaveLength(
@@ -524,8 +491,7 @@ describe('Sort Table tests', () => {
       );
       expect(maxPerPage).not.toEqual(4); // this ensures we have a good test
       wrapperPaginated
-        .find('[data-sort-number-of-inputs]')
-        .find('select')
+        .find('[data-sort-number-of-inputs] select')
         .simulate('change', { target: { value: 4 } });
       wrapperPaginated.update();
       pagesNum = Math.ceil(data.length / 4);
@@ -536,8 +502,7 @@ describe('Sort Table tests', () => {
 
     test('Number of pages changes when filtering', () => {
       const maxPerPage = wrapperPaginated
-        .find('[data-sort-number-of-inputs]')
-        .find('select')
+        .find('[data-sort-number-of-inputs] select')
         .props().value;
 
       const pagesNum = Math.ceil(data.length / maxPerPage);
@@ -559,30 +524,32 @@ describe('Sort Table tests', () => {
 
     test('Clicking on a page changes items shown', () => {
       const maxPerPage = wrapperPaginated
-        .find('[data-sort-number-of-inputs]')
-        .find('select')
+        .find('[data-sort-number-of-inputs] select')
         .props().value;
 
-      const initialRows = wrapperPaginated.find('tbody').first().find('tr');
+      const initialRows = wrapperPaginated.find('tbody tr');
       expect(initialRows.length).toEqual(maxPerPage);
 
       const firstItem = initialRows
         .first()
-        .find('td')
+        .find('[data-sorttable-data-cell]')
         .first()
-        .children()
         .text();
       expect(firstItem).toEqual(data[0].name);
 
       wrapperPaginated
-        .find('[data-pagination-button]')
-        .find('button')
+        .find('[data-pagination-button] button')
         .at(1)
         .simulate('click', { target: { value: '2' } });
       wrapperPaginated.update();
 
-      const newRows = wrapperPaginated.find('tbody').first().find('tr');
-      const secondItem = newRows.first().find('td').first().children().text();
+      const newRows = wrapperPaginated.find('tbody tr');
+      const secondItem = newRows
+        .first()
+        .find('[data-sorttable-data-cell]')
+        .first()
+
+        .text();
       expect(firstItem).not.toEqual(secondItem);
 
       expect(newRows.length).toEqual(maxPerPage);
@@ -591,32 +558,33 @@ describe('Sort Table tests', () => {
 
     test('Selecting previous goes to previous page and changes items shown', () => {
       wrapperPaginated
-        .find('[data-pagination-button]')
-        .find('button')
+        .find('[data-pagination-button] button')
         .at(1)
         .simulate('click', { target: { value: '2' } });
       wrapperPaginated.update();
 
-      const initialRows = wrapperPaginated.find('tbody').first().find('tr');
+      const initialRows = wrapperPaginated.find('tbody tr');
       const firstItem = initialRows
         .first()
-        .find('td')
+        .find('[data-sorttable-data-cell]')
         .first()
-        .children()
+
         .text();
 
       // Click the previous button
       wrapperPaginated
-        .find('[data-pagination-previous-button]')
-        .first()
-        .find('button')
+        .find('[data-pagination-previous-button] button')
         .first()
         .simulate('click');
 
       wrapperPaginated.update();
 
-      const newRows = wrapperPaginated.find('tbody').first().find('tr');
-      const secondItem = newRows.first().find('td').first().children().text();
+      const newRows = wrapperPaginated.find('tbody tr');
+      const secondItem = newRows
+        .first()
+        .find('[data-sorttable-data-cell]')
+        .first()
+        .text();
 
       expect(firstItem).not.toEqual(secondItem);
     });
@@ -631,35 +599,34 @@ describe('Sort Table tests', () => {
 
       expect(
         wrapperPaginated
-          .find('[data-pagination-previous-button]')
-          .first()
-          .find('button')
+          .find('[data-pagination-previous-button] button')
           .first()
           .props().disabled
       ).toBe(true);
     });
 
     test('Selecting next goes to next page and changes items shown', () => {
-      const initialRows = wrapperPaginated.find('tbody').first().find('tr');
+      const initialRows = wrapperPaginated.find('tbody tr');
       const firstItem = initialRows
         .first()
-        .find('td')
+        .find('[data-sorttable-data-cell]')
         .first()
-        .children()
         .text();
 
       // Click the previous button
       wrapperPaginated
-        .find('[data-pagination-next-button]')
-        .first()
-        .find('button')
+        .find('[data-pagination-next-button] button')
         .first()
         .simulate('click');
 
       wrapperPaginated.update();
 
-      const newRows = wrapperPaginated.find('tbody').first().find('tr');
-      const secondItem = newRows.first().find('td').first().children().text();
+      const newRows = wrapperPaginated.find('tbody tr');
+      const secondItem = newRows
+        .first()
+        .find('[data-sorttable-data-cell]')
+        .first()
+        .text();
 
       expect(firstItem).not.toEqual(secondItem);
     });
@@ -674,9 +641,7 @@ describe('Sort Table tests', () => {
 
       expect(
         wrapperPaginated
-          .find('[data-pagination-next-button]')
-          .first()
-          .find('button')
+          .find('[data-pagination-next-button] button')
           .first()
           .props().disabled
       ).toBe(true);
