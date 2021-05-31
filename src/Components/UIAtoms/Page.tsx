@@ -6,15 +6,28 @@ interface Props {
   pageNumber: number;
   label?: string;
   disabled?: boolean;
+  isPrevious?: boolean;
+  isNext?: boolean;
 }
 const PaginationButton = (props: Props) => {
-  const { active, disabled, label, pageNumber, onClick } = props;
+  const {
+    active,
+    disabled,
+    label,
+    pageNumber,
+    onClick,
+    isPrevious,
+    isNext,
+  } = props;
 
   return (
     <li
       className={`page-item ${disabled ? 'disabled' : ''} ${
         active ? 'active' : ''
       }`}
+      data-pagination-previous-button={isPrevious}
+      data-pagination-next-button={isNext}
+      data-pagination-button={!isNext && !isPrevious ? true : undefined}
     >
       <button
         type='button'

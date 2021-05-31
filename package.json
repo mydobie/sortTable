@@ -1,6 +1,6 @@
 {
   "name": "sort_table",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "repository": "",
@@ -8,49 +8,39 @@
     "node": "^12 || ^14"
   },
   "dependencies": {
-    "@types/prop-types": "^15.7.3",
     "@types/react": "^17.0.3",
     "@types/react-dom": "^17.0.3",
-    "eslint-import-resolver-typescript": "^2.4.0",
-    "prop-types": "^15.7.2",
     "react": "17.0.0 - 17.999.999",
-    "react-dom": "16.0.0 - 16.999.999"
+    "react-dom": "17.0.0 - 17.999.999"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.20.0",
-    "@typescript-eslint/parser": "^4.20.0",
+    "eslint-import-resolver-typescript": "^2.4.0",
+    "@babel/preset-react": "^7.12.10",
     "@types/jest": "^26.0.22",
     "@types/react-router-dom": "^5.1.7",
-    "react-bootstrap": "^1.5.0",
-    "@instructure/canvas-theme": "^7.4.0",
-    "@instructure/ui-pagination": "^7.4.0",
-    "@instructure/ui-table": "^7.4.0",
-    "@instructure/ui-grid": "^7.4.0",
-    "@instructure/ui-text-input": "^7.4.0",
-    "@babel/preset-react": "^7.12.10",
-    "@wojtekmaj/enzyme-adapter-react-17": "^0.4.0",
+    "@typescript-eslint/eslint-plugin": "^4.20.0",
+    "@typescript-eslint/parser": "^4.20.0",
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.1",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
     "bootstrap": "^4.6.0",
     "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.6",
     "enzyme-to-json": "^3.6.1",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-prettier": "^3.3.0",
     "eslint-watch": "^7.0.0",
-    "husky": "^4.3.6",
+    "husky": "^6.0.0",
     "jest-axe": "4.1.0",
-    "lint-staged": "^10.5.0",
-    "node-sass": "^4.14.1",
-    "prettier": "2.2.1",
-    "react-scripts": "^4.0.1",
-    "stylelint": "^13.8.0",
-    "stylelint-config-prettier": "^8.0.2",
-    "uglify-js": "^3.12.3",
-    "typescript": "^4.1.2"
+    "jest-react-hooks-shallow": "^1.5.1",
+    "lint-staged": "^11.0.0",
+    "node-sass": "^6.0.0",
+    "prettier": "2.3.0",
+    "react-scripts": "^4.0.3",
+    "typescript": "^4.1.2",
+    "uglify-js": "^3.12.3"
   },
   "scripts": {
     "d": "npm i && npm rebuild node-sass",
@@ -63,8 +53,8 @@
     "test:watch": "react-scripts test ",
     "test:update": "npm run test -- -u",
     "----------------------------------------------------------2": "",
-    "lint": "npm run lint:js && npm run prettier:all && npm run lint:scss:all",
-    "lint:fix": "npm run prettier:fix:all && npm run lint:js:fix &&  npm run lint:scss:fix:all",
+    "lint": "npm run lint:js && npm run prettier:all",
+    "lint:fix": "npm run prettier:fix:all && npm run lint:js:fix ",
     "lint:watch": "onchange 'src/**/*.*' -- npm run lint:fix",
     "----------------------------------------------------------3": "",
     "lint:js": "esw --ext .jsx,.js --color ",
@@ -73,9 +63,6 @@
     "prettier:all": "npm run prettier '**/*.+(js|jsx|html|css|scss|json)'",
     "prettier:fix": "prettier  --ignore-path ./.eslintignore --write",
     "prettier:fix:all": "npm run prettier:fix '**/*.+(js|jsx|html|css|scss|json)'",
-    "lint:scss": "stylelint --ignore-path ./.eslintignore ",
-    "lint:scss:all": "npm run lint:scss './**/*.+(css|scss)'",
-    "lint:scss:fix:all": "npm run lint:scss -- --fix './**/*.+(css|scss)'",
     "----------------------------------------------------------4": "",
     "clean": "rm -rf node_modules && rm package-lock.json && npm run d",
     "uglify": "uglifyjs ",
@@ -156,9 +143,6 @@
         }
       ]
     }
-  },
-  "stylelint": {
-    "extends": "stylelint-config-prettier"
   },
   "husky": {
     "hooks": {

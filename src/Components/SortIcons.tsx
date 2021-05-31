@@ -1,4 +1,3 @@
-// EXAMPLE: Sort icons component
 /* Component called by the SortTable component
 Shows the icons at the top of the sortable columns
  
@@ -6,10 +5,9 @@ NOTE: icons are free from FontAwesome and can be used without restrictions
 See the Font Awesome website for more information
 */
 
-// eslint-disable-next-line import/no-unresolved
 import React from 'react';
 
-type sortType = 'size' | 'alpha' | 'sortable';
+export type sortType = 'size' | 'alpha' | 'sortable';
 
 interface Props {
   sortAsc?: boolean;

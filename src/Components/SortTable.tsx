@@ -1,6 +1,3 @@
-/* eslint-disable no-console */
-/* eslint-disable no-unused-vars */
-// EXAMPLE: Sort and filter table component
 /* Component to create a sortable and filterable table
 Like a lightweight data tables (https://datatables.net/)
 
@@ -37,11 +34,10 @@ tableData: [
 
 import React from 'react';
 
-import SortIcons from './SortIcons';
+import SortIcons, { sortType } from './SortIcons';
 import Pagination from './UIAtoms/Pagination';
 import Filter from './UIAtoms/Filter';
 
-type sortType = 'size' | 'alpha' | 'sortable'; // TODO make this export or import and share with SortIcons
 type tableDataType = { [key: string]: any; id: string | number };
 
 type headerType = string;
@@ -64,6 +60,7 @@ interface Props {
   dangerouslySetInnerHTML?: boolean; // Used very rarely, but should the table process html in a string
   viewSteps?: number[];
   defaultToAll?: boolean;
+  id?: string;
 }
 
 const SortTable = (props: Props) => {
@@ -77,7 +74,10 @@ const SortTable = (props: Props) => {
     dangerouslySetInnerHTML,
     showFilter,
     caseSensitiveFilter,
+    id,
   } = props;
+
+  const sortTableId = id || 'sortTable';
 
   const [tableDisplayRows, setTableDisplayRows] = React.useState(tableData);
   const [sortCol, setSortCol] = React.useState(''); // sort by this columnn
@@ -126,6 +126,11 @@ const SortTable = (props: Props) => {
   }, [sortAscending, sortCol]);
 
   /* ********************************* */
+  React.useEffect(() => {
+    setSortAscending(true);
+  }, [sortCol]);
+
+  /* ********************************* */
   const headerButton = (header: headerDataType) => {
     if (header.noSort !== undefined && header.noSort === true) {
       return header.name;
@@ -140,8 +145,12 @@ const SortTable = (props: Props) => {
       <button
         type='button'
         onClick={() => {
-          setSortAscending(!sortAscending);
-          setSortCol(header.sortKey || header.key);
+          const col = header.sortKey || header.key;
+          if (col !== sortCol) {
+            setSortCol(col);
+          } else {
+            setSortAscending(!sortAscending);
+          }
         }}
         style={{ border: 'none', padding: 'none', background: 'none' }}
       >
@@ -159,7 +168,7 @@ const SortTable = (props: Props) => {
   const buildHeaders = (
     <tr>
       {headers.map((header) => (
-        <th scope='col' id={header.key} key={header.key}>
+        <th scope='col' key={header.key}>
           {headerButton(header)}
         </th>
       ))}
@@ -176,7 +185,11 @@ const SortTable = (props: Props) => {
         ) : (
           rowData[header.key]
         );
-        return <td key={`${rowData.id}${header.key}`}>{data}</td>;
+        return (
+          <td key={`${rowData.id}${header.key}`} data-sorttable-data-cell>
+            {data}
+          </td>
+        ); // KKD - need to make also to be a header cell if marked as a row header
       })}
     </tr>
   );
@@ -226,7 +239,7 @@ const SortTable = (props: Props) => {
 
   /* ********************************* */
   const showNumberInput = () => (
-    <div className='sortTableShowResultsSelect'>
+    <div data-sort-number-of-inputs>
       Show
       <select
         className='form-control'
@@ -256,7 +269,6 @@ const SortTable = (props: Props) => {
 
   /* ********************************* */
   const rowsShownSummary = () => {
-    console.log('***** Calling rows summary ******');
     const totalRows = tableDisplayRows.length;
     const totalFiltered = tableDisplayRows.filter((row) => !row.hide).length;
 
@@ -274,10 +286,10 @@ const SortTable = (props: Props) => {
 
   /* ********************************* */
   if (tableDisplayRows.length === 0) {
-    return <p id='noDataToTableMessage'>{noDataMessage}</p>;
+    return <p data-sort-no-data-message>{noDataMessage}</p>;
   }
   return (
-    <div className='container-fluid'>
+    <div className='container-fluid' id={sortTableId}>
       <div
         className='row'
         style={{ marginBottom: showPagination || showFilter ? '15px' : '0' }}
@@ -285,7 +297,12 @@ const SortTable = (props: Props) => {
         {showPagination ? <div className='col'>{showNumberInput()}</div> : null}
         {showFilter ? (
           <div className='col' style={{ textAlign: 'right' }}>
-            <Filter value={filterValue} onChange={filterRows} label='Filter' />{' '}
+            <Filter
+              value={filterValue}
+              onChange={filterRows}
+              label='Filter'
+              id={sortTableId}
+            />{' '}
           </div>
         ) : null}
       </div>
@@ -295,7 +312,7 @@ const SortTable = (props: Props) => {
           <tbody>{buildData()}</tbody>
         </table>
         {tableDisplayRows.findIndex((row) => !row.hide) === -1 ? (
-          <p id='dataAllFilteredOut' className='col'>
+          <p data-sort-all-data-filtered className='col'>
             {allFilteredMessage}
           </p>
         ) : null}
@@ -306,7 +323,9 @@ const SortTable = (props: Props) => {
           <div className='col'>
             <Pagination
               numberOfPages={Math.ceil(
-                maxNumber && maxNumber > 0 ? tableData.length / maxNumber : 1
+                maxNumber && maxNumber > 0
+                  ? tableData.filter((row) => !row.hide).length / maxNumber
+                  : 1
               )}
               initialActivePage={1}
               onPageChange={(page) => {

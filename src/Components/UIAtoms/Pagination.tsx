@@ -36,7 +36,7 @@ const CustomPagination = (props: Props) => {
   }
   return (
     <nav aria-label='Table pagination'>
-      <ul className='pagination justify-content-end'>
+      <ul className='pagination justify-content-end' data-pagination>
         <Page
           label='Previous'
           pageNumber={0}
@@ -45,6 +45,7 @@ const CustomPagination = (props: Props) => {
           onClick={() => {
             setActivePage(activePage - 1);
           }}
+          isPrevious
         />
         {pages}
 
@@ -56,6 +57,7 @@ const CustomPagination = (props: Props) => {
           onClick={() => {
             setActivePage(activePage + 1);
           }}
+          isNext
         />
       </ul>
     </nav>

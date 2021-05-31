@@ -1,60 +1,160 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Sort Table tests Expected number of rows in table 1`] = `
-<CustContainer
-  fluid={true}
-  ui="instructure"
->
-  <GridRow
-    style={
+<SortTable
+  headers={
+    Array [
       Object {
-        "marginBottom": "15px",
-      }
-    }
-    ui="instructure"
+        "key": "name",
+        "name": "Product Name",
+        "type": "alpha",
+      },
+      Object {
+        "key": "price",
+        "name": "Price",
+      },
+      Object {
+        "key": "stock",
+        "name": "Stock",
+        "noFilter": true,
+      },
+      Object {
+        "key": "url",
+        "name": "Link",
+        "noFilter": true,
+        "noSort": true,
+      },
+    ]
+  }
+  initialSort="name"
+  showFilter={true}
+  tableData={
+    Array [
+      Object {
+        "hide": false,
+        "id": 1,
+        "name": "Cheese",
+        "price": "$4.90",
+        "stock": 20,
+      },
+      Object {
+        "hide": false,
+        "id": 2,
+        "name": "Milk",
+        "price": "$1.90",
+        "stock": 4,
+      },
+      Object {
+        "hide": false,
+        "id": 3,
+        "name": "Yoghurt",
+        "price": "$2.40",
+        "stock": 12,
+      },
+      Object {
+        "hide": false,
+        "id": 4,
+        "name": "Heavy Cream",
+        "price": "$3.90",
+        "stock": 9,
+      },
+      Object {
+        "hide": false,
+        "id": 5,
+        "name": "Butter",
+        "price": "$0.90",
+        "stock": 99,
+      },
+      Object {
+        "hide": false,
+        "id": 6,
+        "name": "Sour Cream",
+        "price": "$2.90",
+        "stock": 86,
+      },
+      Object {
+        "hide": false,
+        "id": 7,
+        "name": "Fancy French Cheese",
+        "price": "$99.0",
+        "stock": 15,
+        "url": <a
+          href="https://google.com"
+        >
+          hello google
+        </a>,
+      },
+    ]
+  }
+>
+  <div
+    className="container-fluid"
+    id="sortTable"
   >
-    <GridCol
-      style={Object {}}
-      ui="instructure"
-    />
-    <GridCol
+    <div
+      className="row"
       style={
         Object {
-          "textAlign": "right",
+          "marginBottom": "15px",
         }
       }
-      ui="instructure"
     >
-      <Filter
-        label="Filter"
-        onChange={[Function]}
-        ui="instructure"
-        value=""
-      />
-    </GridCol>
-  </GridRow>
-  <GridRow
-    style={Object {}}
-  >
-    <GridCol
-      style={Object {}}
-    >
-      <CustTable
-        caption=""
-        ui="instructure"
+      <div
+        className="col"
+        style={
+          Object {
+            "textAlign": "right",
+          }
+        }
       >
-        <Head
-          ui="instructure"
+        <Filter
+          id="sortTable"
+          label="Filter"
+          onChange={[Function]}
+          value=""
         >
-          <Row
-            ui="instructure"
+          <div
+            className="form-inline justify-content-end"
+            data-filter={true}
           >
-            <Cell
-              colHeader={true}
-              id="name"
+            <div
+              className="form-group"
+            >
+              <label
+                htmlFor="sortTableFilterInput"
+              >
+                Filter
+              </label>
+              <input
+                className="form-control"
+                data-filter-input={true}
+                id="sortTableFilterInput"
+                onChange={[Function]}
+                style={
+                  Object {
+                    "marginLeft": "0.75em",
+                  }
+                }
+                type="text"
+                value=""
+              />
+            </div>
+          </div>
+        </Filter>
+         
+      </div>
+    </div>
+    <div
+      className="row"
+    >
+      <table
+        className="table"
+      >
+        <thead>
+          <tr>
+            <th
               key="name"
-              rowHeader={false}
-              ui="instructure"
+              scope="col"
             >
               <button
                 onClick={[Function]}
@@ -70,16 +170,35 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
                 <SortIcons
                   sortAsc={true}
                   type="alpha"
-                />
+                >
+                  <svg
+                    aria-hidden="true"
+                    aria-label="Sorted ascending"
+                    role="img"
+                    style={
+                      Object {
+                        "display": "inline-block",
+                        "height": "20px",
+                        "paddingRight": "5px",
+                        "width": "20px",
+                      }
+                    }
+                    viewBox="0 0 448 512"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      className="alphaAscending"
+                      d="M176 352h-48V48a16 16 0 0 0-16-16H80a16 16 0 0 0-16 16v304H16c-14.19 0-21.36 17.24-11.29 27.31l80 96a16 16 0 0 0 22.62 0l80-96C197.35 369.26 190.22 352 176 352zm240-64H288a16 16 0 0 0-16 16v32a16 16 0 0 0 16 16h56l-61.26 70.45A32 32 0 0 0 272 446.37V464a16 16 0 0 0 16 16h128a16 16 0 0 0 16-16v-32a16 16 0 0 0-16-16h-56l61.26-70.45A32 32 0 0 0 432 321.63V304a16 16 0 0 0-16-16zm31.06-85.38l-59.27-160A16 16 0 0 0 372.72 32h-41.44a16 16 0 0 0-15.07 10.62l-59.27 160A16 16 0 0 0 272 224h24.83a16 16 0 0 0 15.23-11.08l4.42-12.92h71l4.41 12.92A16 16 0 0 0 407.16 224H432a16 16 0 0 0 15.06-21.38zM335.61 144L352 96l16.39 48z"
+                      fill="#000000"
+                    />
+                  </svg>
+                </SortIcons>
                 Product Name
               </button>
-            </Cell>
-            <Cell
-              colHeader={true}
-              id="price"
+            </th>
+            <th
               key="price"
-              rowHeader={false}
-              ui="instructure"
+              scope="col"
             >
               <button
                 onClick={[Function]}
@@ -96,16 +215,35 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
                   color="#ccc"
                   sortAsc={true}
                   type="sortable"
-                />
+                >
+                  <svg
+                    aria-hidden="true"
+                    aria-label="Sorted ascending"
+                    role="img"
+                    style={
+                      Object {
+                        "display": "inline-block",
+                        "height": "20px",
+                        "paddingRight": "5px",
+                        "width": "20px",
+                      }
+                    }
+                    viewBox="0 0 448 512"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      className="defaultDescending"
+                      d="M176 352h-48V48a16 16 0 0 0-16-16H80a16 16 0 0 0-16 16v304H16c-14.19 0-21.36 17.24-11.29 27.31l80 96a16 16 0 0 0 22.62 0l80-96C197.35 369.26 190.22 352 176 352zm203.29-219.31l-80-96a16 16 0 0 0-22.62 0l-80 96C186.65 142.74 193.78 160 208 160h48v304a16 16 0 0 0 16 16h32a16 16 0 0 0 16-16V160h48c14.19 0 21.36-17.24 11.29-27.31z"
+                      fill="#ccc"
+                    />
+                  </svg>
+                </SortIcons>
                 Price
               </button>
-            </Cell>
-            <Cell
-              colHeader={true}
-              id="stock"
+            </th>
+            <th
               key="stock"
-              rowHeader={false}
-              ui="instructure"
+              scope="col"
             >
               <button
                 onClick={[Function]}
@@ -122,278 +260,241 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
                   color="#ccc"
                   sortAsc={true}
                   type="sortable"
-                />
+                >
+                  <svg
+                    aria-hidden="true"
+                    aria-label="Sorted ascending"
+                    role="img"
+                    style={
+                      Object {
+                        "display": "inline-block",
+                        "height": "20px",
+                        "paddingRight": "5px",
+                        "width": "20px",
+                      }
+                    }
+                    viewBox="0 0 448 512"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      className="defaultDescending"
+                      d="M176 352h-48V48a16 16 0 0 0-16-16H80a16 16 0 0 0-16 16v304H16c-14.19 0-21.36 17.24-11.29 27.31l80 96a16 16 0 0 0 22.62 0l80-96C197.35 369.26 190.22 352 176 352zm203.29-219.31l-80-96a16 16 0 0 0-22.62 0l-80 96C186.65 142.74 193.78 160 208 160h48v304a16 16 0 0 0 16 16h32a16 16 0 0 0 16-16V160h48c14.19 0 21.36-17.24 11.29-27.31z"
+                      fill="#ccc"
+                    />
+                  </svg>
+                </SortIcons>
                 Stock
               </button>
-            </Cell>
-            <Cell
-              colHeader={true}
-              id="url"
+            </th>
+            <th
               key="url"
-              rowHeader={false}
-              ui="instructure"
+              scope="col"
             >
               Link
-            </Cell>
-          </Row>
-        </Head>
-        <Body
-          ui="instructure"
-        >
-          <Row
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
             key="5"
-            ui="instructure"
           >
-            <Cell
-              colHeader={false}
+            <td
+              data-sorttable-data-cell={true}
               key="5name"
-              rowHeader={false}
-              ui="instructure"
             >
               Butter
-            </Cell>
-            <Cell
-              colHeader={false}
+            </td>
+            <td
+              data-sorttable-data-cell={true}
               key="5price"
-              rowHeader={false}
-              ui="instructure"
             >
               $0.90
-            </Cell>
-            <Cell
-              colHeader={false}
+            </td>
+            <td
+              data-sorttable-data-cell={true}
               key="5stock"
-              rowHeader={false}
-              ui="instructure"
             >
               99
-            </Cell>
-            <Cell
-              colHeader={false}
+            </td>
+            <td
+              data-sorttable-data-cell={true}
               key="5url"
-              rowHeader={false}
-              ui="instructure"
             />
-          </Row>
-          <Row
+          </tr>
+          <tr
             key="1"
-            ui="instructure"
           >
-            <Cell
-              colHeader={false}
+            <td
+              data-sorttable-data-cell={true}
               key="1name"
-              rowHeader={false}
-              ui="instructure"
             >
               Cheese
-            </Cell>
-            <Cell
-              colHeader={false}
+            </td>
+            <td
+              data-sorttable-data-cell={true}
               key="1price"
-              rowHeader={false}
-              ui="instructure"
             >
               $4.90
-            </Cell>
-            <Cell
-              colHeader={false}
+            </td>
+            <td
+              data-sorttable-data-cell={true}
               key="1stock"
-              rowHeader={false}
-              ui="instructure"
             >
               20
-            </Cell>
-            <Cell
-              colHeader={false}
+            </td>
+            <td
+              data-sorttable-data-cell={true}
               key="1url"
-              rowHeader={false}
-              ui="instructure"
             />
-          </Row>
-          <Row
+          </tr>
+          <tr
             key="7"
-            ui="instructure"
           >
-            <Cell
-              colHeader={false}
+            <td
+              data-sorttable-data-cell={true}
               key="7name"
-              rowHeader={false}
-              ui="instructure"
             >
               Fancy French Cheese
-            </Cell>
-            <Cell
-              colHeader={false}
+            </td>
+            <td
+              data-sorttable-data-cell={true}
               key="7price"
-              rowHeader={false}
-              ui="instructure"
             >
               $99.0
-            </Cell>
-            <Cell
-              colHeader={false}
+            </td>
+            <td
+              data-sorttable-data-cell={true}
               key="7stock"
-              rowHeader={false}
-              ui="instructure"
             >
               15
-            </Cell>
-            <Cell
-              colHeader={false}
+            </td>
+            <td
+              data-sorttable-data-cell={true}
               key="7url"
-              rowHeader={false}
-              ui="instructure"
             >
               <a
                 href="https://google.com"
               >
                 hello google
               </a>
-            </Cell>
-          </Row>
-          <Row
+            </td>
+          </tr>
+          <tr
             key="4"
-            ui="instructure"
           >
-            <Cell
-              colHeader={false}
+            <td
+              data-sorttable-data-cell={true}
               key="4name"
-              rowHeader={false}
-              ui="instructure"
             >
               Heavy Cream
-            </Cell>
-            <Cell
-              colHeader={false}
+            </td>
+            <td
+              data-sorttable-data-cell={true}
               key="4price"
-              rowHeader={false}
-              ui="instructure"
             >
               $3.90
-            </Cell>
-            <Cell
-              colHeader={false}
+            </td>
+            <td
+              data-sorttable-data-cell={true}
               key="4stock"
-              rowHeader={false}
-              ui="instructure"
             >
               9
-            </Cell>
-            <Cell
-              colHeader={false}
+            </td>
+            <td
+              data-sorttable-data-cell={true}
               key="4url"
-              rowHeader={false}
-              ui="instructure"
             />
-          </Row>
-          <Row
+          </tr>
+          <tr
             key="2"
-            ui="instructure"
           >
-            <Cell
-              colHeader={false}
+            <td
+              data-sorttable-data-cell={true}
               key="2name"
-              rowHeader={false}
-              ui="instructure"
             >
               Milk
-            </Cell>
-            <Cell
-              colHeader={false}
+            </td>
+            <td
+              data-sorttable-data-cell={true}
               key="2price"
-              rowHeader={false}
-              ui="instructure"
             >
               $1.90
-            </Cell>
-            <Cell
-              colHeader={false}
+            </td>
+            <td
+              data-sorttable-data-cell={true}
               key="2stock"
-              rowHeader={false}
-              ui="instructure"
             >
               4
-            </Cell>
-            <Cell
-              colHeader={false}
+            </td>
+            <td
+              data-sorttable-data-cell={true}
               key="2url"
-              rowHeader={false}
-              ui="instructure"
             />
-          </Row>
-          <Row
+          </tr>
+          <tr
             key="6"
-            ui="instructure"
           >
-            <Cell
-              colHeader={false}
+            <td
+              data-sorttable-data-cell={true}
               key="6name"
-              rowHeader={false}
-              ui="instructure"
             >
               Sour Cream
-            </Cell>
-            <Cell
-              colHeader={false}
+            </td>
+            <td
+              data-sorttable-data-cell={true}
               key="6price"
-              rowHeader={false}
-              ui="instructure"
             >
               $2.90
-            </Cell>
-            <Cell
-              colHeader={false}
+            </td>
+            <td
+              data-sorttable-data-cell={true}
               key="6stock"
-              rowHeader={false}
-              ui="instructure"
             >
               86
-            </Cell>
-            <Cell
-              colHeader={false}
+            </td>
+            <td
+              data-sorttable-data-cell={true}
               key="6url"
-              rowHeader={false}
-              ui="instructure"
             />
-          </Row>
-          <Row
+          </tr>
+          <tr
             key="3"
-            ui="instructure"
           >
-            <Cell
-              colHeader={false}
+            <td
+              data-sorttable-data-cell={true}
               key="3name"
-              rowHeader={false}
-              ui="instructure"
             >
               Yoghurt
-            </Cell>
-            <Cell
-              colHeader={false}
+            </td>
+            <td
+              data-sorttable-data-cell={true}
               key="3price"
-              rowHeader={false}
-              ui="instructure"
             >
               $2.40
-            </Cell>
-            <Cell
-              colHeader={false}
+            </td>
+            <td
+              data-sorttable-data-cell={true}
               key="3stock"
-              rowHeader={false}
-              ui="instructure"
             >
               12
-            </Cell>
-            <Cell
-              colHeader={false}
+            </td>
+            <td
+              data-sorttable-data-cell={true}
               key="3url"
-              rowHeader={false}
-              ui="instructure"
             />
-          </Row>
-        </Body>
-      </CustTable>
-    </GridCol>
-  </GridRow>
-</CustContainer>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div
+      className="row"
+    >
+      <div
+        className="col"
+      >
+        Showing 1 to 7 of 7 entries (filtered from 7 total entries)
+      </div>
+    </div>
+  </div>
+</SortTable>
 `;

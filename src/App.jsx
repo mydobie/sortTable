@@ -1,27 +1,6 @@
 import React from 'react';
 import SortTable from './Components/index';
 
-// eslint-disable-next-line import/no-extraneous-dependencies
-
-/*
-middle (2) - april
-high (3) -  june
-low (1) - march
-
-Jan
-Feb
-march
-april
-msy
-June
-july
-aug
-sept
-oct
-nov
-dec
-
-*/
 function App() {
   const headers = [
     { name: 'Product Name', key: 'name', type: 'alpha' },
@@ -101,8 +80,6 @@ function App() {
         initialSort='name'
         showFilter
         showPagination
-        defaultToAll
-        ui='bootstrap'
         viewSteps={[2, 4, 50]}
       />
       <hr />
