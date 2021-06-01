@@ -1,9 +1,12 @@
 {
   "name": "sort_table",
   "version": "3.0.0",
-  "main": "dist/index.js",
-  "module": "dist/index.js",
+  "main": "SortTable.js",
+  "types": "SortTable.d.ts",
   "repository": "",
+  "files": [
+    "lib/**/*"
+  ],
   "engines": {
     "node": "^12 || ^14"
   },
@@ -43,12 +46,14 @@
     "uglify-js": "^3.12.3"
   },
   "scripts": {
+    "eject": "react-scripts eject",
     "d": "npm i && npm rebuild node-sass",
     "installDependencies": "npm run d",
     "start": "REACT_APP_GIT_SHA=`git rev-parse --short HEAD` react-scripts start",
     "----------------------------------------------------------1": "",
     "build": "npm run d && npm run test && npm run npmAudit && npm run build:ci",
     "build:ci": "REACT_APP_GIT_SHA=`git rev-parse --short HEAD` react-scripts build",
+    "buildts": "tsc",
     "test": "react-scripts test --coverage --watchAll=false --passWithNoTests",
     "test:watch": "react-scripts test ",
     "test:update": "npm run test -- -u",
