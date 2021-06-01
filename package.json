@@ -101,8 +101,6 @@
     "installDependencies": "npm run d",
     "start": "REACT_APP_GIT_SHA=`git rev-parse --short HEAD` node scripts/start.js",
     "----------------------------------------------------------1": "",
-    "build": "npm run d && npm run test && npm run npmAudit && npm run build:ci",
-    "build:ci": "REACT_APP_GIT_SHA=`git rev-parse --short HEAD` node scripts/build.js",
     "buildts": "tsc",
     "test": "node scripts/test.js --coverage --watchAll=false --passWithNoTests",
     "test:watch": "node scripts/test.js ",
@@ -213,7 +211,7 @@
       "!<rootDir>/src/Components/index.jsx",
       "!<rootDir>/src/index.jsx",
       "!<rootDir>/src/setupTests.js",
-      "!<rootDir>/src/App.jsx"
+      "!<rootDir>/src/App.tsx"
     ],
     "setupFiles": [
       "react-app-polyfill/jsdom"

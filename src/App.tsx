@@ -1,5 +1,5 @@
 import React from 'react';
-import SortTable from './Components/index';
+import SortTable from './Components/SortTable';
 
 function App() {
   const headers = [

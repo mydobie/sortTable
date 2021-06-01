@@ -4,9 +4,6 @@ Like a lightweight data tables (https://datatables.net/)
 
 /* TODO:
   - Add all the accessibility stuff
-  - package bundle
-      - See https://itnext.io/step-by-step-building-and-publishing-an-npm-typescript-package-44fe7164964c
-  - ensure it works in both a jsx and tsx based project
   - Update read me.
   - Add responsive piece
     - Hide column on small screen AND/OR
@@ -15,7 +12,7 @@ Like a lightweight data tables (https://datatables.net/)
     */
 
 import React from 'react';
-import SortIcons, { sortType } from './SortIcons';
+import SortIcons from './SortIcons';
 import Pagination from './Pagination';
 import Filter from './Filter';
 
@@ -26,7 +23,7 @@ type headerDataType = {
   name: string;
   key: headerType;
   sortKey?: headerType;
-  type?: sortType;
+  type?: string;
   noSort?: boolean;
   noFilter?: boolean;
   rowheader?: boolean;

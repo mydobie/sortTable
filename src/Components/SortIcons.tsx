@@ -7,13 +7,13 @@ See the Font Awesome website for more information
 
 import React from 'react';
 
-export type sortType = 'size' | 'alpha' | 'sortable';
+// export type sortType = 'size' | 'alpha' | 'sortable';
 
 interface Props {
   sortAsc?: boolean;
   color?: string;
   size?: string;
-  type?: sortType;
+  type?: string;
 }
 
 const SortIcons = (props: Props) => {
@@ -27,7 +27,7 @@ const SortIcons = (props: Props) => {
   const sortAsc: boolean = sortAscProp !== undefined ? sortAscProp : true;
   const color: string = colorProp || '#000000';
   const size: string = sizeProp || '20px';
-  const type: sortType = typeProp || 'size';
+  const type: string = typeProp || 'size';
 
   const svgStyle = {
     width: size,

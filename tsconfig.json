@@ -9,11 +9,10 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src"
+    "src/Components"
   ],
   "exclude": [
     "node_modules",
     "src/__tests__/*"
-  ],
-  "extends": "./tsconfig.paths.json"
+  ]
 }
