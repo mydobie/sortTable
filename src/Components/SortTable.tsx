@@ -3,7 +3,6 @@ Like a lightweight data tables (https://datatables.net/)
 */
 
 /* TODO:
-  - Add ability to add row header
   - Add all the accessibility stuff
   - package bundle
       - See https://itnext.io/step-by-step-building-and-publishing-an-npm-typescript-package-44fe7164964c
@@ -12,12 +11,13 @@ Like a lightweight data tables (https://datatables.net/)
   - Add responsive piece
     - Hide column on small screen AND/OR
     - Move to list (export CSS file)
+  - Add ... if too many pagination pages
     */
 
 import React from 'react';
 import SortIcons, { sortType } from './SortIcons';
-import Pagination from './UIAtoms/Pagination';
-import Filter from './UIAtoms/Filter';
+import Pagination from './Pagination';
+import Filter from './Filter';
 
 type tableDataType = { [key: string]: any; id: string | number };
 
@@ -32,7 +32,7 @@ type headerDataType = {
   rowheader?: boolean;
 };
 
-interface Props {
+export interface Props {
   tableData: tableDataType[];
   headers: headerDataType[];
   initialSort?: headerType; // what column shouold be sorted intially

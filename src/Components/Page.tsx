@@ -10,15 +10,8 @@ interface Props {
   isNext?: boolean;
 }
 const PaginationButton = (props: Props) => {
-  const {
-    active,
-    disabled,
-    label,
-    pageNumber,
-    onClick,
-    isPrevious,
-    isNext,
-  } = props;
+  const { active, disabled, label, pageNumber, onClick, isPrevious, isNext } =
+    props;
 
   return (
     <li

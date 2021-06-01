@@ -21,7 +21,7 @@ const newPackageJSON = {
 };
 
 fs.writeFileSync(
-  path.join(__dirname, '../dist/package.json'),
+  path.join(__dirname, '../lib/package.json'),
   JSON.stringify(newPackageJSON)
 );
 

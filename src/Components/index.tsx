@@ -3,13 +3,13 @@
 // List all the components you want users to be able to call
 
 import React from 'react';
-import STable from './SortTable';
+import STable, { Props } from './SortTable';
 
 // /* *********************************************************************************************************** */
 // There is only one component available.
 // When called, an import like this would be used:
 //    import SortTable from 'SortTable'
 
-const SortTable = (props) => <STable {...props} />;
+const SortTable = (props: Props) => <STable {...props} />;
 
 export default SortTable;

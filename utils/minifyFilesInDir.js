@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-const distFolder = './dist/';
+const distFolder = './lib/';
 const fs = require('fs');
 const { exec } = require('child_process');
 

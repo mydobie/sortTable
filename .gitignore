@@ -10,6 +10,7 @@
 /build
 /compiled
 /dist
+/lib
 
 # misc
 .DS_Store
