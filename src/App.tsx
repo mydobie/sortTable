@@ -81,6 +81,8 @@ function App() {
         showFilter
         showPagination
         viewSteps={[2, 4, 50]}
+        caption='Store inventory'
+        tableClassName='table-hover table-sm'
       />
       <hr />
       <ul>
@@ -97,6 +99,7 @@ function App() {
           {process.env.REACT_APP_GIT_SHA}
         </li>
       </ul>
+      <a href='https://google.com'>Sample link to google</a>
     </div>
   );
 }

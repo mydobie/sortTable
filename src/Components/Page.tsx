@@ -1,18 +1,22 @@
 import React from 'react';
 
 interface Props {
-  onClick?: (pageNumber: number) => void;
+  onClick?: (pageNumber: number | undefined) => void;
   active: boolean;
-  pageNumber: number;
-  label?: string;
+  pageNumber?: number;
   disabled?: boolean;
   isPrevious?: boolean;
   isNext?: boolean;
 }
 const PaginationButton = (props: Props) => {
-  const { active, disabled, label, pageNumber, onClick, isPrevious, isNext } =
-    props;
+  const { active, disabled, pageNumber, onClick, isPrevious, isNext } = props;
 
+  let ariaLabel;
+  if (isNext) {
+    ariaLabel = 'Next page';
+  } else if (isPrevious) {
+    ariaLabel = 'Previous page';
+  }
   return (
     <li
       className={`page-item ${disabled ? 'disabled' : ''} ${
@@ -25,11 +29,19 @@ const PaginationButton = (props: Props) => {
       <button
         type='button'
         className={`page-link ${active ? 'active' : ''}`}
-        aria-current={active ? 'page' : 'false'}
+        aria-current={active ? 'page' : undefined}
         onClick={onClick ? () => onClick(pageNumber) : () => {}}
         disabled={disabled}
+        aria-label={ariaLabel}
       >
-        {label || pageNumber}
+        {isPrevious ? <span aria-hidden='true'>&laquo;</span> : null}
+        {isNext ? <span aria-hidden='true'>&raquo;</span> : null}
+        {!isPrevious && !isNext ? (
+          <>
+            <span className='sr-only'>page </span>
+            {pageNumber}
+          </>
+        ) : null}
       </button>
     </li>
   );

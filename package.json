@@ -1,5 +1,5 @@
 {
-  "name": "sort_table",
+  "name": "sort-table",
   "version": "3.0.0",
   "main": "./SortTable.js",
   "types": "./SortTable.d.ts",
@@ -102,6 +102,8 @@
     "start": "REACT_APP_GIT_SHA=`git rev-parse --short HEAD` node scripts/start.js",
     "----------------------------------------------------------1": "",
     "buildts": "tsc",
+    "build": "npm run d && npm run test && npm run npmAudit && npm run build:ci",
+    "build:ci": "REACT_APP_GIT_SHA=`git rev-parse --short HEAD` node scripts/build.js",
     "test": "node scripts/test.js --coverage --watchAll=false --passWithNoTests",
     "test:watch": "node scripts/test.js ",
     "test:update": "npm run test -- -u",

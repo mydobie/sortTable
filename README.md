@@ -8,26 +8,44 @@ This is a lightweight replacement for the jQuery DataTables. The following optio
 - Filtering
 - Sorting by column
 
-[See a sort table in action](https://pages.github.umn.edu/dobe0002/react-sort-table/)
+[See a sort table in action](https://mydobie.github.io/sortTable/)
 
 ## Getting Started - Adding this component to your project
 
-Currently there is only one way to use this component in your project - download the tgz file.
+There are three methods of including this into your project.
 
-### Method 1 - create and use tgz file
+### Method 1 create and use tgz file
 
 1.  Clone this project.
 1.  Run `npm run buildPackage` to build and tar the component.
 
-The above steps will create a `.tgz` file in the root of this project. Move this `.tgz` file into your project, then add the path to the`.tgz` file to your `package.json` file:
+The above steps will create a `.tgz` file in the root of this project. Move this `.tgz` file into your project. Add the path to the`.tgz` file to your `package.json` file:
 
 ```
 dependencies: {
-  "react-sort-table": "file://path_to_tgz_file.tgz",
+  "feature_flags": "file:/"path_to_tgz_file.tgz",
 }
 ```
 
-Then run `npm install` in your projects.
+Then run `npm install`.
+
+### Method 2 download tgz file from GitHub
+
+1. Go to the [package page](https://github.com/mydobie/featureFlags/packages?ecosystem=npm) for this project and download the wanted version of the `.tgz` file.
+1. Save the downloaded `.tgz` file into your project.
+1. Add the path to the`.tgz` file to your `package.json` file:
+
+```
+dependencies: {
+  "feature_flags": "file:/"path_to_tgz_file.tgz",
+}
+```
+
+Then run `npm install`.
+
+### Method 3 use GitHubs npm repository
+
+Instead of creating or downloading the `.tgz` file, you can have NPM pull this module as if it were any other module. This process has been documented in the [README_GITHUB](README_GITHUB.md) file.
 
 ---
 
@@ -39,17 +57,15 @@ In order to use these components, you need to ensure that the following are in y
 
 - react
 - react-dom
-- prop-types
-- reactstrap
 
-This component requires the Bootstrap CSS for styling. The CSS is available at the [Bootstrap CDN](https://www.bootstrapcdn.com/) or by downloading the [Bootstrap SCSS.](https://getbootstrap.com/docs/4.1/getting-started/download/)
+This component is configured to use the Bootstrap CSS for styling. The CSS is available at the [Bootstrap CDN](https://www.bootstrapcdn.com/) or by downloading the [Bootstrap SCSS.](https://getbootstrap.com/docs/4.1/getting-started/download/)
 
 ### Including this component
 
 On the React file that you want to use the web components, include the modules you want to use. For example:
 
 ```
-import  SortTable  from 'react-sort-table';
+import  SortTable  from 'sort-table';
 ```
 
 Then use the component as a normal React component:
@@ -143,7 +159,6 @@ If node isn't installed, you can install [Node](https://nodejs.org/en/) directly
 
 Alternatively you can choose to develop this application inside a Docker container instead of modifying the version of node or NVM on your machine. See the `DOCKER_DEV_ENV/README.md` file for more information. This is the recommended method for development.
 
-
 ## Install dependencies
 
 After checking out the project, run `npm run d` in a terminal at the root of the project to install dependencies.
@@ -195,7 +210,6 @@ The project is structured like this:
 - `utils/` => Contains helper node functions that are only used as part of the development or build phases.
 - `componentBuild.config.js` => Webpack build configurations. There normally isn't a need to edit this file
 
-
 ## Building a demo file
 
 Unfortunately, there is currently an automatic way to create a preview page that can be used by GitHub pages. Having an up-to-date demo file lets developers, BAs, and customers determine if this component will fit their needs.
@@ -205,6 +219,7 @@ Unfortunately, there is currently an automatic way to create a preview page that
 1. Run `node utils/resetPathIndex.js`
 1. Check out the gh-pages branch.
 1. Move all files from the `build` folder to root of the project.
+
 ---
 
 ---

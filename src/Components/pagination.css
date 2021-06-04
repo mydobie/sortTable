@@ -1,0 +1,10 @@
+[data-skip-pagination-link] {
+  position: absolute;
+  /* right: -9999px; */
+  /* top: -1.75rem; */
+  display: block;
+}
+
+[data-skip-pagination-link] {
+  /* right: 15px; */
+}

@@ -149,11 +149,14 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
       className="row"
     >
       <table
-        className="table"
+        aria-describedby="sortTableRowsShownSummary"
+        className="table undefined"
+        id="sortTable"
       >
         <thead>
           <tr>
             <th
+              aria-sort="ascending"
               key="name"
               scope="col"
             >
@@ -499,8 +502,9 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
     >
       <div
         className="col"
+        id="sortTableRowsShownSummary"
       >
-        Showing 1 to 7 of 7 entries (filtered from 7 total entries)
+        Showing 7 entries
       </div>
     </div>
   </div>
