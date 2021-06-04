@@ -3,20 +3,9 @@ import SortTable from './Components/SortTable';
 
 function App() {
   const headers = [
-    {
-      name: 'Product  with a really really really really really really really really really really long Name',
-      key: 'name',
-      type: 'alpha',
-      rowheader: true,
-    },
-    {
-      name: 'really really really really really really really really really really long Price',
-      key: 'price',
-    },
-    {
-      name: 'really really really really really really really really really really long Stock',
-      key: 'stock',
-    },
+    { name: 'Product Name', key: 'name', type: 'alpha', rowheader: true },
+    { name: 'Price', key: 'price' },
+    { name: 'Stock', key: 'stock' },
     { name: 'Month', key: 'month', sortKey: 'monthValue' },
     { name: 'Link', key: 'url', noSort: true, noFilter: true },
   ];
