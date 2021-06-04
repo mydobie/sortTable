@@ -21,7 +21,12 @@ import Pagination from './Pagination';
 import Filter from './Filter';
 import Loading from './Loading';
 
-type tableDataType = { [key: string]: any; id: string | number };
+type tableDataType = {
+  [key: string]: any;
+  id: string | number;
+  hidden?: boolean;
+  rowindex?: number;
+};
 
 type headerType = string;
 type headerDataType = {
@@ -115,15 +120,17 @@ const SortTable = (props: Props): JSX.Element => {
   /* ********************************* */
   React.useEffect(() => {
     if (sortCol && sortAscending !== undefined) {
-      const newSortData = [...tableDisplayRows].sort((a, b) => {
-        if (a[sortCol] < b[sortCol]) {
-          return sortAscending === true ? -1 : 1;
-        }
-        if (a[sortCol] > b[sortCol]) {
-          return sortAscending === false ? -1 : 1;
-        }
-        return 0;
-      });
+      const newSortData = [...tableDisplayRows]
+        .sort((a, b) => {
+          if (a[sortCol] < b[sortCol]) {
+            return sortAscending === true ? -1 : 1;
+          }
+          if (a[sortCol] > b[sortCol]) {
+            return sortAscending === false ? -1 : 1;
+          }
+          return 0;
+        })
+        .map((row, index) => ({ ...row, rowindex: index + 2 }));
       setTableDisplayRows(newSortData);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -177,7 +184,7 @@ const SortTable = (props: Props): JSX.Element => {
   };
 
   const buildHeaders = (
-    <tr>
+    <tr aria-rowindex={showPagination ? 1 : undefined}>
       {headers.map((header) => (
         <th scope='col' key={header.key} aria-sort={setAriaSort(header.key)}>
           {headerButton(header)}
@@ -188,7 +195,10 @@ const SortTable = (props: Props): JSX.Element => {
 
   /* ********************************* */
   const buildDataRow = (rowData: tableDataType) => (
-    <tr key={rowData.id}>
+    <tr
+      key={rowData.id}
+      aria-rowindex={showPagination ? rowData.rowindex : undefined}
+    >
       {headers.map((header) => {
         const data = dangerouslySetInnerHTML ? (
           // eslint-disable-next-line react/no-danger
@@ -335,6 +345,7 @@ const SortTable = (props: Props): JSX.Element => {
           className={`table ${tableClassName}`}
           id={sortTableId}
           aria-describedby={`${sortTableId}RowsShownSummary`}
+          aria-rowcount={showPagination ? tableDisplayRows.length : undefined}
         >
           {caption ? <caption>{caption}</caption> : null}
           <thead className={headerClassName}>{buildHeaders}</thead>
