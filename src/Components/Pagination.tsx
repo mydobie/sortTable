@@ -38,15 +38,12 @@ const CustomPagination = (props: Props) => {
   }
 
   return (
-    <div className='position-relative'>
-      <a
-        href={`#${id}EndPagination`}
-        data-skip-pagination-link
-        className='position-absolute top-0 start-100'
-      >
-        Skip pagination
-      </a>
-
+    <div>
+      <div className='text-right' data-skip-pagination-wrapper>
+        <a href={`#${id}EndPagination`} data-skip-pagination-link>
+          Skip pagination
+        </a>
+      </div>
       <nav aria-label='Table pagination'>
         <ul
           className='pagination pagination-sm justify-content-end'

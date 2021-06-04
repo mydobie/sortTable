@@ -348,7 +348,11 @@ const SortTable = (props: Props): JSX.Element => {
         {isLoading && isLoadingMessage ? isLoadingMessage : null}
       </div>
       <div className='row'>
-        <div className='col' id={`${sortTableId}RowsShownSummary`}>
+        <div
+          className='col'
+          id={`${sortTableId}RowsShownSummary`}
+          data-pagination-summary
+        >
           {rowsShownSummary()}
         </div>
         {showPagination ? (
