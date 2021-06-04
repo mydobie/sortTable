@@ -163,7 +163,13 @@ const SortTable = (props: Props): JSX.Element => {
             setSortAscending(!sortAscending);
           }
         }}
-        style={{ border: 'none', padding: 'none', background: 'none' }}
+        style={{
+          border: 'none',
+          padding: 'none',
+          background: 'none',
+          width: '100%',
+          textAlign: 'left',
+        }}
       >
         <SortIcons
           sortAsc={sortAscending}

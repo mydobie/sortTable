@@ -1,6 +1,6 @@
 [data-skip-pagination-link] {
   position: absolute;
-  right: -9999px;
+  left: -999999px;
   width: 1px;
   overflow: hidden;
   padding: 0.1em;
