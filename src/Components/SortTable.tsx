@@ -43,7 +43,7 @@ interface Props {
   tableData: tableDataType[];
   headers: headerDataType[];
   initialSort?: headerType; // what column shouold be sorted intially
-  initialSortAsc?: boolean;
+  initialSortDsc?: boolean;
   caseSensitiveFilter?: boolean;
   showFilter?: boolean;
   showPagination?: boolean;
@@ -79,6 +79,7 @@ const SortTable = (props: Props): JSX.Element => {
     allDataFilteredMessage,
     isLoading,
     isLoadingMessage,
+    initialSortDsc,
   } = props;
 
   const sortTableId = id ?? 'sortTable';
@@ -102,18 +103,20 @@ const SortTable = (props: Props): JSX.Element => {
 
   /* ********************************* */
   React.useEffect(() => {
+    // initalSort = headerObj
+    // initalSortColumn
     const initialSortColumn: headerDataType | undefined = initialSort
       ? headers.find((header) => header.key === initialSort)
       : undefined;
 
-    if (initialSortColumn && initialSort) {
-      const newSortAsc: boolean =
-        initialSort !== sortCol ? true : !sortAscending;
-      setSortAscending(newSortAsc);
+    if (initialSortColumn) {
+      setSortAscending(!initialSortDsc);
 
-      const col: headerType = initialSortColumn.sortKey ?? initialSort;
+      const col: headerType =
+        initialSortColumn.sortKey ?? initialSortColumn.key;
       setSortCol(col);
     }
+    // We want this to only run on component load, so leaving it as []
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -133,13 +136,9 @@ const SortTable = (props: Props): JSX.Element => {
         .map((row, index) => ({ ...row, rowindex: index + 2 }));
       setTableDisplayRows(newSortData);
     }
+    // Adding chagne to tableDisplayRows causes an infinate loop
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortAscending, sortCol]);
-
-  /* ********************************* */
-  React.useEffect(() => {
-    setSortAscending(true);
-  }, [sortCol]);
 
   /* ********************************* */
   const headerButton = (header: headerDataType) => {
@@ -158,6 +157,7 @@ const SortTable = (props: Props): JSX.Element => {
         onClick={() => {
           const col = header.sortKey ?? header.key;
           if (col !== sortCol) {
+            setSortAscending(true);
             setSortCol(col);
           } else {
             setSortAscending(!sortAscending);

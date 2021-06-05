@@ -83,6 +83,7 @@ function App() {
         viewSteps={[2, 4, 50]}
         caption='Store inventory'
         tableClassName='table-hover table-sm'
+        defaultToAll
       />
       <hr />
       <ul>
