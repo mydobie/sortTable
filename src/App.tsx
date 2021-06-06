@@ -1,14 +1,17 @@
 import React from 'react';
-import SortTable from './Components/SortTable';
+import SortTable, {
+  tableDataType,
+  headerDataType,
+} from './Components/SortTable';
 
 function App() {
-  const headers = [
+  const headers: headerDataType[] = [
     {
       name: 'Product Name',
       key: 'name',
       type: 'alpha',
       rowheader: true,
-      style: { width: '150px' },
+      style: { width: '250px' },
     },
     { name: 'Price', key: 'price', className: 'priceRow' },
     { name: 'Stock', key: 'stock' },
@@ -16,7 +19,7 @@ function App() {
     { name: 'Link', key: 'url', noSort: true, noFilter: true },
   ];
 
-  const data = [
+  const data: tableDataType[] = [
     {
       id: 1,
       name: 'Cheese',
@@ -90,6 +93,7 @@ function App() {
         caption='Store inventory'
         tableClassName='table-hover table-sm'
         defaultToAll
+        // headerClassName='table-dark'
       />
       <hr />
       <ul>

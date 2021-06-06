@@ -3,8 +3,7 @@ Like a lightweight data tables (https://datatables.net/)
 */
 
 /* TODO:
-  - Allow for custom header styles
-  - Update read me.
+
   - Add responsive piece
     - Hide column on small screen AND/OR
     - Move to list (export CSS file)
@@ -19,7 +18,7 @@ import Pagination from './Pagination';
 import Filter from './Filter';
 import Loading from './Loading';
 
-type tableDataType = {
+export type tableDataType = {
   [key: string]: any;
   id: string | number;
   hidden?: boolean;
@@ -27,37 +26,40 @@ type tableDataType = {
 };
 
 type headerType = string;
-type headerDataType = {
+
+export type headerDataType = {
   name: string;
   key: headerType;
-  sortKey?: headerType;
-  type?: string;
-  noSort?: boolean;
-  noFilter?: boolean;
-  rowheader?: boolean;
+
   className?: string;
+  noFilter?: boolean;
+  noSort?: boolean;
+  rowheader?: boolean;
+  sortKey?: headerType;
   style?: Object;
+  type?: string;
 };
 
 interface Props {
-  tableData: tableDataType[];
   headers: headerDataType[];
+  tableData: tableDataType[];
+
+  allDataFilteredMessage?: JSX.Element;
+  caption?: string;
+  caseSensitiveFilter?: boolean;
+  dangerouslySetInnerHTML?: boolean; // Used very rarely, but should the table process html in a string
+  defaultToAll?: boolean;
+  headerClassName?: string;
+  id?: string;
   initialSort?: headerType; // what column shouold be sorted intially
   initialSortDsc?: boolean;
-  caseSensitiveFilter?: boolean;
+  isLoading?: boolean;
+  isLoadingMessage?: JSX.Element;
+  noDataMessage?: JSX.Element;
   showFilter?: boolean;
   showPagination?: boolean;
-  dangerouslySetInnerHTML?: boolean; // Used very rarely, but should the table process html in a string
-  viewSteps?: number[];
-  defaultToAll?: boolean;
-  id?: string;
   tableClassName?: string;
-  headerClassName?: string;
-  caption?: string;
-  isLoading?: boolean;
-  noDataMessage?: JSX.Element;
-  allDataFilteredMessage?: React.ReactNode;
-  isLoadingMessage?: React.ReactNode;
+  viewSteps?: number[];
 }
 
 const SortTable = (props: Props): JSX.Element => {
@@ -333,7 +335,7 @@ const SortTable = (props: Props): JSX.Element => {
     return noData;
   }
   return (
-    <div className='container-fluid' id={sortTableId}>
+    <div className='container-fluid'>
       <div
         className='row'
         style={{ marginBottom: showPagination || showFilter ? '15px' : '0' }}

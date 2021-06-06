@@ -90,7 +90,6 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
 >
   <div
     className="container-fluid"
-    id="sortTable"
   >
     <div
       className="row"
@@ -167,6 +166,8 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
                     "background": "none",
                     "border": "none",
                     "padding": "none",
+                    "textAlign": "left",
+                    "width": "100%",
                   }
                 }
                 type="button"
@@ -211,6 +212,8 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
                     "background": "none",
                     "border": "none",
                     "padding": "none",
+                    "textAlign": "left",
+                    "width": "100%",
                   }
                 }
                 type="button"
@@ -256,6 +259,8 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
                     "background": "none",
                     "border": "none",
                     "padding": "none",
+                    "textAlign": "left",
+                    "width": "100%",
                   }
                 }
                 type="button"
@@ -502,6 +507,7 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
     >
       <div
         className="col"
+        data-pagination-summary={true}
         id="sortTableRowsShownSummary"
       >
         Showing 7 entries

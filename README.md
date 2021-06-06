@@ -58,7 +58,11 @@ In order to use these components, you need to ensure that the following are in y
 - react
 - react-dom
 
-This component is configured to use the Bootstrap CSS for styling. The CSS is available at the [Bootstrap CDN](https://www.bootstrapcdn.com/) or by downloading the [Bootstrap SCSS.](https://getbootstrap.com/docs/4.1/getting-started/download/)
+#### CSS
+
+This component is configured to use the Bootstrap CSS for styling. The CSS is available at the [Bootstrap CDN](https://www.bootstrapcdn.com/) or by downloading the [Bootstrap SCSS.](https://getbootstrap.com/docs/5.0/getting-started/download/). Note that both Bootstrap 4 and 5 are supported.
+
+There are certain CSS classes that are needed for the SortTable to work correctly .... KKD FIX THIS
 
 ### Including this component
 
@@ -71,8 +75,6 @@ import  SortTable  from 'sort-table';
 Then use the component as a normal React component:
 
 ```
-import SortTable from 'react-sort-table`;
-
 <SortTable
         tableData={data}
         headers={headers}
@@ -90,46 +92,298 @@ import SortTable from 'react-sort-table`;
 
 The following props are available to be sent to the `SortTable` component:
 
-- **tableData**: Data to be shown in the table. See `Data` section below.
-- **headers**: Table headers. See `Headers` section below.
-- **initialSort**: Name of column using `key` attribute value that is sorted on table load.
-- **caseSensitiveFilter**: Is filtering case sensitive. Defaults to `false`.
-- **showFilter**: Is the filtering box shown. Defaults to `true`.
-- **showPagination**: Is the table paginated. Defaults to `false`.
-- **dangerouslySetInnerHTML**: Should HTML sent as part of the data be rendered as HTML. Use with **Extreme** caution and only with data that is never entered by a user. Defaults to `false`.
-- **defaultToAll**: If pagination is shown, should all the data be shown on the first 'page'. Defaults to `false`.
-
-Note: All of the above props are optional.
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Default</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>headers</td>
+    <td>headerDataType[]</td>
+    <td>yes[]</td>
+    <td></td>
+    <td>Array of data to be used to build the column headers.  See the "Headers" section below for details.</td>
+  </tr>
+  <tr>
+    <td>tableData</td>
+    <td>tableDataType[]</td>
+    <td>yes</td>
+    <td></td>
+    <td>Array of data to be displayed in the table.  See the "Data" section below for details.</td>
+  </tr>
+  <tr>
+    <td>allDataFilteredMessage</td>
+    <td>JSX.Element</td>
+    <td>no</td>
+    <td>"No data meets filtering criteria"</td>
+    <td>If all data is filtered, message or component to be displayed.</td>
+  </tr>
+  <tr>
+    <td>caption</td>
+    <td>string</td>
+    <td>no</td>
+    <td>[not shown]</td>
+    <td>Sets table caption to this string.</td>
+  </tr>
+  <tr>
+    <td>caseSensitiveFilater</td>
+    <td>boolean</td>
+    <td>no</td>
+    <td>false</td>
+    <td>Is the filtering case sensitive.</td>
+  </tr>
+  <tr>
+    <td>dangerouslySetInnerHTML</td>
+    <td>boolean</td>
+    <td>no</td>
+    <td>false</td>
+    <td>Should html provided in the tableData array be rendered as HTML.  This option should rarely be used and only with data that is not entered by users.</td>
+  </tr>
+  <tr>
+    <td>defaultToAll</td>
+    <td>boolean</td>
+    <td>no</td>
+    <td>false</td>
+    <td>If pagination and viewSteps are provided, should the table default to showing all entries.</td>
+  </tr>
+  <tr>
+    <td>headerClassName</td>
+    <td>string</td>
+    <td>no</td>
+    <td>''</td>
+    <td>Classes applied to the table header (thead).</td>
+  </tr>
+  <tr>
+    <td>id </td>
+    <td>string</td>
+    <td>no</td>
+    <td>"sortTable"</td>
+    <td>Id applied to the table.  If there is more than one sortTable on the screen at once, this must be set to a unique value.</td>
+  </tr>
+  <tr>
+    <td>initialSort</td>
+    <td>string</td>
+    <td>no</td>
+    <td>(no default)</td>
+    <td>If provided, the table will be sorted by this column when loaded.  The value is a value of the "key" entry in a header array entry.</td>
+  </tr>
+  <tr>
+    <td>initialSortDsc</td>
+    <td>boolean</td>
+    <td>no</td>
+    <td>false</td>
+    <td>If a initialSort is provided, should it be sorted descending.</td>
+  </tr>
+   <tr>
+    <td>isLoading</td>
+    <td>boolean</td>
+    <td>no</td>
+    <td>false</td>
+    <td>Display a loading message instead of the tableData</td>
+  </tr>
+   <tr>
+    <td>isLoadingMessage</td>
+    <td>JSX.Element</td>
+    <td>no</td>
+    <td>"Loading ..."</td>
+    <td>String or componet shown when isLoading is set.</td>
+  </tr>
+  <tr>
+    <td>noDataMessage</td>
+    <td>JSX.Element</td>
+    <td>no</td>
+    <td>"No data is available"</td>
+    <td>String or component shown if tableData is an empty array.</td>
+  </tr>
+  <tr>
+    <td>showFilter</td>
+    <td>boolean</td>
+    <td>no</td>
+    <td>false</td>
+    <td>Show the table filter input.</td>
+  </tr>
+  <tr>
+    <td>showPagination</td>
+    <td>boolean</td>
+    <td>no</td>
+    <td>false</td>
+    <td>Show the pagination links and elements per page drop down.</td>
+  </tr>
+  <tr>
+    <td>tableClassName</td>
+    <td>string</td>
+    <td>no</td>
+    <td>''</td>
+    <td>Class name(s) applied to the table.</td>
+  </tr>
+  <tr>
+    <td>viewStips</td>
+    <td>number[]</td>
+    <td>no</td>
+    <td>[All]</td>
+    <td>Array of numbers that will populate the options in the elements per page drop down.</td>
+  </tr>
+</table>
 
 ### Headers
 
 The headers for the table are sent via an array of json objects structured this way:
 
 ```
+// JSX:
 const headers = [
-    { name: 'Product Name', key: 'name', type: 'alpha' },
+    { name: 'Product name', key: 'name', type: 'alpha' },
+    { name: 'Price per unit', key: 'price' },
+    { name: 'Stock available', key: 'stock' },
     { name: 'Link', key: 'url', noSort: true, noFilter: true },
   ];
 ```
 
-- **name**: Title of the header. This is the text shown on the table. Required.
-- **key**: Key used in the data array. Required.
-- **type**: Type of data. Options include: alpha (alphabetical) or size(numerical and simple alphabetical). Defaults to size. Optional.
-- **noSort**: If set to `true`, this column will not be sortable. Defaults to false (aka column will be sortable). Optional.
-- **noFilter**: If set to `true` this data in this column will not be matched when filtering. Defaults to false (aka column will be included the filter). Optional.
+OR
+
+```
+// Typescript:
+import SortTable, { tableDataType, headerDataType } from './Components/SortTable';
+
+const headers: headerDataType[] = [
+    { name: 'Product name', key: 'name', type: 'alpha' },
+    { name: 'Price per unit', key: 'price' },
+    { name: 'Stock available', key: 'stock' },
+    { name: 'Link', key: 'url', noSort: true, noFilter: true },
+  ];
+
+```
+
+Information for each header is contained in an object with the followign keys.
+
+<table>
+  <tr>
+    <th>Key</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Default</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>name</td>
+    <td>string</td>
+    <td>yes</td>
+    <td></td>
+    <td>Text desplayed in the header cell.</td>
+  </tr>
+  <tr>
+    <td>key</td>
+    <td>string</td>
+    <td>yes</td>
+    <td></td>
+    <td>Unique key used to tie data to this header.</td>
+  </tr>
+  <tr>
+    <td>className</td>
+    <td>string</td>
+    <td>no</td>
+    <td>''</td>
+    <td>Class name(s) applied to the header cell.</td>
+  </tr>
+  <tr>
+    <td>noFilter</td>
+    <td>boolean</td>
+    <td>no</td>
+    <td>false</td>
+    <td>When set, data in tihs column will not be matched against any filter text entered by the user.</td>
+  </tr>
+  <tr>
+    <td>noSort</td>
+    <td>boolean</td>
+    <td>no</td>
+    <td>false</td>
+    <td>When set, this column will not be sortable.</td>
+  </tr>
+  <tr>
+    <td>rowheader</td>
+    <td>boolean</td>
+    <td>no</td>
+    <td>false</td>
+    <td>Elements in this column are headers for the row.</td>
+  </tr>
+  <tr>
+    <td>sortKey</td>
+    <td>string</td>
+    <td>no</td>
+    <td>undefined</td>
+    <td>Key to data element that should be used when sorting.  This is normally used when sorting non-alphabetical or non-numerical items like month or days of the week.</td>
+  </tr>
+  <tr>
+    <td>style</td>
+    <td>object</td>
+    <td>no</td>
+    <td>{}</td>
+    <td>Style elements applied to the header cell.</td>
+  </tr>
+  <tr>
+    <td>type</td>
+    <td>"size" | "alpha</td>
+    <td>no</td>
+    <td>"size"</td>
+    <td>What sort icon is displayed when the column is sorted.</td>
+  </tr>
+</table>
 
 ### Data
 
 The data for the table is sent via an array of json objects structured this way:
 
 ```
-[
+// JSX:
+
+const data = [
     { id: 1, name: 'Cheese', price: '$4.90', stock: 20 },
     { id: 2, name: 'Milk', price: '$1.90', stock: 4 },
 ]
 ```
 
-Note: `id` is require and needs to be unique. The rest of the keys (for example `name`, `price`, and `stock`) should be the value for a `key` entry in the header array.
+OR
+
+```
+// Typescript:
+
+import SortTable, { tableDataType, headerDataType } from './Components/SortTable';
+
+const data: tableDataType[] = [
+    { id: 1, name: 'Cheese', price: '$4.90', stock: 20 },
+    { id: 2, name: 'Milk', price: '$1.90', stock: 4 },
+]
+
+```
+
+Information for each data row is contained in an object with the followign keys.
+
+<table>
+  <tr>
+    <th>Key</th>
+    <th>Type</th>
+    <th>Required</th>
+    <th>Default</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>id</td>
+    <td>string | number</td>
+    <td>yes</td>
+    <td></td>
+    <td>Unique string or number for this table row</td>
+  </tr>
+  <tr>
+    <td>anyString</td>
+    <td>any</td>
+    <td>yes</td>
+    <td></td>
+    <td>The value is the data to be displayed in the table.  The key should equal the value of the "key" attribute in a header row.</td>
+  </tr>
+</table>
 
 ---
 
@@ -194,31 +448,6 @@ You can automatically fix some linting issues by running `npm run lint:fix` in a
 ## Security Audit
 
 You can check for any high or critical known security vulnerabilities in the dependencies by typing `npm run npmAudit`. All known security vulnerabilities will be displayed, but the previous command will fail only if at least one of the issues are ranked "high" or higher.
-
-## Structure of the project
-
-The project is structured like this:
-
-- `public/` => The public contains the shell html pages. There normally isn't a need to add or modify anything in this directory and it is only used for previewing the components while in development.
-- `src/`
-  - `__tests__/` => Jest test scripts. Add your test scripts here.
-  - `Components/` => Contains the component files. Place your new component files here.
-    - `index.jsx` => List of component(s) to be made available. This file needs to be edited, see file for directions.
-  - `App.jsx` => References to components you want to preview while in development. This file needs to be edited, see file for directions.
-  - `index.jsx` => Loads App.jsx into the html page. There normally isn't a need to modify this file.
-  - `setupTests.jsx` => Add any scripts you wish to run before tests are started to this file.
-- `utils/` => Contains helper node functions that are only used as part of the development or build phases.
-- `componentBuild.config.js` => Webpack build configurations. There normally isn't a need to edit this file
-
-## Building a demo file
-
-Unfortunately, there is currently an automatic way to create a preview page that can be used by GitHub pages. Having an up-to-date demo file lets developers, BAs, and customers determine if this component will fit their needs.
-
-1. Run `npm run d` to ensure the dependencies are installed.
-1. Run `npm run build` to build the demo files.
-1. Run `node utils/resetPathIndex.js`
-1. Check out the gh-pages branch.
-1. Move all files from the `build` folder to root of the project.
 
 ---
 
