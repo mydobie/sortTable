@@ -35,7 +35,7 @@ type headerDataType = {
   noSort?: boolean;
   noFilter?: boolean;
   rowheader?: boolean;
-  className?: 'string';
+  className?: string;
   style?: Object;
 };
 
