@@ -3,8 +3,14 @@ import SortTable from './Components/SortTable';
 
 function App() {
   const headers = [
-    { name: 'Product Name', key: 'name', type: 'alpha', rowheader: true },
-    { name: 'Price', key: 'price' },
+    {
+      name: 'Product Name',
+      key: 'name',
+      type: 'alpha',
+      rowheader: true,
+      style: { width: '150px' },
+    },
+    { name: 'Price', key: 'price', className: 'priceRow' },
     { name: 'Stock', key: 'stock' },
     { name: 'Month', key: 'month', sortKey: 'monthValue' },
     { name: 'Link', key: 'url', noSort: true, noFilter: true },

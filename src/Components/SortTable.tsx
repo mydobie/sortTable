@@ -3,9 +3,7 @@ Like a lightweight data tables (https://datatables.net/)
 */
 
 /* TODO:
-  - Add all the accessibility stuff
-    - Skip pagination link
-  - Allow for descending initial sort
+  - Allow for custom header styles
   - Update read me.
   - Add responsive piece
     - Hide column on small screen AND/OR
@@ -37,6 +35,8 @@ type headerDataType = {
   noSort?: boolean;
   noFilter?: boolean;
   rowheader?: boolean;
+  className?: 'string';
+  style?: Object;
 };
 
 interface Props {
@@ -103,8 +103,6 @@ const SortTable = (props: Props): JSX.Element => {
 
   /* ********************************* */
   React.useEffect(() => {
-    // initalSort = headerObj
-    // initalSortColumn
     const initialSortColumn: headerDataType | undefined = initialSort
       ? headers.find((header) => header.key === initialSort)
       : undefined;
@@ -192,7 +190,13 @@ const SortTable = (props: Props): JSX.Element => {
   const buildHeaders = (
     <tr aria-rowindex={showPagination ? 1 : undefined}>
       {headers.map((header) => (
-        <th scope='col' key={header.key} aria-sort={setAriaSort(header.key)}>
+        <th
+          scope='col'
+          key={header.key}
+          aria-sort={setAriaSort(header.key)}
+          style={header.style}
+          className={header.className}
+        >
           {headerButton(header)}
         </th>
       ))}
