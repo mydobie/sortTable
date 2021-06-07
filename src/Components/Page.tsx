@@ -38,7 +38,7 @@ const PaginationButton = (props: Props) => {
         {isNext ? <span aria-hidden='true'>&raquo;</span> : null}
         {!isPrevious && !isNext ? (
           <>
-            <span className='sr-only'>page </span>
+            <span className='sr-only visually-hidden'>page </span>
             {pageNumber}
           </>
         ) : null}

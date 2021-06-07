@@ -14,7 +14,11 @@ const Filter = (props: Props) => {
       <div className='form-group'>
         <label htmlFor={`${id}FilterInput`}>{label}</label>
         <input
-          style={{ marginLeft: '0.75em' }}
+          style={{
+            marginLeft: '0.75em',
+            display: 'inline-block',
+            width: '250px',
+          }}
           type='text'
           id={`${id}FilterInput`}
           className='form-control'

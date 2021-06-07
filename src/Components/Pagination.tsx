@@ -39,7 +39,7 @@ const CustomPagination = (props: Props) => {
 
   return (
     <div>
-      <div className='text-right' data-skip-pagination-wrapper>
+      <div className='text-right text-end' data-skip-pagination-wrapper>
         <a href={`#${id}EndPagination`} data-skip-pagination-link>
           Skip pagination
         </a>

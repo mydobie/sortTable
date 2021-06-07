@@ -286,7 +286,7 @@ const SortTable = (props: Props): JSX.Element => {
     <div data-sort-number-of-inputs>
       Show
       <select
-        className='form-control'
+        className='form-control form-select'
         aria-label='Number of items shown'
         value={maxNumber || ''} // TODO this seems like it should be null or undefined ... ?? doesn't work here
         style={{

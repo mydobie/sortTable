@@ -33,7 +33,7 @@ const Loading = (props: Props) => {
       style={style}
       data-sort-table-loading
     >
-      <span className='sr-only'>Loading...</span>
+      <span className='sr-only visually-hidden'>Loading...</span>
     </div>
   );
 };
