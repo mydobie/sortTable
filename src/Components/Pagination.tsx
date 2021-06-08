@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from 'react';
 import Page from './Page';
 import './pagination.css';
@@ -9,10 +10,11 @@ interface Props {
   id: string;
 }
 
-const CustomPagination = (props: Props) => {
+const Pagination = (props: Props) => {
   const { initialActivePage, numberOfPages, onPageChange, id } = props;
   const [activePage, setActivePage] = React.useState(initialActivePage);
-  const pages = [];
+
+  const maxNumberOfPages = 10;
 
   React.useEffect(() => {
     onPageChange(activePage);
@@ -24,18 +26,45 @@ const CustomPagination = (props: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [numberOfPages]);
 
-  for (let i = 1; i <= numberOfPages; i += 1) {
-    pages.push(
-      <Page
-        pageNumber={i}
-        key={i}
-        active={activePage === i}
-        onClick={() => {
-          setActivePage(i);
-        }}
-      />
-    );
+  if (numberOfPages === 1) {
+    return null;
   }
+
+  const setPages = () => {
+    const pages = [];
+    for (let i = 1; i <= numberOfPages; i += 1) {
+      pages.push(
+        <Page
+          pageNumber={i}
+          key={i}
+          active={activePage === i}
+          onClick={() => {
+            setActivePage(i);
+          }}
+        />
+      );
+    }
+    return pages;
+  };
+
+  const setSelect = () => {
+    const options = [];
+    for (let i = 1; i <= numberOfPages; i += 1) {
+      options.push(<option value={i}>{i}</option>);
+    }
+    return (
+      <li>
+        <select
+          className='form-select form-select-sm custom-select custom-select-sm'
+          style={{ width: '6em' }}
+          onChange={(event) => setActivePage(parseInt(event.target.value, 10))}
+          value={activePage}
+        >
+          {options}
+        </select>
+      </li>
+    );
+  };
 
   return (
     <div>
@@ -57,7 +86,7 @@ const CustomPagination = (props: Props) => {
             }}
             isPrevious
           />
-          {pages}
+          {numberOfPages > maxNumberOfPages ? setSelect() : setPages()}
 
           <Page
             active={activePage === numberOfPages + 1}
@@ -74,6 +103,4 @@ const CustomPagination = (props: Props) => {
   );
 };
 
-export default CustomPagination;
-
-// .visually-hidden
+export default Pagination;
