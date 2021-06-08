@@ -65,7 +65,7 @@ function App() {
       name: 'Sour Cream ',
       price: '$2.90',
       stock: 86,
-      url: <a href='https://umn.edu'>Link to UMN</a>,
+      url: <a href='https://reactjs.org/'>Link to React</a>,
       month: 'March',
       monthValue: 3,
     },
@@ -82,7 +82,6 @@ function App() {
   return (
     <div>
       <h1>Sample Filtering and Sorting Table</h1>
-      <h2>Bootstrap version:</h2>
       <SortTable
         tableData={data}
         headers={headers}
@@ -93,6 +92,7 @@ function App() {
         caption='Store inventory'
         tableClassName='table-hover table-sm'
         defaultToAll
+        isReponsive
         // headerClassName='table-dark'
       />
       <hr />
@@ -110,7 +110,6 @@ function App() {
           {process.env.REACT_APP_GIT_SHA}
         </li>
       </ul>
-      <a href='https://google.com'>Sample link to google</a>
     </div>
   );
 }

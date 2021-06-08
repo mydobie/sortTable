@@ -100,7 +100,7 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
       }
     >
       <div
-        className="col"
+        className="col-sm"
         style={
           Object {
             "textAlign": "right",
@@ -132,7 +132,9 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
                 onChange={[Function]}
                 style={
                   Object {
+                    "display": "inline-block",
                     "marginLeft": "0.75em",
+                    "width": "250px",
                   }
                 }
                 type="text"
@@ -308,6 +310,7 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
             key="5"
           >
             <th
+              data-label="Product Name"
               data-sorttable-data-cell={true}
               key="5name"
               scope="row"
@@ -315,18 +318,21 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
               Butter
             </th>
             <td
+              data-label="Price"
               data-sorttable-data-cell={true}
               key="5price"
             >
               $0.90
             </td>
             <td
+              data-label="Stock"
               data-sorttable-data-cell={true}
               key="5stock"
             >
               99
             </td>
             <td
+              data-label="Link"
               data-sorttable-data-cell={true}
               key="5url"
             />
@@ -335,6 +341,7 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
             key="1"
           >
             <th
+              data-label="Product Name"
               data-sorttable-data-cell={true}
               key="1name"
               scope="row"
@@ -342,18 +349,21 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
               Cheese
             </th>
             <td
+              data-label="Price"
               data-sorttable-data-cell={true}
               key="1price"
             >
               $4.90
             </td>
             <td
+              data-label="Stock"
               data-sorttable-data-cell={true}
               key="1stock"
             >
               20
             </td>
             <td
+              data-label="Link"
               data-sorttable-data-cell={true}
               key="1url"
             />
@@ -362,6 +372,7 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
             key="7"
           >
             <th
+              data-label="Product Name"
               data-sorttable-data-cell={true}
               key="7name"
               scope="row"
@@ -369,18 +380,21 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
               Fancy French Cheese
             </th>
             <td
+              data-label="Price"
               data-sorttable-data-cell={true}
               key="7price"
             >
               $99.0
             </td>
             <td
+              data-label="Stock"
               data-sorttable-data-cell={true}
               key="7stock"
             >
               15
             </td>
             <td
+              data-label="Link"
               data-sorttable-data-cell={true}
               key="7url"
             >
@@ -395,6 +409,7 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
             key="4"
           >
             <th
+              data-label="Product Name"
               data-sorttable-data-cell={true}
               key="4name"
               scope="row"
@@ -402,18 +417,21 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
               Heavy Cream
             </th>
             <td
+              data-label="Price"
               data-sorttable-data-cell={true}
               key="4price"
             >
               $3.90
             </td>
             <td
+              data-label="Stock"
               data-sorttable-data-cell={true}
               key="4stock"
             >
               9
             </td>
             <td
+              data-label="Link"
               data-sorttable-data-cell={true}
               key="4url"
             />
@@ -422,6 +440,7 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
             key="2"
           >
             <th
+              data-label="Product Name"
               data-sorttable-data-cell={true}
               key="2name"
               scope="row"
@@ -429,18 +448,21 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
               Milk
             </th>
             <td
+              data-label="Price"
               data-sorttable-data-cell={true}
               key="2price"
             >
               $1.90
             </td>
             <td
+              data-label="Stock"
               data-sorttable-data-cell={true}
               key="2stock"
             >
               4
             </td>
             <td
+              data-label="Link"
               data-sorttable-data-cell={true}
               key="2url"
             />
@@ -449,6 +471,7 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
             key="6"
           >
             <th
+              data-label="Product Name"
               data-sorttable-data-cell={true}
               key="6name"
               scope="row"
@@ -456,18 +479,21 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
               Sour Cream
             </th>
             <td
+              data-label="Price"
               data-sorttable-data-cell={true}
               key="6price"
             >
               $2.90
             </td>
             <td
+              data-label="Stock"
               data-sorttable-data-cell={true}
               key="6stock"
             >
               86
             </td>
             <td
+              data-label="Link"
               data-sorttable-data-cell={true}
               key="6url"
             />
@@ -476,6 +502,7 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
             key="3"
           >
             <th
+              data-label="Product Name"
               data-sorttable-data-cell={true}
               key="3name"
               scope="row"
@@ -483,18 +510,21 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
               Yoghurt
             </th>
             <td
+              data-label="Price"
               data-sorttable-data-cell={true}
               key="3price"
             >
               $2.40
             </td>
             <td
+              data-label="Stock"
               data-sorttable-data-cell={true}
               key="3stock"
             >
               12
             </td>
             <td
+              data-label="Link"
               data-sorttable-data-cell={true}
               key="3url"
             />
@@ -506,7 +536,7 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
       className="row"
     >
       <div
-        className="col"
+        className="col-sm"
         data-pagination-summary={true}
         id="sortTableRowsShownSummary"
       >

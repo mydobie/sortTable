@@ -62,8 +62,6 @@ In order to use these components, you need to ensure that the following are in y
 
 This component is configured to use the Bootstrap CSS for styling. The CSS is available at the [Bootstrap CDN](https://www.bootstrapcdn.com/) or by downloading the [Bootstrap SCSS.](https://getbootstrap.com/docs/5.0/getting-started/download/). Note that both Bootstrap 4 and 5 are supported.
 
-There are certain CSS classes that are needed for the SortTable to work correctly .... KKD FIX THIS
-
 ### Including this component
 
 On the React file that you want to use the web components, include the modules you want to use. For example:
@@ -192,6 +190,13 @@ The following props are available to be sent to the `SortTable` component:
     <td>String or componet shown when isLoading is set.</td>
   </tr>
   <tr>
+    <td>isReponsive</td>
+    <td>boolean</td>
+    <td>no</td>
+    <td></td>
+    <td>When set, css will be applied so the table displays as a list on small screens.  Note:  This works best when the row header is the first cell in a row.</td>
+  </tr>
+  <tr>
     <td>noDataMessage</td>
     <td>JSX.Element</td>
     <td>no</td>
@@ -256,6 +261,8 @@ const headers: headerDataType[] = [
   ];
 
 ```
+
+Note that the order of the columns (from left to right) is determined by the order of the header objects.
 
 Information for each header is contained in an object with the followign keys.
 

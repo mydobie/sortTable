@@ -5,11 +5,12 @@ Like a lightweight data tables (https://datatables.net/)
 /* TODO:
 
   - Add responsive piece
-    - Hide column on small screen AND/OR
     - Move to list (export CSS file)
+
   - Add ... if too many pagination pages 
     - OR just have next/prev button with drop down if page > ???
-  - Verify it will work with both BS4 and BS5
+
+  -TESTS
     */
 
 import React from 'react';
@@ -17,6 +18,7 @@ import SortIcons from './SortIcons';
 import Pagination from './Pagination';
 import Filter from './Filter';
 import Loading from './Loading';
+import './responsive.css';
 
 export type tableDataType = {
   [key: string]: any;
@@ -55,6 +57,7 @@ interface Props {
   initialSortDsc?: boolean;
   isLoading?: boolean;
   isLoadingMessage?: JSX.Element;
+  isReponsive?: boolean;
   noDataMessage?: JSX.Element;
   showFilter?: boolean;
   showPagination?: boolean;
@@ -74,6 +77,7 @@ const SortTable = (props: Props): JSX.Element => {
     showFilter,
     caseSensitiveFilter,
     id,
+    isReponsive,
     caption,
     tableClassName,
     headerClassName,
@@ -224,13 +228,18 @@ const SortTable = (props: Props): JSX.Element => {
               scope='row'
               key={`${rowData.id}${header.key}`}
               data-sorttable-data-cell
+              data-label={header.name}
             >
               {data}
             </th>
           );
         }
         return (
-          <td key={`${rowData.id}${header.key}`} data-sorttable-data-cell>
+          <td
+            key={`${rowData.id}${header.key}`}
+            data-sorttable-data-cell
+            data-label={header.name}
+          >
             {data}
           </td>
         );
@@ -340,9 +349,11 @@ const SortTable = (props: Props): JSX.Element => {
         className='row'
         style={{ marginBottom: showPagination || showFilter ? '15px' : '0' }}
       >
-        {showPagination ? <div className='col'>{showNumberInput()}</div> : null}
+        {showPagination ? (
+          <div className='col-sm'>{showNumberInput()}</div>
+        ) : null}
         {showFilter ? (
-          <div className='col' style={{ textAlign: 'right' }}>
+          <div className='col-sm' style={{ textAlign: 'right' }}>
             <Filter
               value={filterValue}
               onChange={filterRows}
@@ -358,6 +369,7 @@ const SortTable = (props: Props): JSX.Element => {
           id={sortTableId}
           aria-describedby={`${sortTableId}RowsShownSummary`}
           aria-rowcount={showPagination ? tableDisplayRows.length : undefined}
+          data-sort-responsive={isReponsive ?? undefined}
         >
           {caption ? <caption>{caption}</caption> : null}
           <thead className={headerClassName}>{buildHeaders}</thead>
@@ -372,14 +384,14 @@ const SortTable = (props: Props): JSX.Element => {
       </div>
       <div className='row'>
         <div
-          className='col'
+          className='col-sm'
           id={`${sortTableId}RowsShownSummary`}
           data-pagination-summary
         >
           {rowsShownSummary()}
         </div>
         {showPagination ? (
-          <div className='col'>
+          <div className='col-sm'>
             <Pagination
               numberOfPages={Math.ceil(
                 maxNumber && maxNumber > 0
