@@ -76,7 +76,7 @@
     "prettier:fix": "prettier  --ignore-path ./.eslintignore --write",
     "prettier:fix:all": "npm run prettier:fix '**/*.+(js|jsx|html|css|scss|json)'",
     "----------------------------------------------------------4": "",
-    "clean": "rm -rf node_modules && rm package-lock.json && npm run d",
+    "clean": "rm -rf node_modules && rm -rf package-lock.json && npm run d",
     "uglify": "uglifyjs ",
     "preinstall": "npx npm-force-resolutions",
     "checkCoverage": "node ./utils/testCoverage.js",
