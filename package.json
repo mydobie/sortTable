@@ -11,12 +11,12 @@
     "node": "^12 || ^14"
   },
   "dependencies": {
-    "@types/react": "^17.0.3",
-    "@types/react-dom": "^17.0.3",
     "react": "17.0.0 - 17.999.999",
     "react-dom": "17.0.0 - 17.999.999"
   },
   "devDependencies": {
+    "@types/react": "^17.0.3",
+    "@types/react-dom": "^17.0.3",
     "eslint-import-resolver-typescript": "^2.4.0",
     "@babel/preset-react": "^7.12.10",
     "@types/jest": "^26.0.22",
@@ -45,6 +45,13 @@
     "typescript": "^4.1.2",
     "uglify-js": "^3.12.3"
   },
+  "resolutions": {
+    "normalize-url": "4.5.1",
+    "css-what": "5.0.1",
+    "trim-newlines": "3.0.1",
+    "glob-parent": "5.1.2",
+    "braces": "2.3.2"
+  },
   "scripts": {
     "eject": "react-scripts eject",
     "d": "npm i && npm rebuild node-sass",
@@ -71,6 +78,7 @@
     "----------------------------------------------------------4": "",
     "clean": "rm -rf node_modules && rm package-lock.json && npm run d",
     "uglify": "uglifyjs ",
+    "preinstall": "npx npm-force-resolutions",
     "checkCoverage": "node ./utils/testCoverage.js",
     "npmAudit": "npm audit --audit-level=high --registry=https://registry.npmjs.org",
     "buildPackage": "npm run d && npm run npmAudit && npm run test && bash  utils/buildPackage.sh"
