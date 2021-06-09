@@ -225,7 +225,7 @@ The following props are available to be sent to the `SortTable` component:
     <td>Class name(s) applied to the table.</td>
   </tr>
   <tr>
-    <td>viewStips</td>
+    <td>viewSteps</td>
     <td>number[]</td>
     <td>no</td>
     <td>[All]</td>
