@@ -1,0 +1,621 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Sort Table Rendering Snapshot test 1`] = `
+<SortTable
+  headers={
+    Array [
+      Object {
+        "key": "price",
+        "name": "Price",
+      },
+      Object {
+        "key": "name",
+        "name": "Product Name",
+        "rowheader": true,
+        "type": "alpha",
+      },
+      Object {
+        "key": "stock",
+        "name": "Stock",
+        "noFilter": true,
+      },
+      Object {
+        "key": "url",
+        "name": "Link",
+        "noFilter": true,
+        "noSort": true,
+      },
+    ]
+  }
+  showFilter={true}
+  showPagination={true}
+  tableData={
+    Array [
+      Object {
+        "id": 1,
+        "name": "Cheese",
+        "price": "$4.90",
+        "stock": 20,
+      },
+      Object {
+        "id": 2,
+        "name": "Milk",
+        "price": "$1.90",
+        "stock": 4,
+      },
+      Object {
+        "id": 3,
+        "name": "Yoghurt",
+        "price": "$2.40",
+        "stock": 12,
+      },
+      Object {
+        "id": 4,
+        "name": "Heavy Cream",
+        "price": "$3.90",
+        "stock": 9,
+      },
+      Object {
+        "id": 5,
+        "name": "Butter",
+        "price": "$0.90",
+        "stock": 99,
+      },
+      Object {
+        "id": 6,
+        "name": "Sour Cream",
+        "price": "$2.90",
+        "stock": 86,
+      },
+      Object {
+        "id": 7,
+        "name": "Fancy French Cheese",
+        "price": "$99.0",
+        "stock": 15,
+        "url": <a
+          href="https://google.com"
+        >
+          hello google
+        </a>,
+      },
+    ]
+  }
+  viewSteps={
+    Array [
+      2,
+      4,
+      10,
+    ]
+  }
+>
+  <div
+    className="container-fluid"
+  >
+    <div
+      className="row"
+      style={
+        Object {
+          "marginBottom": "15px",
+        }
+      }
+    >
+      <div
+        className="col-sm"
+      >
+        <div
+          data-sort-number-of-inputs={true}
+        >
+          Show
+          <select
+            aria-label="Number of items shown"
+            className="form-control form-select"
+            onChange={[Function]}
+            style={
+              Object {
+                "display": "inline-block",
+                "marginLeft": "0.75em",
+                "marginRight": "0.75em",
+                "width": "75px",
+              }
+            }
+            value={2}
+          >
+            <option
+              key="2"
+              value={2}
+            >
+              2
+            </option>
+            <option
+              key="4"
+              value={4}
+            >
+              4
+            </option>
+            <option
+              key="10"
+              value={10}
+            >
+              10
+            </option>
+            <option
+              value=""
+            >
+              All
+            </option>
+          </select>
+          results
+        </div>
+      </div>
+      <div
+        className="col-sm"
+        style={
+          Object {
+            "textAlign": "right",
+          }
+        }
+      >
+        <Filter
+          id="sortTable"
+          label="Filter"
+          onChange={[Function]}
+          value=""
+        >
+          <div
+            className="form-inline justify-content-end"
+            data-filter={true}
+          >
+            <div
+              className="form-group"
+            >
+              <label
+                htmlFor="sortTableFilterInput"
+              >
+                Filter
+              </label>
+              <input
+                className="form-control"
+                data-filter-input={true}
+                id="sortTableFilterInput"
+                onChange={[Function]}
+                style={
+                  Object {
+                    "display": "inline-block",
+                    "marginLeft": "0.75em",
+                    "width": "250px",
+                  }
+                }
+                type="text"
+                value=""
+              />
+            </div>
+          </div>
+        </Filter>
+         
+      </div>
+    </div>
+    <div
+      className="row"
+    >
+      <table
+        aria-describedby="sortTableRowsShownSummary"
+        aria-rowcount={7}
+        className="table undefined"
+        id="sortTable"
+      >
+        <thead>
+          <tr
+            aria-rowindex={1}
+          >
+            <th
+              key="price"
+              scope="col"
+            >
+              <button
+                onClick={[Function]}
+                style={
+                  Object {
+                    "background": "none",
+                    "border": "none",
+                    "padding": "none",
+                    "textAlign": "left",
+                    "width": "100%",
+                  }
+                }
+                type="button"
+              >
+                <SortIcons
+                  color="#ccc"
+                  sortAsc={true}
+                  type="sortable"
+                >
+                  <svg
+                    aria-hidden="true"
+                    aria-label="Sorted ascending"
+                    role="img"
+                    style={
+                      Object {
+                        "display": "inline-block",
+                        "height": "20px",
+                        "paddingRight": "5px",
+                        "width": "20px",
+                      }
+                    }
+                    viewBox="0 0 448 512"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M176 352h-48V48a16 16 0 0 0-16-16H80a16 16 0 0 0-16 16v304H16c-14.19 0-21.36 17.24-11.29 27.31l80 96a16 16 0 0 0 22.62 0l80-96C197.35 369.26 190.22 352 176 352zm203.29-219.31l-80-96a16 16 0 0 0-22.62 0l-80 96C186.65 142.74 193.78 160 208 160h48v304a16 16 0 0 0 16 16h32a16 16 0 0 0 16-16V160h48c14.19 0 21.36-17.24 11.29-27.31z"
+                      data-icontype="sortable"
+                      fill="#ccc"
+                    />
+                  </svg>
+                </SortIcons>
+                Price
+              </button>
+            </th>
+            <th
+              key="name"
+              scope="col"
+            >
+              <button
+                onClick={[Function]}
+                style={
+                  Object {
+                    "background": "none",
+                    "border": "none",
+                    "padding": "none",
+                    "textAlign": "left",
+                    "width": "100%",
+                  }
+                }
+                type="button"
+              >
+                <SortIcons
+                  color="#ccc"
+                  sortAsc={true}
+                  type="sortable"
+                >
+                  <svg
+                    aria-hidden="true"
+                    aria-label="Sorted ascending"
+                    role="img"
+                    style={
+                      Object {
+                        "display": "inline-block",
+                        "height": "20px",
+                        "paddingRight": "5px",
+                        "width": "20px",
+                      }
+                    }
+                    viewBox="0 0 448 512"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M176 352h-48V48a16 16 0 0 0-16-16H80a16 16 0 0 0-16 16v304H16c-14.19 0-21.36 17.24-11.29 27.31l80 96a16 16 0 0 0 22.62 0l80-96C197.35 369.26 190.22 352 176 352zm203.29-219.31l-80-96a16 16 0 0 0-22.62 0l-80 96C186.65 142.74 193.78 160 208 160h48v304a16 16 0 0 0 16 16h32a16 16 0 0 0 16-16V160h48c14.19 0 21.36-17.24 11.29-27.31z"
+                      data-icontype="sortable"
+                      fill="#ccc"
+                    />
+                  </svg>
+                </SortIcons>
+                Product Name
+              </button>
+            </th>
+            <th
+              key="stock"
+              scope="col"
+            >
+              <button
+                onClick={[Function]}
+                style={
+                  Object {
+                    "background": "none",
+                    "border": "none",
+                    "padding": "none",
+                    "textAlign": "left",
+                    "width": "100%",
+                  }
+                }
+                type="button"
+              >
+                <SortIcons
+                  color="#ccc"
+                  sortAsc={true}
+                  type="sortable"
+                >
+                  <svg
+                    aria-hidden="true"
+                    aria-label="Sorted ascending"
+                    role="img"
+                    style={
+                      Object {
+                        "display": "inline-block",
+                        "height": "20px",
+                        "paddingRight": "5px",
+                        "width": "20px",
+                      }
+                    }
+                    viewBox="0 0 448 512"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M176 352h-48V48a16 16 0 0 0-16-16H80a16 16 0 0 0-16 16v304H16c-14.19 0-21.36 17.24-11.29 27.31l80 96a16 16 0 0 0 22.62 0l80-96C197.35 369.26 190.22 352 176 352zm203.29-219.31l-80-96a16 16 0 0 0-22.62 0l-80 96C186.65 142.74 193.78 160 208 160h48v304a16 16 0 0 0 16 16h32a16 16 0 0 0 16-16V160h48c14.19 0 21.36-17.24 11.29-27.31z"
+                      data-icontype="sortable"
+                      fill="#ccc"
+                    />
+                  </svg>
+                </SortIcons>
+                Stock
+              </button>
+            </th>
+            <th
+              key="url"
+              scope="col"
+            >
+              Link
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            key="1"
+          >
+            <td
+              data-label="Price"
+              data-sorttable-data-cell={true}
+              key="1price"
+            >
+              $4.90
+            </td>
+            <th
+              data-label="Product Name"
+              data-sorttable-data-cell={true}
+              key="1name"
+              scope="row"
+            >
+              Cheese
+            </th>
+            <td
+              data-label="Stock"
+              data-sorttable-data-cell={true}
+              key="1stock"
+            >
+              20
+            </td>
+            <td
+              data-label="Link"
+              data-sorttable-data-cell={true}
+              key="1url"
+            />
+          </tr>
+          <tr
+            key="2"
+          >
+            <td
+              data-label="Price"
+              data-sorttable-data-cell={true}
+              key="2price"
+            >
+              $1.90
+            </td>
+            <th
+              data-label="Product Name"
+              data-sorttable-data-cell={true}
+              key="2name"
+              scope="row"
+            >
+              Milk
+            </th>
+            <td
+              data-label="Stock"
+              data-sorttable-data-cell={true}
+              key="2stock"
+            >
+              4
+            </td>
+            <td
+              data-label="Link"
+              data-sorttable-data-cell={true}
+              key="2url"
+            />
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div
+      className="row"
+    >
+      <div
+        className="col-sm"
+        data-pagination-summary={true}
+        id="sortTableRowsShownSummary"
+      >
+        Showing 1 to 2 of 7 entries
+      </div>
+      <div
+        className="col-sm"
+      >
+        <Pagination
+          id="sortTable"
+          initialActivePage={1}
+          numberOfPages={4}
+          onPageChange={[Function]}
+        >
+          <div>
+            <div
+              className="text-right text-end"
+              data-skip-pagination-wrapper={true}
+            >
+              <a
+                data-skip-pagination-link={true}
+                href="#sortTableEndPagination"
+              >
+                Skip pagination
+              </a>
+            </div>
+            <nav
+              aria-label="Table pagination"
+            >
+              <ul
+                className="pagination pagination-sm justify-content-end"
+                data-pagination={true}
+              >
+                <PaginationButton
+                  active={false}
+                  disabled={true}
+                  isPrevious={true}
+                  onClick={[Function]}
+                >
+                  <li
+                    className="page-item disabled "
+                    data-pagination-previous-button={true}
+                  >
+                    <button
+                      aria-label="Previous page"
+                      className="page-link "
+                      disabled={true}
+                      onClick={[Function]}
+                      type="button"
+                    >
+                      <span
+                        aria-hidden="true"
+                      >
+                        «
+                      </span>
+                    </button>
+                  </li>
+                </PaginationButton>
+                <PaginationButton
+                  active={true}
+                  key="1"
+                  onClick={[Function]}
+                  pageNumber={1}
+                >
+                  <li
+                    className="page-item  active"
+                    data-pagination-button={true}
+                  >
+                    <button
+                      aria-current="page"
+                      className="page-link active"
+                      onClick={[Function]}
+                      type="button"
+                    >
+                      <span
+                        className="sr-only visually-hidden"
+                      >
+                        page 
+                      </span>
+                      1
+                    </button>
+                  </li>
+                </PaginationButton>
+                <PaginationButton
+                  active={false}
+                  key="2"
+                  onClick={[Function]}
+                  pageNumber={2}
+                >
+                  <li
+                    className="page-item  "
+                    data-pagination-button={true}
+                  >
+                    <button
+                      className="page-link "
+                      onClick={[Function]}
+                      type="button"
+                    >
+                      <span
+                        className="sr-only visually-hidden"
+                      >
+                        page 
+                      </span>
+                      2
+                    </button>
+                  </li>
+                </PaginationButton>
+                <PaginationButton
+                  active={false}
+                  key="3"
+                  onClick={[Function]}
+                  pageNumber={3}
+                >
+                  <li
+                    className="page-item  "
+                    data-pagination-button={true}
+                  >
+                    <button
+                      className="page-link "
+                      onClick={[Function]}
+                      type="button"
+                    >
+                      <span
+                        className="sr-only visually-hidden"
+                      >
+                        page 
+                      </span>
+                      3
+                    </button>
+                  </li>
+                </PaginationButton>
+                <PaginationButton
+                  active={false}
+                  key="4"
+                  onClick={[Function]}
+                  pageNumber={4}
+                >
+                  <li
+                    className="page-item  "
+                    data-pagination-button={true}
+                  >
+                    <button
+                      className="page-link "
+                      onClick={[Function]}
+                      type="button"
+                    >
+                      <span
+                        className="sr-only visually-hidden"
+                      >
+                        page 
+                      </span>
+                      4
+                    </button>
+                  </li>
+                </PaginationButton>
+                <PaginationButton
+                  active={false}
+                  disabled={false}
+                  isNext={true}
+                  onClick={[Function]}
+                >
+                  <li
+                    className="page-item  "
+                    data-pagination-next-button={true}
+                  >
+                    <button
+                      aria-label="Next page"
+                      className="page-link "
+                      disabled={false}
+                      onClick={[Function]}
+                      type="button"
+                    >
+                      <span
+                        aria-hidden="true"
+                      >
+                        »
+                      </span>
+                    </button>
+                  </li>
+                </PaginationButton>
+              </ul>
+            </nav>
+            <div
+              id="sortTableEndPagination"
+            />
+          </div>
+        </Pagination>
+      </div>
+    </div>
+  </div>
+</SortTable>
+`;

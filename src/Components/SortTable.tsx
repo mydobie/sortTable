@@ -2,17 +2,6 @@
 Like a lightweight data tables (https://datatables.net/)
 */
 
-/* TODO:
-
-  - Add responsive piece
-    - Move to list (export CSS file)
-
-  - Add ... if too many pagination pages 
-    - OR just have next/prev button with drop down if page > ???
-
-  -TESTS
-    */
-
 import React from 'react';
 import SortIcons from './SortIcons';
 import Pagination from './Pagination';

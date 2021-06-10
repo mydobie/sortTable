@@ -4,5 +4,11 @@
 // import SortTable from '../Components/SortTable';
 
 describe('Sort Table No Data Messages', () => {
-  test.todo('add no data tests');
+  test.todo('Default no data message');
+
+  test.todo('Custom no data message');
+
+  test.todo('Default all filtered data message');
+
+  test.todo('Custom all filtered message');
 });
