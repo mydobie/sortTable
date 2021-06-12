@@ -151,6 +151,7 @@ exports[`Sort Table tests Expected number of rows in table 1`] = `
     >
       <table
         aria-describedby="sortTableRowsShownSummary"
+        aria-rowcount={7}
         className="table undefined"
         id="sortTable"
       >

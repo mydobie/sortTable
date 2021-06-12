@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { mount } from 'enzyme';
 
@@ -22,34 +23,71 @@ export const data: tableDataType[] = [
   },
 ];
 export const headers: headerDataType[] = [
-  { name: 'Price', key: 'price' },
+  { name: 'Price', key: 'price', className: 'myCustomPriceClass' },
   { name: 'Product Name', key: 'name', type: 'alpha', rowheader: true },
   {
     name: 'Stock',
     key: 'stock',
     noFilter: true,
   },
-  { name: 'Link', key: 'url', noSort: true, noFilter: true },
+  {
+    name: 'Link',
+    key: 'url',
+    noSort: true,
+    noFilter: true,
+    style: { color: 'purple' },
+  },
 ];
 const viewSteps: number[] = [2, 4, 10];
 
-// eslint-disable-next-line import/prefer-default-export
-export const filterAndPaginationTable = () => {
+export const sortTable = (props?: any) => {
+  const steps = props?.showPagination ? viewSteps : undefined;
+  const tableData = props?.tableData ? props.tableData : data;
   const wrapper = mount(
     <SortTable
-      tableData={data}
+      tableData={tableData}
       headers={headers}
-      showFilter
-      showPagination
-      viewSteps={viewSteps}
+      viewSteps={steps}
+      {...props}
     />
-  );
-  wrapper.update();
+  ).update();
+
+  if (props?.showFilter) {
+    wrapper
+      .find('[data-filter-input]')
+      .simulate('change', { target: { value: '' } })
+      .update();
+  }
+
   return wrapper;
 };
 
-export const simpleTable = () => {
-  const wrapper = mount(<SortTable tableData={data} headers={headers} />);
-  wrapper.update();
-  return wrapper;
+export const columnText = (wrapper, columnIndex) => {
+  const rows = wrapper.find('tbody tr');
+
+  return rows.map((row) =>
+    row.find('[data-sorttable-data-cell]').at(columnIndex).text()
+  );
 };
+
+// export const isInObject = (object: Object, value: string | number): boolean => {
+//   for (const key in object) {
+//     if (object[key] === value) {
+//       return true;
+//     }
+//   }
+//   return false;
+// };
+
+// export const arrayInObjectOfArray = (
+//   array: (string | number)[],
+//   objectArray: object[]
+// ): boolean =>
+//   array.every((item) => objectArray.some((object) => isInObject(object, item)));
+
+export const expectedInObjectArray = (
+  array: (string | number)[],
+  objectArray: object[],
+  key: string
+): boolean =>
+  array.every((item) => objectArray.some((object) => object[key] === item));

@@ -190,7 +190,7 @@ The following props are available to be sent to the `SortTable` component:
     <td>String or componet shown when isLoading is set.</td>
   </tr>
   <tr>
-    <td>isReponsive</td>
+    <td>isResponsive</td>
     <td>boolean</td>
     <td>no</td>
     <td></td>

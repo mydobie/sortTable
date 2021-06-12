@@ -1,22 +1,106 @@
 /* eslint-disable react/react-in-jsx-scope */
-// import { mount } from 'enzyme';
 // import { axe } from 'jest-axe';
-// import SortTable from '../Components/SortTable';
+import {
+  sortTable,
+  columnText,
+  expectedInObjectArray,
+  data,
+  headers,
+} from './helpers/helpers';
 
 describe('Sort Table Filtering (without pagination)', () => {
-  test.todo('Entering a value filters filterable columns');
+  test('Entering a value filters filterable columns case insensitive by defaault', () => {
+    const wrapper = sortTable({ showFilter: true });
+    const expectedNamesSorted = ['Milk', 'Heavy Cream', 'Sour Cream'];
 
-  test.todo('Filtering matches in a noFilter column are not displayed');
+    // test set-up - ensure expected is in data
+    expect(data.length).toBeGreaterThan(expectedNamesSorted.length);
+    expect(
+      expectedInObjectArray(expectedNamesSorted, data, 'name')
+    ).toBeTruthy();
+    const index = headers.findIndex((header) => header.key === 'name');
 
-  test.todo('Filtering is not case sensitive by default');
+    // test start
+    wrapper
+      .find('[data-filter-input]')
+      .simulate('change', { target: { value: 'M' } })
+      .update();
 
-  test.todo(
-    'Filtering is case sensitive when caseSensitiveFilter is set to true'
-  );
+    expect(columnText(wrapper, index)).toEqual(expectedNamesSorted);
+  });
 
-  test.todo('Table summary changes with filtering');
+  test('Filtering matches in a noFilter column are not displayed', () => {
+    const wrapper = sortTable({ showFilter: true });
 
-  test.todo('Aria row count is correct and does not change with filtering');
+    // test set-up
+    const expectedStockFiltered = ['20', '12'];
+    expect(
+      expectedInObjectArray(
+        expectedStockFiltered.map((item) => parseInt(item, 10)),
+        data,
+        'stock'
+      )
+    ).toBeTruthy();
 
-  test.todo('Aria rowindex does not change for a row when filtering');
+    expect(data.some((row) => row.stock === 4)).toBeTruthy(); // make sure there is a stock of 4
+
+    const index = headers.findIndex((header) => header.key === 'stock');
+
+    // test start
+    wrapper
+      .find('[data-filter-input]')
+      .simulate('change', { target: { value: '4' } })
+      .update();
+
+    expect(columnText(wrapper, index)).toEqual(expectedStockFiltered);
+  });
+
+  test('Filtering is case sensitive when caseSensitiveFilter is set to true', () => {
+    const wrapper = sortTable({ showFilter: true, caseSensitiveFilter: true });
+    const expectedNamesSorted = ['Heavy Cream', 'Sour Cream'];
+
+    // test set-up - ensure expected is in data
+    expect(data.length).toBeGreaterThan(expectedNamesSorted.length);
+    expect(
+      expectedInObjectArray(expectedNamesSorted, data, 'name')
+    ).toBeTruthy();
+    const index = headers.findIndex((header) => header.key === 'name');
+
+    // test start
+    wrapper
+      .find('[data-filter-input]')
+      .simulate('change', { target: { value: 'm' } })
+      .update();
+
+    expect(columnText(wrapper, index)).toEqual(expectedNamesSorted);
+  });
+
+  test('Table summary changes with filtering', () => {
+    const wrapper = sortTable({ showFilter: true });
+    expect(wrapper.find('[data-pagination-summary]').text()).toEqual(
+      `Showing ${data.length} entries`
+    );
+
+    wrapper
+      .find('[data-filter-input]')
+      .simulate('change', { target: { value: 'M' } })
+      .update();
+
+    expect(wrapper.find('[data-pagination-summary]').text()).toEqual(
+      `Showing 3 entries(filtered from ${data.length} total entries)`
+    );
+  });
+
+  test('Aria row count is correct and does not change with filtering', () => {
+    const wrapper = sortTable({ showFilter: true });
+    expect(wrapper.find('table').props()['aria-rowcount']).toEqual(data.length);
+
+    wrapper
+      .find('[data-filter-input]')
+      .simulate('change', { target: { value: 'M' } })
+      .update();
+
+    expect(wrapper.find('tbody tr')).not.toEqual(data.length);
+    expect(wrapper.find('table').props()['aria-rowcount']).toEqual(data.length);
+  });
 });

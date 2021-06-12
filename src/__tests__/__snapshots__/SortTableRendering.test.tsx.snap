@@ -5,6 +5,7 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
   headers={
     Array [
       Object {
+        "className": "myCustomPriceClass",
         "key": "price",
         "name": "Price",
       },
@@ -24,6 +25,9 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
         "name": "Link",
         "noFilter": true,
         "noSort": true,
+        "style": Object {
+          "color": "purple",
+        },
       },
     ]
   }
@@ -32,42 +36,49 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
   tableData={
     Array [
       Object {
+        "hide": false,
         "id": 1,
         "name": "Cheese",
         "price": "$4.90",
         "stock": 20,
       },
       Object {
+        "hide": false,
         "id": 2,
         "name": "Milk",
         "price": "$1.90",
         "stock": 4,
       },
       Object {
+        "hide": false,
         "id": 3,
         "name": "Yoghurt",
         "price": "$2.40",
         "stock": 12,
       },
       Object {
+        "hide": false,
         "id": 4,
         "name": "Heavy Cream",
         "price": "$3.90",
         "stock": 9,
       },
       Object {
+        "hide": false,
         "id": 5,
         "name": "Butter",
         "price": "$0.90",
         "stock": 99,
       },
       Object {
+        "hide": false,
         "id": 6,
         "name": "Sour Cream",
         "price": "$2.90",
         "stock": 86,
       },
       Object {
+        "hide": false,
         "id": 7,
         "name": "Fancy French Cheese",
         "price": "$99.0",
@@ -208,6 +219,7 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
             aria-rowindex={1}
           >
             <th
+              className="myCustomPriceClass"
               key="price"
               scope="col"
             >
@@ -351,6 +363,11 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
             <th
               key="url"
               scope="col"
+              style={
+                Object {
+                  "color": "purple",
+                }
+              }
             >
               Link
             </th>

@@ -87,12 +87,12 @@ function App() {
         headers={headers}
         initialSort='name'
         showFilter
-        showPagination
-        viewSteps={[2, 4, 50]}
+        // showPagination
+        // viewSteps={[2, 4, 50]}
         caption='Store inventory'
         tableClassName='table-hover table-sm'
         defaultToAll
-        isReponsive
+        // isReponsive
         // headerClassName='table-dark'
       />
       <hr />

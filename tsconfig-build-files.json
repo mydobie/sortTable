@@ -8,11 +8,6 @@
     "esModuleInterop": true,
     "jsx": "react-jsx"
   },
-  "include": [
-    "src/Components"
-  ],
-  "exclude": [
-    "node_modules",
-    "src/__tests__/*"
-  ]
+  "include": ["src/Components"],
+  "exclude": ["node_modules", "src/__tests__/*"]
 }

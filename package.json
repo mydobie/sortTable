@@ -62,7 +62,7 @@
     "buildts": "tsc --project tsconfig-build-files.json",
     "build": "npm run d && npm run test && npm run npmAudit && npm run build:ci",
     "build:ci": "REACT_APP_GIT_SHA=`git rev-parse --short HEAD` react-scripts build",
-    "test": "react-scripts test --coverage --watchAll=false --passWithNoTests --testPathIgnorePatterns /helpers",
+    "test": "react-scripts test --coverage  --passWithNoTests --testPathIgnorePatterns /helpers --watchAll=false",
     "test:watch": "react-scripts test ",
     "test:update": "npm run test -- -u",
     "----------------------------------------------------------2": "",

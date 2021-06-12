@@ -46,7 +46,7 @@ interface Props {
   initialSortDsc?: boolean;
   isLoading?: boolean;
   isLoadingMessage?: JSX.Element;
-  isReponsive?: boolean;
+  isResponsive?: boolean;
   noDataMessage?: JSX.Element;
   showFilter?: boolean;
   showPagination?: boolean;
@@ -66,7 +66,7 @@ const SortTable = (props: Props): JSX.Element => {
     showFilter,
     caseSensitiveFilter,
     id,
-    isReponsive,
+    isResponsive,
     caption,
     tableClassName,
     headerClassName,
@@ -357,12 +357,14 @@ const SortTable = (props: Props): JSX.Element => {
           className={`table ${tableClassName}`}
           id={sortTableId}
           aria-describedby={`${sortTableId}RowsShownSummary`}
-          aria-rowcount={showPagination ? tableDisplayRows.length : undefined}
-          data-sort-responsive={isReponsive ?? undefined}
+          aria-rowcount={
+            showPagination || showFilter ? tableDisplayRows.length : undefined
+          }
+          data-sort-responsive={isResponsive ?? undefined}
         >
           {caption ? <caption>{caption}</caption> : null}
           <thead className={headerClassName}>{buildHeaders}</thead>
-          <tbody>{buildData()}</tbody>
+          {!isLoading ? <tbody>{buildData()}</tbody> : null}
         </table>
         {tableDisplayRows.findIndex((row) => !row.hide) === -1
           ? allFiltered
@@ -377,7 +379,7 @@ const SortTable = (props: Props): JSX.Element => {
           id={`${sortTableId}RowsShownSummary`}
           data-pagination-summary
         >
-          {rowsShownSummary()}
+          {!isLoading ? rowsShownSummary() : null}
         </div>
         {showPagination ? (
           <div className='col-sm'>
