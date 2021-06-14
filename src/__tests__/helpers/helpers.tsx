@@ -21,6 +21,10 @@ export const data: tableDataType[] = [
     stock: 15,
     url: <a href='https://google.com'>hello google</a>,
   },
+  { id: 8, name: 'Eggs', price: '$1.90', stock: 86 },
+  { id: 9, name: 'Ricotta Cheese', price: '$3.99', stock: 6 },
+  { id: 10, name: 'Frozen Custard', price: '$5.50', stock: 11 },
+  { id: 11, name: 'Whey Powder', price: '$15.90', stock: 8 },
 ];
 export const headers: headerDataType[] = [
   { name: 'Price', key: 'price', className: 'myCustomPriceClass' },
@@ -28,6 +32,7 @@ export const headers: headerDataType[] = [
   {
     name: 'Stock',
     key: 'stock',
+    type: 'number',
     noFilter: true,
   },
   {
@@ -38,15 +43,24 @@ export const headers: headerDataType[] = [
     style: { color: 'purple' },
   },
 ];
-const viewSteps: number[] = [2, 4, 10];
+export const viewSteps: number[] = [2, 4, 10];
 
-export const sortTable = (props?: any) => {
+export const sortTable = (
+  props?: any,
+  initial?: {
+    viewSet?: number | string;
+    filter?: string | number;
+    pageIndex?: number;
+  }
+) => {
   const steps = props?.showPagination ? viewSteps : undefined;
   const tableData = props?.tableData ? props.tableData : data;
+  const tableHeaders = props?.headers ? props.headers : headers;
+
   const wrapper = mount(
     <SortTable
       tableData={tableData}
-      headers={headers}
+      headers={tableHeaders}
       viewSteps={steps}
       {...props}
     />
@@ -55,14 +69,44 @@ export const sortTable = (props?: any) => {
   if (props?.showFilter) {
     wrapper
       .find('[data-filter-input]')
-      .simulate('change', { target: { value: '' } })
+      .simulate('change', {
+        target: { value: initial?.filter ? `${initial.filter}` : '' },
+      })
       .update();
+  }
+  if (props?.showPagination && initial?.viewSet !== undefined) {
+    wrapper
+      .find('[data-sort-number-of-inputs] select')
+      .simulate('change', { target: { value: `${initial.viewSet}` } })
+      .update();
+  }
+
+  if (props?.showPagination && initial?.pageIndex !== undefined) {
+    if (wrapper.find('[data-pagination-select]').length > 0) {
+      // drop down
+      const value = wrapper
+        .find('[data-pagination-select] option')
+        .at(initial.pageIndex)
+        .prop('value');
+
+      wrapper
+        .find('[data-pagination-select]')
+        .simulate('change', { target: { value } })
+        .update();
+    } else {
+      wrapper
+        .find('[data-pagination-button]')
+        .at(initial.pageIndex)
+        .find('button')
+        .simulate('click')
+        .update();
+    }
   }
 
   return wrapper;
 };
 
-export const columnText = (wrapper, columnIndex) => {
+export const columnText = (wrapper, columnIndex: number) => {
   const rows = wrapper.find('tbody tr');
 
   return rows.map((row) =>

@@ -168,7 +168,9 @@
       "src/**/*.{js,jsx,ts,tsx}",
       "!<rootDir>/node_modules/",
       "!<rootDir>/src/setupTests.js",
-      "!<rootDir>/src/App.tsx"
+      "!<rootDir>/src/__tests__/helpers/**/*.{js,jsx,ts,tsx}",
+      "!<rootDir>/src/App.tsx",
+      "!<rootDir>/src/index.tsx"
     ],
     "coverageReporters": [
       "html",

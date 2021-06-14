@@ -19,6 +19,7 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
         "key": "stock",
         "name": "Stock",
         "noFilter": true,
+        "type": "number",
       },
       Object {
         "key": "url",
@@ -88,6 +89,34 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
         >
           hello google
         </a>,
+      },
+      Object {
+        "hide": false,
+        "id": 8,
+        "name": "Eggs",
+        "price": "$1.90",
+        "stock": 86,
+      },
+      Object {
+        "hide": false,
+        "id": 9,
+        "name": "Ricotta Cheese",
+        "price": "$3.99",
+        "stock": 6,
+      },
+      Object {
+        "hide": false,
+        "id": 10,
+        "name": "Frozen Custard",
+        "price": "$5.50",
+        "stock": 11,
+      },
+      Object {
+        "hide": false,
+        "id": 11,
+        "name": "Whey Powder",
+        "price": "$15.90",
+        "stock": 8,
       },
     ]
   }
@@ -210,7 +239,7 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
     >
       <table
         aria-describedby="sortTableRowsShownSummary"
-        aria-rowcount={7}
+        aria-rowcount={11}
         className="table undefined"
         id="sortTable"
       >
@@ -242,8 +271,7 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
                   type="sortable"
                 >
                   <svg
-                    aria-hidden="true"
-                    aria-label="Sorted ascending"
+                    aria-label="Sortable"
                     role="img"
                     style={
                       Object {
@@ -289,8 +317,7 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
                   type="sortable"
                 >
                   <svg
-                    aria-hidden="true"
-                    aria-label="Sorted ascending"
+                    aria-label="Sortable"
                     role="img"
                     style={
                       Object {
@@ -336,8 +363,7 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
                   type="sortable"
                 >
                   <svg
-                    aria-hidden="true"
-                    aria-label="Sorted ascending"
+                    aria-label="Sortable"
                     role="img"
                     style={
                       Object {
@@ -447,7 +473,7 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
         data-pagination-summary={true}
         id="sortTableRowsShownSummary"
       >
-        Showing 1 to 2 of 7 entries
+        Showing 1 to 2 of 11 entries
       </div>
       <div
         className="col-sm"
@@ -455,7 +481,7 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
         <Pagination
           id="sortTable"
           initialActivePage={1}
-          numberOfPages={4}
+          numberOfPages={6}
           onPageChange={[Function]}
         >
           <div>
@@ -596,6 +622,54 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
                         page 
                       </span>
                       4
+                    </button>
+                  </li>
+                </PaginationButton>
+                <PaginationButton
+                  active={false}
+                  key="5"
+                  onClick={[Function]}
+                  pageNumber={5}
+                >
+                  <li
+                    className="page-item  "
+                    data-pagination-button={true}
+                  >
+                    <button
+                      className="page-link "
+                      onClick={[Function]}
+                      type="button"
+                    >
+                      <span
+                        className="sr-only visually-hidden"
+                      >
+                        page 
+                      </span>
+                      5
+                    </button>
+                  </li>
+                </PaginationButton>
+                <PaginationButton
+                  active={false}
+                  key="6"
+                  onClick={[Function]}
+                  pageNumber={6}
+                >
+                  <li
+                    className="page-item  "
+                    data-pagination-button={true}
+                  >
+                    <button
+                      className="page-link "
+                      onClick={[Function]}
+                      type="button"
+                    >
+                      <span
+                        className="sr-only visually-hidden"
+                      >
+                        page 
+                      </span>
+                      6
                     </button>
                   </li>
                 </PaginationButton>

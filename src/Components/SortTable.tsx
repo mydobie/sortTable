@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* Component to create a sortable and filterable table
 Like a lightweight data tables (https://datatables.net/)
 */
@@ -321,6 +322,10 @@ const SortTable = (props: Props): JSX.Element => {
       endRow = endRow > totalFiltered ? totalFiltered : endRow;
     }
 
+    if (totalFiltered === totalRows && startRow === 0 && endRow === totalRows) {
+      return `Showing ${totalRows} entries`;
+    }
+
     return `Showing ${
       showPagination ? `${startRow + 1} to ${endRow} of ` : ''
     }${totalFiltered} entries${
@@ -386,7 +391,8 @@ const SortTable = (props: Props): JSX.Element => {
             <Pagination
               numberOfPages={Math.ceil(
                 maxNumber && maxNumber > 0
-                  ? tableData.filter((row) => !row.hide).length / maxNumber
+                  ? tableDisplayRows.filter((row) => !row.hide).length /
+                      maxNumber
                   : 1
               )}
               initialActivePage={1}

@@ -50,7 +50,11 @@ const Pagination = (props: Props) => {
   const setSelect = () => {
     const options = [];
     for (let i = 1; i <= numberOfPages; i += 1) {
-      options.push(<option value={i}>{i}</option>);
+      options.push(
+        <option value={i} key={i}>
+          {i}
+        </option>
+      );
     }
     return (
       <li>
@@ -59,6 +63,7 @@ const Pagination = (props: Props) => {
           style={{ width: '6em' }}
           onChange={(event) => setActivePage(parseInt(event.target.value, 10))}
           value={activePage}
+          data-pagination-select
         >
           {options}
         </select>

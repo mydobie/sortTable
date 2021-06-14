@@ -10,7 +10,6 @@ import {
 
 describe('Sort Table Filtering (without pagination)', () => {
   test('Entering a value filters filterable columns case insensitive by defaault', () => {
-    const wrapper = sortTable({ showFilter: true });
     const expectedNamesSorted = ['Milk', 'Heavy Cream', 'Sour Cream'];
 
     // test set-up - ensure expected is in data
@@ -21,17 +20,12 @@ describe('Sort Table Filtering (without pagination)', () => {
     const index = headers.findIndex((header) => header.key === 'name');
 
     // test start
-    wrapper
-      .find('[data-filter-input]')
-      .simulate('change', { target: { value: 'M' } })
-      .update();
+    const wrapper = sortTable({ showFilter: true }, { filter: 'M' });
 
     expect(columnText(wrapper, index)).toEqual(expectedNamesSorted);
   });
 
   test('Filtering matches in a noFilter column are not displayed', () => {
-    const wrapper = sortTable({ showFilter: true });
-
     // test set-up
     const expectedStockFiltered = ['20', '12'];
     expect(
@@ -47,16 +41,11 @@ describe('Sort Table Filtering (without pagination)', () => {
     const index = headers.findIndex((header) => header.key === 'stock');
 
     // test start
-    wrapper
-      .find('[data-filter-input]')
-      .simulate('change', { target: { value: '4' } })
-      .update();
-
+    const wrapper = sortTable({ showFilter: true }, { filter: 4 });
     expect(columnText(wrapper, index)).toEqual(expectedStockFiltered);
   });
 
   test('Filtering is case sensitive when caseSensitiveFilter is set to true', () => {
-    const wrapper = sortTable({ showFilter: true, caseSensitiveFilter: true });
     const expectedNamesSorted = ['Heavy Cream', 'Sour Cream'];
 
     // test set-up - ensure expected is in data
@@ -67,38 +56,33 @@ describe('Sort Table Filtering (without pagination)', () => {
     const index = headers.findIndex((header) => header.key === 'name');
 
     // test start
-    wrapper
-      .find('[data-filter-input]')
-      .simulate('change', { target: { value: 'm' } })
-      .update();
+    const wrapper = sortTable(
+      { showFilter: true, caseSensitiveFilter: true },
+      { filter: 'm' }
+    );
 
     expect(columnText(wrapper, index)).toEqual(expectedNamesSorted);
   });
 
   test('Table summary changes with filtering', () => {
-    const wrapper = sortTable({ showFilter: true });
+    // Unfiltered
+    let wrapper = sortTable({ showFilter: true });
     expect(wrapper.find('[data-pagination-summary]').text()).toEqual(
       `Showing ${data.length} entries`
     );
 
-    wrapper
-      .find('[data-filter-input]')
-      .simulate('change', { target: { value: 'M' } })
-      .update();
-
+    // Filtered
+    wrapper = sortTable({ showFilter: true }, { filter: 'M' });
     expect(wrapper.find('[data-pagination-summary]').text()).toEqual(
       `Showing 3 entries(filtered from ${data.length} total entries)`
     );
   });
 
   test('Aria row count is correct and does not change with filtering', () => {
-    const wrapper = sortTable({ showFilter: true });
+    let wrapper = sortTable({ showFilter: true });
     expect(wrapper.find('table').props()['aria-rowcount']).toEqual(data.length);
 
-    wrapper
-      .find('[data-filter-input]')
-      .simulate('change', { target: { value: 'M' } })
-      .update();
+    wrapper = sortTable({ showFilter: true }, { filter: 'M' });
 
     expect(wrapper.find('tbody tr')).not.toEqual(data.length);
     expect(wrapper.find('table').props()['aria-rowcount']).toEqual(data.length);
