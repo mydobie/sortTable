@@ -1,5 +1,5 @@
 {
-  "name": "sort-table",
+  "name": "@mydobie/sort_table",
   "version": "3.0.0",
   "main": "SortTable.js",
   "types": "SortTable.d.ts",
