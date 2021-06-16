@@ -1,0 +1,51 @@
+@media screen and (max-width: 600px) {
+  table[data-sort-responsive] {
+    border: 0;
+  }
+
+  table[data-sort-responsive] caption {
+    font-size: 1.3em;
+    caption-side: top;
+  }
+
+  table[data-sort-responsive] thead {
+    border: none;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+
+  table[data-sort-responsive] tr {
+    border-bottom: 3px solid #ddd;
+    display: block;
+    margin-bottom: 0.625em;
+  }
+
+  table[data-sort-responsive] td {
+    border-bottom: 1px solid #ddd;
+    display: block;
+    font-size: 0.8em;
+    text-align: right;
+    min-height: 2em;
+  }
+  table[data-sort-responsive] tbody th {
+    border-bottom: 1px solid #ddd;
+    border-top: 0;
+    display: block;
+  }
+
+  table[data-sort-responsive] td::before {
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+
+  table[data-sort-responsive] td:last-child {
+    border-bottom: 0;
+  }
+}

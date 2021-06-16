@@ -8,3 +8,4 @@ src/setupTests.js
 npm-cache/
 /docs
 /dist
+/lib

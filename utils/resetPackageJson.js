@@ -18,10 +18,11 @@ const newPackageJSON = {
   husky: {},
   jest: {},
   browserslist: {},
+  files: ['**/*'],
 };
 
 fs.writeFileSync(
-  path.join(__dirname, '../dist/package.json'),
+  path.join(__dirname, '../lib/package.json'),
   JSON.stringify(newPackageJSON)
 );
 

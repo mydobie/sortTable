@@ -1,0 +1,20 @@
+[data-skip-pagination-link] {
+  position: absolute;
+  left: -999999px;
+  width: 1px;
+  overflow: hidden;
+  padding: 0.1em;
+}
+
+[data-skip-pagination-link]:focus {
+  position: inherit;
+  overflow: visible;
+}
+
+[data-skip-pagination-wrapper] {
+  margin-top: -1.6em;
+  min-height: 1.6em;
+}
+[data-pagination-summary] {
+  margin-bottom: 1.6em;
+}
