@@ -119,13 +119,22 @@ const SortTable = (props: Props): JSX.Element => {
     if (sortCol && sortAscending !== undefined) {
       const newSortData = [...tableDisplayRows]
         .sort((a, b) => {
+          if (a[sortCol] === b[sortCol]) {
+            return 0;
+          }
+          if (a[sortCol] === undefined) {
+            return sortAscending === false ? -1 : 1;
+          }
+          if (b[sortCol] === undefined) {
+            return sortAscending === true ? -1 : 1;
+          }
+
           if (a[sortCol] < b[sortCol]) {
             return sortAscending === true ? -1 : 1;
           }
-          if (a[sortCol] > b[sortCol]) {
-            return sortAscending === false ? -1 : 1;
-          }
-          return 0;
+          // if (a[sortCol] > b[sortCol]) {
+          return sortAscending === false ? -1 : 1;
+          // }
         })
         .map((row, index) => ({ ...row, rowindex: index + 2 }));
       setTableDisplayRows(newSortData);

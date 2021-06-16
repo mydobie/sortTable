@@ -8,23 +8,81 @@ import SortTable, {
 } from '../../Components/SortTable';
 
 export const data: tableDataType[] = [
-  { id: 1, name: 'Cheese', price: '$4.90', stock: 20 },
-  { id: 2, name: 'Milk', price: '$1.90', stock: 4 },
-  { id: 3, name: 'Yoghurt', price: '$2.40', stock: 12 },
-  { id: 4, name: 'Heavy Cream', price: '$3.90', stock: 9 },
-  { id: 5, name: 'Butter', price: '$0.90', stock: 99 },
-  { id: 6, name: 'Sour Cream', price: '$2.90', stock: 86 },
+  {
+    id: 1,
+    name: 'Cheese',
+    price: '$4.90',
+    stock: 20,
+    day: 'Friday',
+    saledaynum: 5,
+  },
+  {
+    id: 2,
+    name: 'Milk',
+    price: '$1.90',
+    stock: 4,
+    day: 'Monday',
+    saledaynum: 1,
+  },
+  {
+    id: 3,
+    name: 'Yoghurt',
+    price: '$2.40',
+    stock: 12,
+    day: 'Thursday',
+    saledaynum: 4,
+  },
+  {
+    id: 4,
+    name: 'Heavy Cream',
+    price: '$3.90',
+    stock: 9,
+    day: 'Tuesday',
+    saledaynum: 2,
+  },
+  {
+    id: 5,
+    name: 'Butter',
+    price: '$0.90',
+    stock: 99,
+    day: 'Wednesday',
+    saledaynum: 3,
+  },
+  {
+    id: 6,
+    name: 'Sour Cream',
+    price: '$2.90',
+    stock: 86,
+    day: 'Saturday',
+    saledaynum: 6,
+  },
   {
     id: 7,
     name: 'Fancy French Cheese',
     price: '$99.0',
     stock: 15,
     url: <a href='https://google.com'>hello google</a>,
+    day: 'Sunday',
+    saledaynum: 0,
   },
   { id: 8, name: 'Eggs', price: '$1.90', stock: 86 },
-  { id: 9, name: 'Ricotta Cheese', price: '$3.99', stock: 6 },
+  {
+    id: 9,
+    name: 'Ricotta Cheese',
+    price: '$3.99',
+    stock: 6,
+    day: 'Saturday',
+    saledaynum: 6,
+  },
   { id: 10, name: 'Frozen Custard', price: '$5.50', stock: 11 },
-  { id: 11, name: 'Whey Powder', price: '$15.90', stock: 8 },
+  {
+    id: 11,
+    name: 'Whey Powder',
+    price: '$15.90',
+    stock: 8,
+    day: 'Wednesday',
+    saledaynum: 3,
+  },
 ];
 export const headers: headerDataType[] = [
   { name: 'Price', key: 'price', className: 'myCustomPriceClass' },
@@ -34,6 +92,12 @@ export const headers: headerDataType[] = [
     key: 'stock',
     type: 'number',
     noFilter: true,
+  },
+  {
+    name: 'Sale day',
+    key: 'day',
+    type: 'size',
+    sortKey: 'saledaynum',
   },
   {
     name: 'Link',
@@ -109,8 +173,8 @@ export const sortTable = (
 export const columnText = (wrapper, columnIndex: number) => {
   const rows = wrapper.find('tbody tr');
 
-  return rows.map((row) =>
-    row.find('[data-sorttable-data-cell]').at(columnIndex).text()
+  return rows.map(
+    (row) => row.find('[data-sorttable-data-cell]').at(columnIndex).text() ?? ''
   );
 };
 

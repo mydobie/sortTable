@@ -32,9 +32,36 @@ describe('Sort Table Rendering', () => {
     expect(firstRow.children().at(rowHeaderIndex).type()).toEqual('th');
   });
 
-  test.todo('Components are rendered in a data cell');
+  test('Components are rendered in a data cell', () => {
+    const dataHtml = [
+      { id: 1, name: <strong>Cheese</strong>, price: '$4.90', stock: 20 },
+    ];
+    const wrapper = sortTable({
+      tableData: dataHtml,
+    });
+    const nameIndex = headers.findIndex((row) => row.key === 'name');
+    expect(nameIndex).not.toBeUndefined();
 
-  test.todo('DangerouslySetInnerHTML allows for rendered html');
+    expect(
+      wrapper.find('tbody tr').children().at(nameIndex).find('strong')
+    ).toHaveLength(1);
+  });
+
+  test('DangerouslySetInnerHTML allows for rendered html', () => {
+    const dataHtml = [
+      { id: 1, name: '<strong>Cheese</strong>', price: '$4.90', stock: 20 },
+    ];
+    const wrapper = sortTable({
+      dangerouslySetInnerHTML: true,
+      tableData: dataHtml,
+    });
+    const nameIndex = headers.findIndex((row) => row.key === 'name');
+    expect(nameIndex).not.toBeUndefined();
+
+    expect(wrapper.find('tbody tr').children().at(nameIndex).html()).toMatch(
+      /<span><strong>Cheese<\/strong><\/span>/
+    );
+  });
 
   test('Filtering text box is not shown by default', () => {
     expect(sortTable().find('[data-filter]')).toHaveLength(0);
@@ -145,6 +172,12 @@ describe('Sort Table Rendering', () => {
       expect(results).toHaveNoViolations();
     });
 
-    test.todo('Is accessible with pagination drop down');
+    test('Is accessible with pagination drop down', async () => {
+      const wrapper = sortTable({ showPagination: true }, { viewSet: 1 });
+      const results = await axe(`<main>${wrapper.html()}</main>`);
+      expect(wrapper.find('[data-pagination-select]')).toHaveLength(1);
+
+      expect(results).toHaveNoViolations();
+    });
   });
 });

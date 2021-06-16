@@ -85,7 +85,7 @@ function App() {
       <SortTable
         tableData={data}
         headers={headers}
-        initialSort='name'
+        initialSort='month'
         showFilter
         showPagination
         viewSteps={[2, 4, 50]}

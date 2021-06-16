@@ -140,7 +140,7 @@ describe('Sort Table Sorting', () => {
     );
   });
 
-  test.only('Clicking on an unsorted number column, sorts the column', () => {
+  test('Clicking on an unsorted number column, sorts the column', () => {
     const sortedData = data
       .map((row) => parseInt(row.stock, 10))
       .sort((a, b) => (a === b ? 0 : a - b));
@@ -162,11 +162,94 @@ describe('Sort Table Sorting', () => {
     expect(stockColumn).toEqual(sortedData);
   });
 
-  test.todo(
-    'Clicking on column with a sortKey sorts according to the sortKey value'
-  );
+  test('Column with a sortKey is sorted according to the sortKey value', () => {
+    const wrapper = sortTable({ initialSort: 'day' });
+    const dayIndex = headers.findIndex((header) => header.key === 'day');
 
-  test.todo('Clicking on an undefinded sort type adds the size icon');
-  test.todo('Clicking on an alpha sort type adds the alpha icon');
-  test.todo('Clicking on a size sort type adds the size icon');
+    const sorted = data
+      .sort((a, b) => {
+        const intA = a.saledaynum;
+        const intB = b.saledaynum;
+        if (intA === intB) return 0;
+        if (intA === undefined) return 1;
+        if (intB === undefined) return -1;
+        return intA - intB;
+      })
+      .map((item) => item.day ?? '');
+
+    const dayColumn = columnText(wrapper, dayIndex);
+    expect(dayColumn).toEqual(sorted);
+  });
+
+  test('Undefined data in row is sorted at the bottom', () => {
+    const wrapper = sortTable({ initialSort: 'day' });
+    const dayIndex = headers.findIndex((header) => header.key === 'day');
+
+    // ensure at least one row has a missing saledaynum column
+    expect(data.some((item) => item.saledaynum === undefined)).toBeTruthy();
+
+    const sorted = data
+      .sort((a, b) => {
+        const intA = a.saledaynum;
+        const intB = b.saledaynum;
+        if (intA === intB) return 0;
+        if (intA === undefined) return 1;
+        if (intB === undefined) return -1;
+        return intA - intB;
+      })
+      .map((item) => item.day ?? '');
+
+    const dayColumn = columnText(wrapper, dayIndex);
+    expect(dayColumn).toEqual(sorted);
+  });
+
+  test('Sorting on an undefinded sort column type adds the size icon', () => {
+    const undefinedTypeIndex = headers.findIndex(
+      (header) => header.type === undefined
+    );
+    expect(undefinedTypeIndex).not.toBeUndefined();
+
+    const wrapper = sortTable({
+      initialSort: headers[undefinedTypeIndex].key,
+    });
+
+    expect(
+      wrapper
+        .find('thead th')
+        .at(undefinedTypeIndex)
+        .find('button svg path[data-icontype="defaultAscending"]')
+    ).toHaveLength(1);
+  });
+  test('Sorting on an alpha sort column type adds the alpha icon', () => {
+    const alphaTypeIndex = headers.findIndex(
+      (header) => header.type === 'alpha'
+    );
+    expect(alphaTypeIndex).not.toBeUndefined();
+
+    const wrapper = sortTable({
+      initialSort: headers[alphaTypeIndex].key,
+    });
+
+    expect(
+      wrapper
+        .find('thead th')
+        .at(alphaTypeIndex)
+        .find('button svg path[data-icontype="alphaAscending"]')
+    ).toHaveLength(1);
+  });
+  test('Sorting on a size sort column type adds the size icon', () => {
+    const sizeTypeIndex = headers.findIndex((header) => header.type === 'size');
+    expect(sizeTypeIndex).not.toBeUndefined();
+
+    const wrapper = sortTable({
+      initialSort: headers[sizeTypeIndex].key,
+    });
+
+    expect(
+      wrapper
+        .find('thead th')
+        .at(sizeTypeIndex)
+        .find('button svg path[data-icontype="defaultAscending"]')
+    ).toHaveLength(1);
+  });
 });

@@ -22,6 +22,12 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
         "type": "number",
       },
       Object {
+        "key": "day",
+        "name": "Sale day",
+        "sortKey": "saledaynum",
+        "type": "size",
+      },
+      Object {
         "key": "url",
         "name": "Link",
         "noFilter": true,
@@ -37,52 +43,66 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
   tableData={
     Array [
       Object {
+        "day": "Friday",
         "hide": false,
         "id": 1,
         "name": "Cheese",
         "price": "$4.90",
+        "saledaynum": 5,
         "stock": 20,
       },
       Object {
+        "day": "Monday",
         "hide": false,
         "id": 2,
         "name": "Milk",
         "price": "$1.90",
+        "saledaynum": 1,
         "stock": 4,
       },
       Object {
+        "day": "Thursday",
         "hide": false,
         "id": 3,
         "name": "Yoghurt",
         "price": "$2.40",
+        "saledaynum": 4,
         "stock": 12,
       },
       Object {
+        "day": "Tuesday",
         "hide": false,
         "id": 4,
         "name": "Heavy Cream",
         "price": "$3.90",
+        "saledaynum": 2,
         "stock": 9,
       },
       Object {
+        "day": "Wednesday",
         "hide": false,
         "id": 5,
         "name": "Butter",
         "price": "$0.90",
+        "saledaynum": 3,
         "stock": 99,
       },
       Object {
+        "day": "Saturday",
         "hide": false,
         "id": 6,
         "name": "Sour Cream",
         "price": "$2.90",
+        "saledaynum": 6,
         "stock": 86,
       },
       Object {
+        "day": "Sunday",
         "hide": false,
         "id": 7,
         "name": "Fancy French Cheese",
         "price": "$99.0",
+        "saledaynum": 0,
         "stock": 15,
         "url": <a
           href="https://google.com"
@@ -98,10 +118,12 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
         "stock": 86,
       },
       Object {
+        "day": "Saturday",
         "hide": false,
         "id": 9,
         "name": "Ricotta Cheese",
         "price": "$3.99",
+        "saledaynum": 6,
         "stock": 6,
       },
       Object {
@@ -112,10 +134,12 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
         "stock": 11,
       },
       Object {
+        "day": "Wednesday",
         "hide": false,
         "id": 11,
         "name": "Whey Powder",
         "price": "$15.90",
+        "saledaynum": 3,
         "stock": 8,
       },
     ]
@@ -387,6 +411,52 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
               </button>
             </th>
             <th
+              key="day"
+              scope="col"
+            >
+              <button
+                onClick={[Function]}
+                style={
+                  Object {
+                    "background": "none",
+                    "border": "none",
+                    "padding": "none",
+                    "textAlign": "left",
+                    "width": "100%",
+                  }
+                }
+                type="button"
+              >
+                <SortIcons
+                  color="#ccc"
+                  sortAsc={true}
+                  type="sortable"
+                >
+                  <svg
+                    aria-label="Sortable"
+                    role="img"
+                    style={
+                      Object {
+                        "display": "inline-block",
+                        "height": "20px",
+                        "paddingRight": "5px",
+                        "width": "20px",
+                      }
+                    }
+                    viewBox="0 0 448 512"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M176 352h-48V48a16 16 0 0 0-16-16H80a16 16 0 0 0-16 16v304H16c-14.19 0-21.36 17.24-11.29 27.31l80 96a16 16 0 0 0 22.62 0l80-96C197.35 369.26 190.22 352 176 352zm203.29-219.31l-80-96a16 16 0 0 0-22.62 0l-80 96C186.65 142.74 193.78 160 208 160h48v304a16 16 0 0 0 16 16h32a16 16 0 0 0 16-16V160h48c14.19 0 21.36-17.24 11.29-27.31z"
+                      data-icontype="sortable"
+                      fill="#ccc"
+                    />
+                  </svg>
+                </SortIcons>
+                Sale day
+              </button>
+            </th>
+            <th
               key="url"
               scope="col"
               style={
@@ -426,6 +496,13 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
               20
             </td>
             <td
+              data-label="Sale day"
+              data-sorttable-data-cell={true}
+              key="1day"
+            >
+              Friday
+            </td>
+            <td
               data-label="Link"
               data-sorttable-data-cell={true}
               key="1url"
@@ -455,6 +532,13 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
               key="2stock"
             >
               4
+            </td>
+            <td
+              data-label="Sale day"
+              data-sorttable-data-cell={true}
+              key="2day"
+            >
+              Monday
             </td>
             <td
               data-label="Link"

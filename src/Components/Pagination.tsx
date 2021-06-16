@@ -63,6 +63,7 @@ const Pagination = (props: Props) => {
           style={{ width: '6em' }}
           onChange={(event) => setActivePage(parseInt(event.target.value, 10))}
           value={activePage}
+          aria-label='Show page number'
           data-pagination-select
         >
           {options}
