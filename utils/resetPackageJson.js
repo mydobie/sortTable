@@ -18,6 +18,7 @@ const newPackageJSON = {
   husky: {},
   jest: {},
   browserslist: {},
+  files: ['**/*'],
 };
 
 fs.writeFileSync(
