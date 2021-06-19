@@ -474,14 +474,12 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
             key="1"
           >
             <td
-              data-label="Price"
               data-sorttable-data-cell={true}
               key="1price"
             >
               $4.90
             </td>
             <th
-              data-label="Product Name"
               data-sorttable-data-cell={true}
               key="1name"
               scope="row"
@@ -489,21 +487,18 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
               Cheese
             </th>
             <td
-              data-label="Stock"
               data-sorttable-data-cell={true}
               key="1stock"
             >
               20
             </td>
             <td
-              data-label="Sale day"
               data-sorttable-data-cell={true}
               key="1day"
             >
               Friday
             </td>
             <td
-              data-label="Link"
               data-sorttable-data-cell={true}
               key="1url"
             />
@@ -512,14 +507,12 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
             key="2"
           >
             <td
-              data-label="Price"
               data-sorttable-data-cell={true}
               key="2price"
             >
               $1.90
             </td>
             <th
-              data-label="Product Name"
               data-sorttable-data-cell={true}
               key="2name"
               scope="row"
@@ -527,21 +520,18 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
               Milk
             </th>
             <td
-              data-label="Stock"
               data-sorttable-data-cell={true}
               key="2stock"
             >
               4
             </td>
             <td
-              data-label="Sale day"
               data-sorttable-data-cell={true}
               key="2day"
             >
               Monday
             </td>
             <td
-              data-label="Link"
               data-sorttable-data-cell={true}
               key="2url"
             />
