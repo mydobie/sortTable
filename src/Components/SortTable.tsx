@@ -193,7 +193,10 @@ const SortTable = (props: Props): JSX.Element => {
   };
 
   const buildHeaders = (
-    <tr aria-rowindex={showPagination ? 1 : undefined}>
+    <tr
+      aria-rowindex={showPagination ? 1 : undefined}
+      role={isResponsive ? 'row' : undefined}
+    >
       {headers.map((header) => (
         <th
           scope='col'
@@ -201,6 +204,7 @@ const SortTable = (props: Props): JSX.Element => {
           aria-sort={setAriaSort(header.key)}
           style={header.style}
           className={header.className}
+          role={isResponsive ? 'columnheader' : undefined}
         >
           {headerButton(header)}
         </th>
@@ -213,6 +217,7 @@ const SortTable = (props: Props): JSX.Element => {
     <tr
       key={rowData.id}
       aria-rowindex={showPagination ? rowData.rowindex : undefined}
+      role={isResponsive ? 'row' : undefined}
     >
       {headers.map((header) => {
         const data = dangerouslySetInnerHTML ? (
@@ -227,7 +232,7 @@ const SortTable = (props: Props): JSX.Element => {
               scope='row'
               key={`${rowData.id}${header.key}`}
               data-sorttable-data-cell
-              data-label={header.name}
+              role={isResponsive ? 'rowheader' : undefined}
             >
               {data}
             </th>
@@ -237,8 +242,13 @@ const SortTable = (props: Props): JSX.Element => {
           <td
             key={`${rowData.id}${header.key}`}
             data-sorttable-data-cell
-            data-label={header.name}
+            role={isResponsive ? 'cell' : undefined}
           >
+            {isResponsive ? (
+              <span aria-hidden data-responsive-header>
+                {header.name}
+              </span>
+            ) : null}
             {data}
           </td>
         );
@@ -375,10 +385,20 @@ const SortTable = (props: Props): JSX.Element => {
             showPagination || showFilter ? tableDisplayRows.length : undefined
           }
           data-sort-responsive={isResponsive ?? undefined}
+          role={isResponsive ? 'table' : undefined}
         >
           {caption ? <caption>{caption}</caption> : null}
-          <thead className={headerClassName}>{buildHeaders}</thead>
-          {!isLoading ? <tbody>{buildData()}</tbody> : null}
+          <thead
+            className={headerClassName}
+            role={isResponsive ? 'rowgroup' : undefined}
+          >
+            {buildHeaders}
+          </thead>
+          {!isLoading ? (
+            <tbody role={isResponsive ? 'rowgroup' : undefined}>
+              {buildData()}
+            </tbody>
+          ) : null}
         </table>
         {tableDisplayRows.findIndex((row) => !row.hide) === -1
           ? allFiltered
