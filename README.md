@@ -161,6 +161,14 @@ The following props are available to be sent to the `SortTable` component:
     <td>"sortTable"</td>
     <td>Id applied to the table.  If there is more than one sortTable on the screen at once, this must be set to a unique value.</td>
   </tr>
+   <tr>
+    <td>emptyCellClassName</td>
+    <td>string</td>
+    <td>no</td>
+    <td>(no default)</td>
+    <td>This class will be applied to any <code>td</code> tag where the value is empty or undefined.  This can be used enter a value via css.  Example: <code>.emptyCell:after {content 'not known' } </code>
+    </td>
+  </tr>
   <tr>
     <td>initialSort</td>
     <td>string</td>

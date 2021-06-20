@@ -150,6 +150,52 @@ describe('Sort Table Rendering', () => {
         color
       );
     });
+
+    test('Non empty cells does not have custom empty css class name', () => {
+      const urlIndex = headers.findIndex((header) => header.key === 'url');
+      const index = data.findIndex(
+        (row) => row.url !== undefined && row.url !== ''
+      );
+
+      expect(urlIndex).not.toEqual(-1);
+      expect(index).not.toEqual(-1);
+
+      const wrapper = sortTable({ emptyCellClassName: 'myCustomCSSClassName' });
+
+      expect(
+        wrapper.find('tbody tr').at(index).childAt(urlIndex).prop('className')
+      ).not.toEqual('myCustomCSSClassName');
+    });
+
+    test('Empty cell class is applied to undefined value', () => {
+      const urlIndex = headers.findIndex((header) => header.key === 'url');
+      const index = data.findIndex((row) => row.url === undefined);
+
+      expect(urlIndex).not.toEqual(-1);
+      expect(index).not.toEqual(-1);
+
+      const wrapper = sortTable({ emptyCellClassName: 'myCustomCSSClassName' });
+
+      expect(
+        wrapper.find('tbody tr').at(index).childAt(urlIndex).prop('className')
+      ).toEqual('myCustomCSSClassName');
+    });
+
+    test('Empty cell class is applied to value that is empty', () => {
+      const urlIndex = headers.findIndex((header) => header.key === 'url');
+      const index = data.findIndex((row) => row.url === '');
+
+      expect(urlIndex).not.toEqual(-1);
+      expect(index).not.toEqual(-1);
+
+      const wrapper = sortTable({
+        emptyCellClassName: 'myCustomCSSClassName',
+      });
+
+      expect(
+        wrapper.find('tbody tr').at(index).childAt(urlIndex).prop('className')
+      ).toEqual('myCustomCSSClassName');
+    });
   });
 
   describe('Accessibility', () => {

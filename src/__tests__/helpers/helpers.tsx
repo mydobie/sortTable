@@ -15,6 +15,7 @@ export const data: tableDataType[] = [
     stock: 20,
     day: 'Friday',
     saledaynum: 5,
+    url: '',
   },
   {
     id: 2,

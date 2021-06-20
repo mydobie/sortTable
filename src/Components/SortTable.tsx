@@ -41,6 +41,7 @@ interface Props {
   caseSensitiveFilter?: boolean;
   dangerouslySetInnerHTML?: boolean; // Used very rarely, but should the table process html in a string
   defaultToAll?: boolean;
+  emptyCellClassName?: string;
   headerClassName?: string;
   id?: string;
   initialSort?: headerType; // what column shouold be sorted intially
@@ -76,6 +77,7 @@ const SortTable = (props: Props): JSX.Element => {
     isLoading,
     isLoadingMessage,
     initialSortDsc,
+    emptyCellClassName,
   } = props;
 
   const sortTableId = id ?? 'sortTable';
@@ -233,6 +235,7 @@ const SortTable = (props: Props): JSX.Element => {
               key={`${rowData.id}${header.key}`}
               data-sorttable-data-cell
               role={isResponsive ? 'rowheader' : undefined}
+              className={!data ? emptyCellClassName : undefined}
             >
               {data}
             </th>
@@ -243,6 +246,7 @@ const SortTable = (props: Props): JSX.Element => {
             key={`${rowData.id}${header.key}`}
             data-sorttable-data-cell
             role={isResponsive ? 'cell' : undefined}
+            className={!data ? emptyCellClassName : undefined}
           >
             {isResponsive ? (
               <span aria-hidden data-responsive-header>

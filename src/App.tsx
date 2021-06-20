@@ -27,6 +27,7 @@ function App() {
       stock: 20,
       month: 'June',
       monthValue: 6,
+      url: '',
     },
     {
       id: 2,
@@ -35,6 +36,7 @@ function App() {
       stock: 4,
       month: 'April',
       monthValue: 4,
+      url: ' ',
     },
     {
       id: 3,
@@ -81,6 +83,18 @@ function App() {
 
   return (
     <div>
+      <style
+        // eslint-disable-next-line react/no-danger
+        dangerouslySetInnerHTML={{
+          __html: `
+            .emptyCell:after{   
+              content: "unknown";
+              font-style: italic;
+              color: #6e6e6e;
+            }
+            `,
+        }}
+      />
       <h1>Sample Filtering and Sorting Table</h1>
       <SortTable
         tableData={data}
@@ -93,6 +107,7 @@ function App() {
         tableClassName='table-hover table-sm'
         defaultToAll
         isResponsive
+        emptyCellClassName='emptyCell'
         // headerClassName='table-dark'
       />
       <hr />

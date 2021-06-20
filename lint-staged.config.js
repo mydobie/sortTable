@@ -5,7 +5,7 @@ module.exports = {
     (jsFiles) => jsFiles.map((jsFile) => `npm run lint:js ${jsFile}`), // check files
   ],
 
-  'src/**/*.{html,md,json}': [
+  'src/**/*.{html, md, json}': [
     (htmlFiles) => htmlFiles.map((htmlFile) => `npm run prettier ${htmlFile}`), // check files
   ],
 };
