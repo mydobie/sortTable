@@ -8,7 +8,8 @@ import Pagination from './Pagination';
 import Filter from './Filter';
 import Loading from './Loading';
 import List from './List';
-import './responsive.css';
+
+const ResponsiveCss = React.lazy(() => import('./ResponsiveCss'));
 
 export type tableDataType = {
   [key: string]: any;
@@ -363,6 +364,9 @@ const SortTable = (props: Props): JSX.Element => {
   }
   return (
     <div className='container-fluid'>
+      <React.Suspense fallback={<></>}>
+        {isResponsive && !isResponsiveList ? <ResponsiveCss /> : null}
+      </React.Suspense>
       <div
         className='row'
         style={{ marginBottom: showPagination || showFilter ? '15px' : '0' }}

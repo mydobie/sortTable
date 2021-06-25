@@ -201,9 +201,17 @@ The following props are available to be sent to the `SortTable` component:
     <td>isResponsive</td>
     <td>boolean</td>
     <td>no</td>
-    <td></td>
+    <td>false/td>
     <td>When set, css will be applied so the table displays as a list on small screens.  Note:  This works best when the row header is the first cell in a row.</td>
   </tr>
+  <tr>
+    <td>isResponsiveList</td>
+    <td>boolean</td>
+    <td>no</td>
+    <td>false</td>
+    <td>When set, the responsive view will be a definition list instead of a table.  This provides more accessibility support when viewing in responsive mode.  Note:  Both the table and definition list will be in the DOM and CSS is used to hide/show the proper version.  If the table is very large, this may cause performance issues.  `isResponsive` must not be set as a prop in order for this feature to be active. </td>
+  </tr>
+
   <tr>
     <td>noDataMessage</td>
     <td>JSX.Element</td>

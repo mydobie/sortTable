@@ -1,5 +1,6 @@
 import React from 'react';
 import { headerDataType, tableDataType } from './SortTable';
+import './responsivelist.css';
 
 type listProps = {
   headers: headerDataType[];
@@ -13,7 +14,7 @@ const ListRow = (props: {
   const { header, tableData } = props;
   return (
     <>
-      <dt className='float-left float-start'>{header.name}</dt>
+      <dt>{header.name}</dt>
       <dd>{tableData[header.key]}</dd>
     </>
   );

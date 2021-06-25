@@ -17,11 +17,6 @@ table[data-sort-responsive] td span[data-responsive-header] {
     position: absolute;
   }
 
-  table[data-sort-responsive] thead {
-    position: absolute;
-    left: -999999px;
-  }
-
   table[data-sort-responsive] td span[data-responsive-header] {
     display: block;
     float: left;
@@ -34,55 +29,19 @@ table[data-sort-responsive] td span[data-responsive-header] {
     display: block;
     margin-bottom: 0.625em;
   }
-
-  table[data-sort-responsive] td {
-    border-bottom: 1px solid #ddd;
-    display: block;
-    font-size: 0.8em;
-    text-align: right;
-    min-height: 2em;
-  }
-
+  table[data-sort-responsive] td,
   table[data-sort-responsive] th {
     border-bottom: 1px solid #ddd;
     display: block;
-    font-size: 1.2em;
     min-height: 2em;
   }
-}
 
-/* ******************************* */
-
-div[data-sort-responsive-list] {
-  display: none;
-}
-
-@media screen and (max-width: 600px) {
-  table[data-sort-responsive-has-list] {
-    display: none;
-  }
-
-  div[data-sort-responsive-list] {
-    display: block;
-    width: 100%;
-    padding: 10px;
-  }
-
-  div[data-sort-responsive-list] dd {
+  table[data-sort-responsive] td {
+    font-size: 0.8em;
     text-align: right;
-    border-bottom: 1px solid #ddd;
-    min-height: 1.6em;
   }
-  div[data-sort-responsive-list] dl {
-    border-bottom: 3px solid #ddd;
-  }
-  div[data-sort-responsive-list] dl dt:first-child {
-    position: absolute;
-    left: -999999px;
-  }
-  div[data-sort-responsive-list] dl dd:first-of-type {
-    font-weight: bold;
-    text-transform: uppercase;
-    text-align: left;
+
+  table[data-sort-responsive] th {
+    font-size: 1.2em;
   }
 }

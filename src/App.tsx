@@ -139,7 +139,11 @@ function App() {
           {process.env.REACT_APP_GIT_SHA}
         </li>
         <li>
-          <strong>Bootstrap Version: </strong>
+          <strong>React Version: </strong>
+          {React.version}
+        </li>
+        <li>
+          <strong>Bootstrap CSS Version: </strong>
           {devDependencies.bootstrap}
         </li>
       </ul>
