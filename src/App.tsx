@@ -3,6 +3,8 @@ import SortTable, {
   tableDataType,
   headerDataType,
 } from './Components/SortTable';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import { devDependencies } from '../package.json';
 
 function App() {
   const headers: headerDataType[] = [
@@ -96,7 +98,9 @@ function App() {
         }}
       />
       <h1>Sample Filtering and Sorting Table</h1>
+      <h2>Responsive using modified CSS</h2>
       <SortTable
+        id='sampleTable1'
         tableData={data}
         headers={headers}
         initialSort='month'
@@ -108,21 +112,35 @@ function App() {
         defaultToAll
         isResponsive
         emptyCellClassName='emptyCell'
-        // headerClassName='table-dark'
+      />
+      <hr />
+      <h2>Responsive using definition list</h2>
+      <SortTable
+        id='sampleTable2'
+        tableData={data}
+        headers={headers}
+        initialSort='month'
+        caption='Store inventory'
+        tableClassName='table-hover table-sm'
+        isResponsiveList
       />
       <hr />
       <ul>
         <li>
-          <strong>Project Name:</strong>
+          <strong>Project Name: </strong>
           {process.env.REACT_APP_NAME}
         </li>
         <li>
-          <strong>Project Version:</strong>
+          <strong>Project Version: </strong>
           {process.env.REACT_APP_VERSION}
         </li>
         <li>
-          <strong>Git Commit:</strong>
+          <strong>Git Commit: </strong>
           {process.env.REACT_APP_GIT_SHA}
+        </li>
+        <li>
+          <strong>Bootstrap Version: </strong>
+          {devDependencies.bootstrap}
         </li>
       </ul>
     </div>

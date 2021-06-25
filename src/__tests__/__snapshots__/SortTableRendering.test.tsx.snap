@@ -60,7 +60,6 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
         "price": "$1.90",
         "saledaynum": 1,
         "stock": 4,
-        "url": " ",
       },
       Object {
         "day": "Thursday",
@@ -536,9 +535,7 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
             <td
               data-sorttable-data-cell={true}
               key="2url"
-            >
-               
-            </td>
+            />
           </tr>
         </tbody>
       </table>

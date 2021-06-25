@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* Component to create a sortable and filterable table
 Like a lightweight data tables (https://datatables.net/)
 */
@@ -8,6 +7,7 @@ import SortIcons from './SortIcons';
 import Pagination from './Pagination';
 import Filter from './Filter';
 import Loading from './Loading';
+import List from './List';
 import './responsive.css';
 
 export type tableDataType = {
@@ -49,6 +49,7 @@ interface Props {
   isLoading?: boolean;
   isLoadingMessage?: JSX.Element;
   isResponsive?: boolean;
+  isResponsiveList?: boolean;
   noDataMessage?: JSX.Element;
   showFilter?: boolean;
   showPagination?: boolean;
@@ -69,6 +70,7 @@ const SortTable = (props: Props): JSX.Element => {
     caseSensitiveFilter,
     id,
     isResponsive,
+    isResponsiveList,
     caption,
     tableClassName,
     headerClassName,
@@ -197,7 +199,7 @@ const SortTable = (props: Props): JSX.Element => {
   const buildHeaders = (
     <tr
       aria-rowindex={showPagination ? 1 : undefined}
-      role={isResponsive ? 'row' : undefined}
+      role={isResponsive && !isResponsiveList ? 'row' : undefined}
     >
       {headers.map((header) => (
         <th
@@ -206,7 +208,7 @@ const SortTable = (props: Props): JSX.Element => {
           aria-sort={setAriaSort(header.key)}
           style={header.style}
           className={header.className}
-          role={isResponsive ? 'columnheader' : undefined}
+          role={isResponsive && !isResponsiveList ? 'columnheader' : undefined}
         >
           {headerButton(header)}
         </th>
@@ -219,7 +221,7 @@ const SortTable = (props: Props): JSX.Element => {
     <tr
       key={rowData.id}
       aria-rowindex={showPagination ? rowData.rowindex : undefined}
-      role={isResponsive ? 'row' : undefined}
+      role={isResponsive && !isResponsiveList ? 'row' : undefined}
     >
       {headers.map((header) => {
         const data = dangerouslySetInnerHTML ? (
@@ -234,7 +236,7 @@ const SortTable = (props: Props): JSX.Element => {
               scope='row'
               key={`${rowData.id}${header.key}`}
               data-sorttable-data-cell
-              role={isResponsive ? 'rowheader' : undefined}
+              role={isResponsive && !isResponsiveList ? 'rowheader' : undefined}
               className={!data ? emptyCellClassName : undefined}
             >
               {data}
@@ -245,10 +247,10 @@ const SortTable = (props: Props): JSX.Element => {
           <td
             key={`${rowData.id}${header.key}`}
             data-sorttable-data-cell
-            role={isResponsive ? 'cell' : undefined}
+            role={isResponsive && !isResponsiveList ? 'cell' : undefined}
             className={!data ? emptyCellClassName : undefined}
           >
-            {isResponsive ? (
+            {isResponsive && !isResponsiveList ? (
               <span aria-hidden data-responsive-header>
                 {header.name}
               </span>
@@ -261,16 +263,15 @@ const SortTable = (props: Props): JSX.Element => {
   );
 
   /* ********************************* */
-  const buildData = () => {
-    const rows =
-      !showPagination || !maxNumber
-        ? tableDisplayRows.filter((row) => !row.hide)
-        : tableDisplayRows
-            .filter((row) => !row.hide)
-            .slice(startRow, startRow + maxNumber);
+  const displayRows = () =>
+    !showPagination || !maxNumber
+      ? tableDisplayRows.filter((row) => !row.hide)
+      : tableDisplayRows
+          .filter((row) => !row.hide)
+          .slice(startRow, startRow + maxNumber);
 
-    return rows.map((row) => buildDataRow(row));
-  };
+  /* ********************************* */
+  const buildData = () => displayRows().map((row) => buildDataRow(row));
 
   /* ********************************* */
   const filterRows = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -388,22 +389,32 @@ const SortTable = (props: Props): JSX.Element => {
           aria-rowcount={
             showPagination || showFilter ? tableDisplayRows.length : undefined
           }
-          data-sort-responsive={isResponsive ?? undefined}
-          role={isResponsive ? 'table' : undefined}
+          data-sort-responsive={
+            (isResponsive && !isResponsiveList) ?? undefined
+          }
+          data-sort-responsive-has-list={isResponsiveList ?? undefined}
+          role={isResponsive && !isResponsiveList ? 'table' : undefined}
         >
           {caption ? <caption>{caption}</caption> : null}
           <thead
             className={headerClassName}
-            role={isResponsive ? 'rowgroup' : undefined}
+            role={isResponsive && !isResponsiveList ? 'rowgroup' : undefined}
           >
             {buildHeaders}
           </thead>
           {!isLoading ? (
-            <tbody role={isResponsive ? 'rowgroup' : undefined}>
+            <tbody
+              role={isResponsive && !isResponsiveList ? 'rowgroup' : undefined}
+            >
               {buildData()}
             </tbody>
           ) : null}
         </table>
+
+        {isResponsiveList ? (
+          <List headers={headers} tableData={displayRows()} />
+        ) : null}
+
         {tableDisplayRows.findIndex((row) => !row.hide) === -1
           ? allFiltered
           : null}

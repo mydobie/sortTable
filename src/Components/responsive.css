@@ -50,3 +50,39 @@ table[data-sort-responsive] td span[data-responsive-header] {
     min-height: 2em;
   }
 }
+
+/* ******************************* */
+
+div[data-sort-responsive-list] {
+  display: none;
+}
+
+@media screen and (max-width: 600px) {
+  table[data-sort-responsive-has-list] {
+    display: none;
+  }
+
+  div[data-sort-responsive-list] {
+    display: block;
+    width: 100%;
+    padding: 10px;
+  }
+
+  div[data-sort-responsive-list] dd {
+    text-align: right;
+    border-bottom: 1px solid #ddd;
+    min-height: 1.6em;
+  }
+  div[data-sort-responsive-list] dl {
+    border-bottom: 3px solid #ddd;
+  }
+  div[data-sort-responsive-list] dl dt:first-child {
+    position: absolute;
+    left: -999999px;
+  }
+  div[data-sort-responsive-list] dl dd:first-of-type {
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: left;
+  }
+}
