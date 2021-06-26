@@ -8,6 +8,7 @@ import Pagination from './Pagination';
 import Filter from './Filter';
 import Loading from './Loading';
 import List from './List';
+import './sortTable.css';
 
 const ResponsiveCss = React.lazy(() => import('./ResponsiveCss'));
 
@@ -45,7 +46,7 @@ interface Props {
   emptyCellClassName?: string;
   headerClassName?: string;
   id?: string;
-  initialSort?: headerType; // what column shouold be sorted intially
+  initialSort?: headerType; // what column should be sorted initially
   initialSortDsc?: boolean;
   isLoading?: boolean;
   isLoadingMessage?: JSX.Element;
@@ -54,6 +55,7 @@ interface Props {
   noDataMessage?: JSX.Element;
   showFilter?: boolean;
   showPagination?: boolean;
+  sortedCellClass?: string;
   tableClassName?: string;
   viewSteps?: number[];
 }
@@ -81,18 +83,21 @@ const SortTable = (props: Props): JSX.Element => {
     isLoadingMessage,
     initialSortDsc,
     emptyCellClassName,
+    sortedCellClass,
   } = props;
 
   const sortTableId = id ?? 'sortTable';
 
   const [tableDisplayRows, setTableDisplayRows] = React.useState(tableData);
-  const [sortCol, setSortCol] = React.useState(''); // sort by this columnn
+  const [sortCol, setSortCol] = React.useState(''); // sort by this column
   const [sortAscending, setSortAscending] = React.useState(true);
   const [filterValue, setFilterValue] = React.useState('');
   const [maxNumber, setMaxNumber] = React.useState(
     defaultToAll || !viewSteps ? null : viewSteps[0]
   );
   const [startRow, setStartRow] = React.useState(0);
+  const [isAlert, setAlert] = React.useState(false);
+  const [alertText, setAlertText] = React.useState('');
 
   const noData: JSX.Element = noDataMessage ?? (
     <p data-sort-no-data-message>No data is available</p>
@@ -137,14 +142,12 @@ const SortTable = (props: Props): JSX.Element => {
           if (a[sortCol] < b[sortCol]) {
             return sortAscending === true ? -1 : 1;
           }
-          // if (a[sortCol] > b[sortCol]) {
           return sortAscending === false ? -1 : 1;
-          // }
         })
         .map((row, index) => ({ ...row, rowindex: index + 2 }));
       setTableDisplayRows(newSortData);
     }
-    // Adding chagne to tableDisplayRows causes an infinate loop
+    // Adding change to tableDisplayRows causes an infinite loop
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortAscending, sortCol]);
 
@@ -164,12 +167,19 @@ const SortTable = (props: Props): JSX.Element => {
         type='button'
         onClick={() => {
           const col = header.sortKey ?? header.key;
+          const isSortAscending = col !== sortCol || !sortAscending;
           if (col !== sortCol) {
-            setSortAscending(true);
+            // setSortAscending(true);
             setSortCol(col);
-          } else {
-            setSortAscending(!sortAscending);
           }
+          setSortAscending(isSortAscending);
+          setAlertText(
+            `Sorted by ${header.name} ${
+              isSortAscending ? 'ascending' : 'descending'
+            }`
+          );
+
+          setAlert(true);
         }}
         style={{
           border: 'none',
@@ -208,7 +218,11 @@ const SortTable = (props: Props): JSX.Element => {
           key={header.key}
           aria-sort={setAriaSort(header.key)}
           style={header.style}
-          className={header.className}
+          className={`${header.className} ${
+            header.key === sortCol || header.sortKey === sortCol
+              ? sortedCellClass
+              : ''
+          }`}
           role={isResponsive && !isResponsiveList ? 'columnheader' : undefined}
         >
           {headerButton(header)}
@@ -231,6 +245,12 @@ const SortTable = (props: Props): JSX.Element => {
         ) : (
           rowData[header.key]
         );
+
+        const className = `${!data ? emptyCellClassName : ''} ${
+          header.key === sortCol || header.sortKey === sortCol
+            ? sortedCellClass
+            : ''
+        }`;
         if (header.rowheader) {
           return (
             <th
@@ -238,7 +258,7 @@ const SortTable = (props: Props): JSX.Element => {
               key={`${rowData.id}${header.key}`}
               data-sorttable-data-cell
               role={isResponsive && !isResponsiveList ? 'rowheader' : undefined}
-              className={!data ? emptyCellClassName : undefined}
+              className={className}
             >
               {data}
             </th>
@@ -249,7 +269,7 @@ const SortTable = (props: Props): JSX.Element => {
             key={`${rowData.id}${header.key}`}
             data-sorttable-data-cell
             role={isResponsive && !isResponsiveList ? 'cell' : undefined}
-            className={!data ? emptyCellClassName : undefined}
+            className={className}
           >
             {isResponsive && !isResponsiveList ? (
               <span aria-hidden data-responsive-header>
@@ -354,7 +374,7 @@ const SortTable = (props: Props): JSX.Element => {
     return `Showing ${
       showPagination ? `${startRow + 1} to ${endRow} of ` : ''
     }${totalFiltered} entries${
-      filterValue === '' ? '' : `(filtered from ${totalRows} total entries)`
+      filterValue === '' ? '' : ` (filtered from ${totalRows} total entries)`
     }`;
   };
 
@@ -374,6 +394,7 @@ const SortTable = (props: Props): JSX.Element => {
         {showPagination ? (
           <div className='col-sm'>{showNumberInput()}</div>
         ) : null}
+
         {showFilter ? (
           <div className='col-sm' style={{ textAlign: 'right' }}>
             <Filter
@@ -386,12 +407,22 @@ const SortTable = (props: Props): JSX.Element => {
         ) : null}
       </div>
       <div className='row'>
+        {isAlert ? (
+          <div data-sort-table-confirm>
+            <div className='alert alert-success' role='alert'>
+              {alertText}
+            </div>
+          </div>
+        ) : null}
+
         <table
           className={`table ${tableClassName}`}
           id={sortTableId}
           aria-describedby={`${sortTableId}RowsShownSummary`}
           aria-rowcount={
-            showPagination || showFilter ? tableDisplayRows.length : undefined
+            showPagination || showFilter
+              ? tableDisplayRows.length + 1
+              : undefined
           }
           data-sort-responsive={
             (isResponsive && !isResponsiveList) ?? undefined

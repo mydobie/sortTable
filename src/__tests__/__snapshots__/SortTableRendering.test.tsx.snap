@@ -156,6 +156,9 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
   <div
     className="container-fluid"
   >
+    <Suspense
+      fallback={<React.Fragment />}
+    />
     <div
       className="row"
       style={
@@ -264,7 +267,7 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
     >
       <table
         aria-describedby="sortTableRowsShownSummary"
-        aria-rowcount={11}
+        aria-rowcount={12}
         className="table undefined"
         id="sortTable"
       >
@@ -273,7 +276,7 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
             aria-rowindex={1}
           >
             <th
-              className="myCustomPriceClass"
+              className="myCustomPriceClass "
               key="price"
               scope="col"
             >
@@ -296,7 +299,7 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
                   type="sortable"
                 >
                   <svg
-                    aria-label="Sortable"
+                    aria-hidden="true"
                     role="img"
                     style={
                       Object {
@@ -320,6 +323,7 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
               </button>
             </th>
             <th
+              className="undefined "
               key="name"
               scope="col"
             >
@@ -342,7 +346,7 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
                   type="sortable"
                 >
                   <svg
-                    aria-label="Sortable"
+                    aria-hidden="true"
                     role="img"
                     style={
                       Object {
@@ -366,6 +370,7 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
               </button>
             </th>
             <th
+              className="undefined "
               key="stock"
               scope="col"
             >
@@ -388,7 +393,7 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
                   type="sortable"
                 >
                   <svg
-                    aria-label="Sortable"
+                    aria-hidden="true"
                     role="img"
                     style={
                       Object {
@@ -412,6 +417,7 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
               </button>
             </th>
             <th
+              className="undefined "
               key="day"
               scope="col"
             >
@@ -434,7 +440,7 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
                   type="sortable"
                 >
                   <svg
-                    aria-label="Sortable"
+                    aria-hidden="true"
                     role="img"
                     style={
                       Object {
@@ -458,6 +464,7 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
               </button>
             </th>
             <th
+              className="undefined "
               key="url"
               scope="col"
               style={
@@ -475,12 +482,14 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
             key="1"
           >
             <td
+              className=" "
               data-sorttable-data-cell={true}
               key="1price"
             >
               $4.90
             </td>
             <th
+              className=" "
               data-sorttable-data-cell={true}
               key="1name"
               scope="row"
@@ -488,18 +497,21 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
               Cheese
             </th>
             <td
+              className=" "
               data-sorttable-data-cell={true}
               key="1stock"
             >
               20
             </td>
             <td
+              className=" "
               data-sorttable-data-cell={true}
               key="1day"
             >
               Friday
             </td>
             <td
+              className="undefined "
               data-sorttable-data-cell={true}
               key="1url"
             />
@@ -508,12 +520,14 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
             key="2"
           >
             <td
+              className=" "
               data-sorttable-data-cell={true}
               key="2price"
             >
               $1.90
             </td>
             <th
+              className=" "
               data-sorttable-data-cell={true}
               key="2name"
               scope="row"
@@ -521,18 +535,21 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
               Milk
             </th>
             <td
+              className=" "
               data-sorttable-data-cell={true}
               key="2stock"
             >
               4
             </td>
             <td
+              className=" "
               data-sorttable-data-cell={true}
               key="2day"
             >
               Monday
             </td>
             <td
+              className="undefined "
               data-sorttable-data-cell={true}
               key="2url"
             />

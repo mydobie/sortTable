@@ -88,36 +88,17 @@ const SortIcons = (props: Props) => {
       icon = sortAsc === true ? defaultAscending : defaultDescending;
   }
 
-  let ariaLabel = 'Sortable';
-
-  if (type !== 'sortable') {
-    ariaLabel = `Sorted ${sortAsc === true ? 'ascending' : 'descending'}`;
-  }
-
   return (
     <svg
       role='img'
       xmlns='http://www.w3.org/2000/svg'
       viewBox='0 0 448 512'
       style={svgStyle}
-      aria-label={ariaLabel}
+      aria-hidden='true'
     >
       {icon}
     </svg>
   );
 };
-
-// SortIcons.propTypes = {
-//   sortAsc: PropTypes.bool, // sort ascending (if false, shows descending icon)
-//   color: PropTypes.string, // color of the icon
-//   size: PropTypes.string, // width and height
-//   type: PropTypes.oneOf(['size', 'alpha', 'sortable']),
-// };
-// SortIcons.defaultProps = {
-//   sortAsc: true,
-//   color: '#000000',
-//   size: '20px',
-//   type: 'size',
-// };
 
 export default SortIcons;

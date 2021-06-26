@@ -89,13 +89,17 @@ describe('Sort Table Pagination', () => {
 
   test('Changing rows shown does not change aria row count', () => {
     let wrapper = sortTable({ showPagination: true });
-    expect(wrapper.find('table').props()['aria-rowcount']).toEqual(data.length);
+    expect(wrapper.find('table').props()['aria-rowcount']).toEqual(
+      data.length + 1
+    );
 
     wrapper = sortTable(
       { showPagination: true, defaultToAll: true },
       { viewSet: 4 }
     );
-    expect(wrapper.find('table').props()['aria-rowcount']).toEqual(data.length);
+    expect(wrapper.find('table').props()['aria-rowcount']).toEqual(
+      data.length + 1
+    );
   });
 
   describe('Page links/buttons', () => {
@@ -323,7 +327,7 @@ describe('Sort Table Pagination', () => {
       );
 
       expect(wrapper.find('[data-pagination-summary]').text()).toEqual(
-        `Showing 1 to 2 of 3 entries(filtered from ${data.length} total entries)`
+        `Showing 1 to 2 of 3 entries (filtered from ${data.length} total entries)`
       );
     });
   });

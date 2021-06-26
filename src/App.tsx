@@ -5,6 +5,7 @@ import SortTable, {
 } from './Components/SortTable';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { devDependencies } from '../package.json';
+import './app.css';
 
 function App() {
   const headers: headerDataType[] = [
@@ -85,18 +86,6 @@ function App() {
 
   return (
     <div>
-      <style
-        // eslint-disable-next-line react/no-danger
-        dangerouslySetInnerHTML={{
-          __html: `
-            .emptyCell:after{   
-              content: "unknown";
-              font-style: italic;
-              color: #6e6e6e;
-            }
-            `,
-        }}
-      />
       <h1>Sample Filtering and Sorting Table</h1>
       <h2>Responsive using modified CSS</h2>
       <SortTable
@@ -112,6 +101,7 @@ function App() {
         defaultToAll
         isResponsive
         emptyCellClassName='emptyCell'
+        sortedCellClass='sortedCellClass'
       />
       <hr />
       <h2>Responsive using definition list</h2>

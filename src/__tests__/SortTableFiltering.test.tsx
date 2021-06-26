@@ -74,17 +74,21 @@ describe('Sort Table Filtering (without pagination)', () => {
     // Filtered
     wrapper = sortTable({ showFilter: true }, { filter: 'M' });
     expect(wrapper.find('[data-pagination-summary]').text()).toEqual(
-      `Showing 3 entries(filtered from ${data.length} total entries)`
+      `Showing 3 entries (filtered from ${data.length} total entries)`
     );
   });
 
   test('Aria row count is correct and does not change with filtering', () => {
     let wrapper = sortTable({ showFilter: true });
-    expect(wrapper.find('table').props()['aria-rowcount']).toEqual(data.length);
+    expect(wrapper.find('table').props()['aria-rowcount']).toEqual(
+      data.length + 1
+    );
 
     wrapper = sortTable({ showFilter: true }, { filter: 'M' });
 
     expect(wrapper.find('tbody tr')).not.toEqual(data.length);
-    expect(wrapper.find('table').props()['aria-rowcount']).toEqual(data.length);
+    expect(wrapper.find('table').props()['aria-rowcount']).toEqual(
+      data.length + 1
+    );
   });
 });

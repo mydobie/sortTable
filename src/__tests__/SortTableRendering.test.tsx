@@ -177,7 +177,12 @@ describe('Sort Table Rendering', () => {
       const wrapper = sortTable({ emptyCellClassName: 'myCustomCSSClassName' });
 
       expect(
-        wrapper.find('tbody tr').at(index).childAt(urlIndex).prop('className')
+        wrapper
+          .find('tbody tr')
+          .at(index)
+          .childAt(urlIndex)
+          .prop('className')
+          .trim()
       ).toEqual('myCustomCSSClassName');
     });
 
@@ -193,7 +198,12 @@ describe('Sort Table Rendering', () => {
       });
 
       expect(
-        wrapper.find('tbody tr').at(index).childAt(urlIndex).prop('className')
+        wrapper
+          .find('tbody tr')
+          .at(index)
+          .childAt(urlIndex)
+          .prop('className')
+          .trim()
       ).toEqual('myCustomCSSClassName');
     });
   });
