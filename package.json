@@ -1,8 +1,9 @@
 {
-  "name": "@mydobie/sort_table",
+  "name": "@mydobie/sort-table",
   "version": "3.0.1",
   "main": "SortTable.js",
   "types": "SortTable.d.ts",
+  "license": "MIT",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
   },
