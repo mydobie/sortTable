@@ -59,7 +59,7 @@ describe('Sort Table Pagination', () => {
   test('Changing show results changes table summary', () => {
     let wrapper = sortTable({ showPagination: true, defaultToAll: true });
     expect(wrapper.find('[data-pagination-summary]').text()).toEqual(
-      `Showing ${data.length} entries`
+      `${data.length} entries.`
     );
 
     wrapper = sortTable(
@@ -67,7 +67,7 @@ describe('Sort Table Pagination', () => {
       { viewSet: 50 }
     );
     expect(wrapper.find('[data-pagination-summary]').text()).toEqual(
-      `Showing ${data.length} entries`
+      `${data.length} entries.`
     );
 
     wrapper = sortTable(
@@ -75,7 +75,7 @@ describe('Sort Table Pagination', () => {
       { viewSet: 2 }
     );
     expect(wrapper.find('[data-pagination-summary]').text()).toEqual(
-      `Showing 1 to 2 of ${data.length} entries`
+      `1 - 2 of ${data.length} entries.`
     );
 
     wrapper = sortTable(
@@ -83,7 +83,7 @@ describe('Sort Table Pagination', () => {
       { viewSet: 4 }
     );
     expect(wrapper.find('[data-pagination-summary]').text()).toEqual(
-      `Showing 1 to 4 of ${data.length} entries`
+      `1 - 4 of ${data.length} entries.`
     );
   });
 
@@ -147,7 +147,7 @@ describe('Sort Table Pagination', () => {
     test('Clicking on a page changes table summary', () => {
       let wrapper = sortTable({ showPagination: true }, { viewSet: 2 });
       expect(wrapper.find('[data-pagination-summary]').text()).toEqual(
-        `Showing 1 to 2 of ${data.length} entries`
+        `1 - 2 of ${data.length} entries.`
       );
 
       wrapper = sortTable(
@@ -155,7 +155,7 @@ describe('Sort Table Pagination', () => {
         { viewSet: 2, pageIndex: 1 }
       );
       expect(wrapper.find('[data-pagination-summary]').text()).toEqual(
-        `Showing 3 to 4 of ${data.length} entries`
+        `3 - 4 of ${data.length} entries.`
       );
     });
   });
@@ -273,7 +273,7 @@ describe('Sort Table Pagination', () => {
     test('Selecting a page changes table summary', () => {
       let wrapper = sortTable({ showPagination: true }, { viewSet: 1 });
       expect(wrapper.find('[data-pagination-summary]').text()).toEqual(
-        `Showing 1 to 1 of ${data.length} entries`
+        `1 - 1 of ${data.length} entries.`
       );
 
       wrapper = sortTable(
@@ -281,7 +281,7 @@ describe('Sort Table Pagination', () => {
         { viewSet: 1, pageIndex: 1 }
       );
       expect(wrapper.find('[data-pagination-summary]').text()).toEqual(
-        `Showing 2 to 2 of ${data.length} entries`
+        `2 - 2 of ${data.length} entries.`
       );
     });
   });
@@ -318,7 +318,7 @@ describe('Sort Table Pagination', () => {
       );
 
       expect(wrapper.find('[data-pagination-summary]').text()).toEqual(
-        `Showing 1 to 2 of ${data.length} entries`
+        `1 - 2 of ${data.length} entries.`
       );
 
       wrapper = sortTable(
@@ -327,7 +327,7 @@ describe('Sort Table Pagination', () => {
       );
 
       expect(wrapper.find('[data-pagination-summary]').text()).toEqual(
-        `Showing 1 to 2 of 3 entries (filtered from ${data.length} total entries)`
+        `1 - 2 of 3 entries (filtered from ${data.length}).`
       );
     });
   });

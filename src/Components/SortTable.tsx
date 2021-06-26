@@ -8,6 +8,7 @@ import Pagination from './Pagination';
 import Filter from './Filter';
 import Loading from './Loading';
 import List from './List';
+import TableSummary from './TableSummary';
 import './sortTable.css';
 
 const ResponsiveCss = React.lazy(() => import('./ResponsiveCss'));
@@ -356,29 +357,6 @@ const SortTable = (props: Props): JSX.Element => {
   );
 
   /* ********************************* */
-  const rowsShownSummary = () => {
-    const totalRows = tableDisplayRows.length;
-    const totalFiltered = tableDisplayRows.filter((row) => !row.hide).length;
-
-    let endRow = totalFiltered;
-
-    if (maxNumber) {
-      endRow = startRow + maxNumber;
-      endRow = endRow > totalFiltered ? totalFiltered : endRow;
-    }
-
-    if (totalFiltered === totalRows && startRow === 0 && endRow === totalRows) {
-      return `Showing ${totalRows} entries`;
-    }
-
-    return `Showing ${
-      showPagination ? `${startRow + 1} to ${endRow} of ` : ''
-    }${totalFiltered} entries${
-      filterValue === '' ? '' : ` (filtered from ${totalRows} total entries)`
-    }`;
-  };
-
-  /* ********************************* */
   if (tableDisplayRows.length === 0) {
     return noData;
   }
@@ -463,8 +441,27 @@ const SortTable = (props: Props): JSX.Element => {
           id={`${sortTableId}RowsShownSummary`}
           data-pagination-summary
         >
-          {!isLoading ? rowsShownSummary() : null}
+          {!isLoading ? (
+            <TableSummary
+              totalEntries={tableData.length}
+              startRow={startRow + 1}
+              endRow={
+                maxNumber
+                  ? startRow + maxNumber
+                  : tableDisplayRows.filter((row) => !row.hide).length
+              }
+              filteredTotal={tableDisplayRows.filter((row) => !row.hide).length}
+              sortColumn={
+                headers.find(
+                  (header) =>
+                    header.key === sortCol || header.sortKey === sortCol
+                )?.name
+              }
+              sortDirection={sortAscending ? 'ascending' : 'descending'}
+            />
+          ) : null}
         </div>
+
         {showPagination ? (
           <div className='col-sm'>
             <Pagination

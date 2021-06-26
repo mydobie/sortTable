@@ -234,6 +234,13 @@ The following props are available to be sent to the `SortTable` component:
     <td>Show the pagination links and elements per page drop down.</td>
   </tr>
   <tr>
+    <td>sortedCellClass</td>
+    <td>string</td>
+    <td>no</td>
+    <td>''</td>
+    <td>CSS class applied to cells in a sorted column.</td>
+  </tr>
+  <tr>
     <td>tableClassName</td>
     <td>string</td>
     <td>no</td>

@@ -68,13 +68,13 @@ describe('Sort Table Filtering (without pagination)', () => {
     // Unfiltered
     let wrapper = sortTable({ showFilter: true });
     expect(wrapper.find('[data-pagination-summary]').text()).toEqual(
-      `Showing ${data.length} entries`
+      `${data.length} entries.`
     );
 
     // Filtered
     wrapper = sortTable({ showFilter: true }, { filter: 'M' });
     expect(wrapper.find('[data-pagination-summary]').text()).toEqual(
-      `Showing 3 entries (filtered from ${data.length} total entries)`
+      `3 entries (filtered from ${data.length}).`
     );
   });
 

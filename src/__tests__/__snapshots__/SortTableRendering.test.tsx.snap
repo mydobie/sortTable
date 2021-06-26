@@ -565,7 +565,17 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
         data-pagination-summary={true}
         id="sortTableRowsShownSummary"
       >
-        Showing 1 to 2 of 11 entries
+        <TableSummary
+          endRow={2}
+          filteredTotal={11}
+          sortDirection="ascending"
+          startRow={1}
+          totalEntries={11}
+        >
+          <span>
+            1 - 2 of 11 entries.
+          </span>
+        </TableSummary>
       </div>
       <div
         className="col-sm"
