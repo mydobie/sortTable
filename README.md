@@ -1,5 +1,7 @@
 # React Sort Table
 
+![Test and build](https://github.com/mydobie/sortTable/actions/workflows/test_and_build.yml/badge.svg)
+
 ## Description
 
 This is a lightweight replacement for the jQuery DataTables. The following options are supported:
@@ -57,6 +59,8 @@ In order to use these components, you need to ensure that the following are in y
 
 - react
 - react-dom
+
+This component is not optimized to use in the browser. In addition, it uses React.lazy, so ensure that your project can support this feature. See the [React.lazy documentation](https://reactjs.org/docs/code-splitting.html#reactlazy)
 
 #### CSS
 

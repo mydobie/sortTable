@@ -85,9 +85,21 @@ function App() {
   ];
 
   return (
-    <div>
+    <div className='container'>
       <h1>Sample Filtering and Sorting Table</h1>
+      <p>
+        This is the demo page for a React sort table component. See the{' '}
+        <a href='https://github.com/mydobie/sortTable'>Github page</a> for more
+        information.
+      </p>
+      <hr />
       <h2>Responsive using modified CSS</h2>
+      <p>
+        This table has sorting, filter, and pagination enable. To assist users
+        to know what column is sorted, the sorted cells have a custom CSS
+        applied. On screens less than 600px, custom CSS will be applied to
+        display the table to appear as if it is a list.
+      </p>
       <SortTable
         id='sampleTable1'
         tableData={data}
@@ -105,6 +117,10 @@ function App() {
       />
       <hr />
       <h2>Responsive using definition list</h2>
+      <p>
+        On screens less than 600px, the table will be hidden and a definition
+        list will be shown instead.
+      </p>
       <SortTable
         id='sampleTable2'
         tableData={data}

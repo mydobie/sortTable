@@ -4,13 +4,13 @@ Like a lightweight data tables (https://datatables.net/)
 
 import React from 'react';
 import SortIcons from './SortIcons';
-import Pagination from './Pagination';
-import Filter from './Filter';
-import Loading from './Loading';
-import List from './List';
-import TableSummary from './TableSummary';
 import './sortTable.css';
+import TableSummary from './TableSummary';
 
+const Pagination = React.lazy(() => import('./Pagination'));
+const Filter = React.lazy(() => import('./Filter'));
+const Loading = React.lazy(() => import('./Loading'));
+const List = React.lazy(() => import('./List'));
 const ResponsiveCss = React.lazy(() => import('./ResponsiveCss'));
 
 export type tableDataType = {
@@ -364,124 +364,129 @@ const SortTable = (props: Props): JSX.Element => {
     <div className='container-fluid'>
       <React.Suspense fallback={<></>}>
         {isResponsive && !isResponsiveList ? <ResponsiveCss /> : null}
-      </React.Suspense>
-      <div
-        className='row'
-        style={{ marginBottom: showPagination || showFilter ? '15px' : '0' }}
-      >
-        {showPagination ? (
-          <div className='col-sm'>{showNumberInput()}</div>
-        ) : null}
 
-        {showFilter ? (
-          <div className='col-sm' style={{ textAlign: 'right' }}>
-            <Filter
-              value={filterValue}
-              onChange={filterRows}
-              label='Filter'
-              id={sortTableId}
-            />{' '}
-          </div>
-        ) : null}
-      </div>
-      <div className='row'>
-        {isAlert ? (
-          <div data-sort-table-confirm>
-            <div className='alert alert-success' role='alert'>
-              {alertText}
-            </div>
-          </div>
-        ) : null}
-
-        <table
-          className={`table ${tableClassName}`}
-          id={sortTableId}
-          aria-describedby={`${sortTableId}RowsShownSummary`}
-          aria-rowcount={
-            showPagination || showFilter
-              ? tableDisplayRows.length + 1
-              : undefined
-          }
-          data-sort-responsive={
-            (isResponsive && !isResponsiveList) ?? undefined
-          }
-          data-sort-responsive-has-list={isResponsiveList ?? undefined}
-          role={isResponsive && !isResponsiveList ? 'table' : undefined}
-        >
-          {caption ? <caption>{caption}</caption> : null}
-          <thead
-            className={headerClassName}
-            role={isResponsive && !isResponsiveList ? 'rowgroup' : undefined}
-          >
-            {buildHeaders}
-          </thead>
-          {!isLoading ? (
-            <tbody
-              role={isResponsive && !isResponsiveList ? 'rowgroup' : undefined}
-            >
-              {buildData()}
-            </tbody>
-          ) : null}
-        </table>
-
-        {isResponsiveList ? (
-          <List headers={headers} tableData={displayRows()} />
-        ) : null}
-
-        {tableDisplayRows.findIndex((row) => !row.hide) === -1
-          ? allFiltered
-          : null}
-
-        {isLoading && !isLoadingMessage ? <Loading /> : null}
-        {isLoading && isLoadingMessage ? isLoadingMessage : null}
-      </div>
-      <div className='row'>
         <div
-          className='col-sm'
-          id={`${sortTableId}RowsShownSummary`}
-          data-pagination-summary
+          className='row'
+          style={{ marginBottom: showPagination || showFilter ? '15px' : '0' }}
         >
-          {!isLoading ? (
-            <TableSummary
-              totalEntries={tableData.length}
-              startRow={startRow + 1}
-              endRow={
-                maxNumber
-                  ? startRow + maxNumber
-                  : tableDisplayRows.filter((row) => !row.hide).length
-              }
-              filteredTotal={tableDisplayRows.filter((row) => !row.hide).length}
-              sortColumn={
-                headers.find(
-                  (header) =>
-                    header.key === sortCol || header.sortKey === sortCol
-                )?.name
-              }
-              sortDirection={sortAscending ? 'ascending' : 'descending'}
-            />
+          {showPagination ? (
+            <div className='col-sm'>{showNumberInput()}</div>
+          ) : null}
+
+          {showFilter ? (
+            <div className='col-sm' style={{ textAlign: 'right' }}>
+              <Filter
+                value={filterValue}
+                onChange={filterRows}
+                label='Filter'
+                id={sortTableId}
+              />{' '}
+            </div>
           ) : null}
         </div>
+        <div className='row'>
+          {isAlert ? (
+            <div data-sort-table-confirm>
+              <div className='alert alert-success' role='alert'>
+                {alertText}
+              </div>
+            </div>
+          ) : null}
 
-        {showPagination ? (
-          <div className='col-sm'>
-            <Pagination
-              numberOfPages={Math.ceil(
-                maxNumber && maxNumber > 0
-                  ? tableDisplayRows.filter((row) => !row.hide).length /
-                      maxNumber
-                  : 1
-              )}
-              initialActivePage={1}
-              id={sortTableId}
-              onPageChange={(page) => {
-                setStartRow(
-                  maxNumber && page !== 0 ? (page - 1) * maxNumber : 0
-                );
-              }}
-            />
+          <table
+            className={`table ${tableClassName}`}
+            id={sortTableId}
+            aria-describedby={`${sortTableId}RowsShownSummary`}
+            aria-rowcount={
+              showPagination || showFilter
+                ? tableDisplayRows.length + 1
+                : undefined
+            }
+            data-sort-responsive={
+              (isResponsive && !isResponsiveList) ?? undefined
+            }
+            data-sort-responsive-has-list={isResponsiveList ?? undefined}
+            role={isResponsive && !isResponsiveList ? 'table' : undefined}
+          >
+            {caption ? <caption>{caption}</caption> : null}
+            <thead
+              className={headerClassName}
+              role={isResponsive && !isResponsiveList ? 'rowgroup' : undefined}
+            >
+              {buildHeaders}
+            </thead>
+            {!isLoading ? (
+              <tbody
+                role={
+                  isResponsive && !isResponsiveList ? 'rowgroup' : undefined
+                }
+              >
+                {buildData()}
+              </tbody>
+            ) : null}
+          </table>
+
+          {isResponsiveList ? (
+            <List headers={headers} tableData={displayRows()} />
+          ) : null}
+
+          {tableDisplayRows.findIndex((row) => !row.hide) === -1
+            ? allFiltered
+            : null}
+
+          {isLoading && !isLoadingMessage ? <Loading /> : null}
+          {isLoading && isLoadingMessage ? isLoadingMessage : null}
+        </div>
+        <div className='row'>
+          <div
+            className='col-sm'
+            id={`${sortTableId}RowsShownSummary`}
+            data-pagination-summary
+          >
+            {!isLoading ? (
+              <TableSummary
+                totalEntries={tableData.length}
+                startRow={startRow + 1}
+                endRow={
+                  maxNumber
+                    ? startRow + maxNumber
+                    : tableDisplayRows.filter((row) => !row.hide).length
+                }
+                filteredTotal={
+                  tableDisplayRows.filter((row) => !row.hide).length
+                }
+                sortColumn={
+                  headers.find(
+                    (header) =>
+                      header.key === sortCol || header.sortKey === sortCol
+                  )?.name
+                }
+                sortDirection={sortAscending ? 'ascending' : 'descending'}
+              />
+            ) : null}
           </div>
-        ) : null}
-      </div>
+
+          {showPagination ? (
+            <div className='col-sm'>
+              <Pagination
+                numberOfPages={Math.ceil(
+                  maxNumber && maxNumber > 0
+                    ? tableDisplayRows.filter((row) => !row.hide).length /
+                        maxNumber
+                    : 1
+                )}
+                initialActivePage={1}
+                id={sortTableId}
+                onPageChange={(page) => {
+                  setStartRow(
+                    maxNumber && page !== 0 ? (page - 1) * maxNumber : 0
+                  );
+                }}
+              />
+            </div>
+          ) : null}
+        </div>
+      </React.Suspense>
     </div>
   );
 };
