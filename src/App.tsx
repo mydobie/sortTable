@@ -9,27 +9,37 @@ import './app.css';
 
 function App() {
   const headers: headerDataType[] = [
-    {
-      name: 'Product Name',
-      key: 'name',
-      type: 'alpha',
-      rowheader: true,
-      style: { width: '250px' },
-    },
-    { name: 'Price', key: 'price', className: 'priceRow' },
-    { name: 'Stock', key: 'stock' },
-    { name: 'Month', key: 'month', sortKey: 'monthValue' },
-    { name: 'Link', key: 'url', noSort: true, noFilter: true },
-  ];
+    { name: 'Product Name', key: 'name', type: 'alpha', rowheader: true },
+    { name: 'Price', key: 'price', className: 'myCustomPriceClass' },
 
+    {
+      name: 'Stock',
+      key: 'stock',
+      type: 'number',
+      noFilter: true,
+    },
+    {
+      name: 'Sale day',
+      key: 'day',
+      type: 'size',
+      sortKey: 'saledaynum',
+    },
+    {
+      name: 'Link',
+      key: 'url',
+      noSort: true,
+      noFilter: true,
+      style: { color: 'purple' },
+    },
+  ];
   const data: tableDataType[] = [
     {
       id: 1,
       name: 'Cheese',
       price: '$4.90',
       stock: 20,
-      month: 'June',
-      monthValue: 6,
+      day: 'Friday',
+      saledaynum: 5,
       url: '',
     },
     {
@@ -37,50 +47,67 @@ function App() {
       name: 'Milk',
       price: '$1.90',
       stock: 4,
-      month: 'April',
-      monthValue: 4,
-      url: ' ',
+      day: 'Monday',
+      saledaynum: 1,
     },
     {
       id: 3,
       name: 'Yoghurt',
       price: '$2.40',
       stock: 12,
-      month: 'June',
-      monthValue: 6,
+      day: 'Thursday',
+      saledaynum: 4,
     },
     {
       id: 4,
       name: 'Heavy Cream',
       price: '$3.90',
       stock: 9,
-      month: 'June',
-      monthValue: 6,
+      day: 'Tuesday',
+      saledaynum: 2,
     },
     {
       id: 5,
       name: 'Butter',
       price: '$0.90',
       stock: 99,
-      month: 'March',
-      monthValue: 3,
+      day: 'Wednesday',
+      saledaynum: 3,
     },
     {
       id: 6,
-      name: 'Sour Cream ',
+      name: 'Sour Cream',
       price: '$2.90',
       stock: 86,
-      url: <a href='https://reactjs.org/'>Link to React</a>,
-      month: 'March',
-      monthValue: 3,
+      day: 'Saturday',
+      saledaynum: 6,
     },
     {
       id: 7,
       name: 'Fancy French Cheese',
       price: '$99.0',
-      stock: 12,
-      month: 'April',
-      monthValue: 4,
+      stock: 15,
+      url: <a href='https://google.com'>hello google</a>,
+      day: 'Sunday',
+      saledaynum: 0,
+    },
+    { id: 8, name: 'Eggs', price: '$1.90', stock: 86 },
+    {
+      id: 9,
+      name: 'Ricotta Cheese',
+      price: '$3.99',
+      stock: 6,
+      day: 'Saturday',
+      saledaynum: 6,
+    },
+    { id: 10, name: 'Frozen Custard', price: '$5.50', stock: 11 },
+    {
+      id: 11,
+      name: 'Whey Powder',
+      price: '$15.90',
+      stock: 8,
+      day: 'Wednesday',
+      saledaynum: 3,
     },
   ];
 
@@ -107,13 +134,14 @@ function App() {
         initialSort='month'
         showFilter
         showPagination
-        viewSteps={[2, 4, 50]}
+        viewSteps={[1, 2, 4, 50]}
         caption='Store inventory'
         tableClassName='table-hover table-sm'
         defaultToAll
         isResponsive
         emptyCellClassName='emptyCell'
         sortedCellClass='sortedCellClass'
+        // allDataFilteredMessage='My custom all filtered message'
       />
       <hr />
       <h2>Responsive using definition list</h2>

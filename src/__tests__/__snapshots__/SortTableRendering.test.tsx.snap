@@ -1,208 +1,43 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Sort Table Rendering Snapshot test 1`] = `
-<SortTable
-  headers={
-    Array [
-      Object {
-        "className": "myCustomPriceClass",
-        "key": "price",
-        "name": "Price",
-      },
-      Object {
-        "key": "name",
-        "name": "Product Name",
-        "rowheader": true,
-        "type": "alpha",
-      },
-      Object {
-        "key": "stock",
-        "name": "Stock",
-        "noFilter": true,
-        "type": "number",
-      },
-      Object {
-        "key": "day",
-        "name": "Sale day",
-        "sortKey": "saledaynum",
-        "type": "size",
-      },
-      Object {
-        "key": "url",
-        "name": "Link",
-        "noFilter": true,
-        "noSort": true,
-        "style": Object {
-          "color": "purple",
-        },
-      },
-    ]
-  }
-  showFilter={true}
-  showPagination={true}
-  tableData={
-    Array [
-      Object {
-        "day": "Friday",
-        "hide": false,
-        "id": 1,
-        "name": "Cheese",
-        "price": "$4.90",
-        "saledaynum": 5,
-        "stock": 20,
-        "url": "",
-      },
-      Object {
-        "day": "Monday",
-        "hide": false,
-        "id": 2,
-        "name": "Milk",
-        "price": "$1.90",
-        "saledaynum": 1,
-        "stock": 4,
-      },
-      Object {
-        "day": "Thursday",
-        "hide": false,
-        "id": 3,
-        "name": "Yoghurt",
-        "price": "$2.40",
-        "saledaynum": 4,
-        "stock": 12,
-      },
-      Object {
-        "day": "Tuesday",
-        "hide": false,
-        "id": 4,
-        "name": "Heavy Cream",
-        "price": "$3.90",
-        "saledaynum": 2,
-        "stock": 9,
-      },
-      Object {
-        "day": "Wednesday",
-        "hide": false,
-        "id": 5,
-        "name": "Butter",
-        "price": "$0.90",
-        "saledaynum": 3,
-        "stock": 99,
-      },
-      Object {
-        "day": "Saturday",
-        "hide": false,
-        "id": 6,
-        "name": "Sour Cream",
-        "price": "$2.90",
-        "saledaynum": 6,
-        "stock": 86,
-      },
-      Object {
-        "day": "Sunday",
-        "hide": false,
-        "id": 7,
-        "name": "Fancy French Cheese",
-        "price": "$99.0",
-        "saledaynum": 0,
-        "stock": 15,
-        "url": <a
-          href="https://google.com"
-        >
-          hello google
-        </a>,
-      },
-      Object {
-        "hide": false,
-        "id": 8,
-        "name": "Eggs",
-        "price": "$1.90",
-        "stock": 86,
-      },
-      Object {
-        "day": "Saturday",
-        "hide": false,
-        "id": 9,
-        "name": "Ricotta Cheese",
-        "price": "$3.99",
-        "saledaynum": 6,
-        "stock": 6,
-      },
-      Object {
-        "hide": false,
-        "id": 10,
-        "name": "Frozen Custard",
-        "price": "$5.50",
-        "stock": 11,
-      },
-      Object {
-        "day": "Wednesday",
-        "hide": false,
-        "id": 11,
-        "name": "Whey Powder",
-        "price": "$15.90",
-        "saledaynum": 3,
-        "stock": 8,
-      },
-    ]
-  }
-  viewSteps={
-    Array [
-      2,
-      4,
-      10,
-    ]
-  }
->
+<div>
   <div
-    className="container-fluid"
+    class="container-fluid"
   >
-    <Suspense
-      fallback={<React.Fragment />}
-    />
     <div
-      className="row"
-      style={
-        Object {
-          "marginBottom": "15px",
-        }
-      }
+      class="row"
+      style="margin-bottom: 15px;"
     >
       <div
-        className="col-sm"
+        class="col-sm"
       >
         <div
-          data-sort-number-of-inputs={true}
+          data-sort-number-of-inputs="true"
         >
           Show
           <select
             aria-label="Number of items shown"
-            className="form-control form-select"
-            onChange={[Function]}
-            style={
-              Object {
-                "display": "inline-block",
-                "marginLeft": "0.75em",
-                "marginRight": "0.75em",
-                "width": "75px",
-              }
-            }
-            value={2}
+            class="form-control form-select"
+            style="width: 75px; display: inline-block; margin-left: 0.75em; margin-right: 0.75em;"
           >
             <option
-              key="2"
-              value={2}
+              value="1"
+            >
+              1
+            </option>
+            <option
+              value="2"
             >
               2
             </option>
             <option
-              key="4"
-              value={4}
+              value="4"
             >
               4
             </option>
             <option
-              key="10"
-              value={10}
+              value="10"
             >
               10
             </option>
@@ -216,599 +51,330 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
         </div>
       </div>
       <div
-        className="col-sm"
-        style={
-          Object {
-            "textAlign": "right",
-          }
-        }
+        class="col-sm"
+        style="text-align: right;"
       >
-        <Filter
-          id="sortTable"
-          label="Filter"
-          onChange={[Function]}
-          value=""
+        <div
+          class="form-inline justify-content-end"
+          data-filter="true"
         >
           <div
-            className="form-inline justify-content-end"
-            data-filter={true}
+            class="form-group"
           >
-            <div
-              className="form-group"
+            <label
+              for="sortTableFilterInput"
             >
-              <label
-                htmlFor="sortTableFilterInput"
-              >
-                Filter
-              </label>
-              <input
-                className="form-control"
-                data-filter-input={true}
-                id="sortTableFilterInput"
-                onChange={[Function]}
-                style={
-                  Object {
-                    "display": "inline-block",
-                    "marginLeft": "0.75em",
-                    "width": "250px",
-                  }
-                }
-                type="text"
-                value=""
-              />
-            </div>
+              Filter
+            </label>
+            <input
+              class="form-control"
+              data-filter-input="true"
+              id="sortTableFilterInput"
+              style="margin-left: 0.75em; display: inline-block; width: 250px;"
+              type="text"
+              value=""
+            />
           </div>
-        </Filter>
+        </div>
          
       </div>
     </div>
     <div
-      className="row"
+      class="row"
+      style=""
     >
       <table
         aria-describedby="sortTableRowsShownSummary"
-        aria-rowcount={12}
-        className="table undefined"
+        aria-rowcount="12"
+        class="table undefined"
         id="sortTable"
       >
         <thead>
           <tr
-            aria-rowindex={1}
+            aria-rowindex="1"
           >
             <th
-              className="myCustomPriceClass "
-              key="price"
+              class="myCustomPriceClass "
               scope="col"
             >
               <button
-                onClick={[Function]}
-                style={
-                  Object {
-                    "background": "none",
-                    "border": "none",
-                    "padding": "none",
-                    "textAlign": "left",
-                    "width": "100%",
-                  }
-                }
+                style="background: none; width: 100%; text-align: left;"
                 type="button"
               >
-                <SortIcons
-                  color="#ccc"
-                  sortAsc={true}
-                  type="sortable"
+                <svg
+                  aria-hidden="true"
+                  role="img"
+                  style="width: 20px; height: 20px; display: inline-block; padding-right: 5px;"
+                  viewBox="0 0 448 512"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  <svg
-                    aria-hidden="true"
-                    role="img"
-                    style={
-                      Object {
-                        "display": "inline-block",
-                        "height": "20px",
-                        "paddingRight": "5px",
-                        "width": "20px",
-                      }
-                    }
-                    viewBox="0 0 448 512"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M176 352h-48V48a16 16 0 0 0-16-16H80a16 16 0 0 0-16 16v304H16c-14.19 0-21.36 17.24-11.29 27.31l80 96a16 16 0 0 0 22.62 0l80-96C197.35 369.26 190.22 352 176 352zm203.29-219.31l-80-96a16 16 0 0 0-22.62 0l-80 96C186.65 142.74 193.78 160 208 160h48v304a16 16 0 0 0 16 16h32a16 16 0 0 0 16-16V160h48c14.19 0 21.36-17.24 11.29-27.31z"
-                      data-icontype="sortable"
-                      fill="#ccc"
-                    />
-                  </svg>
-                </SortIcons>
+                  <path
+                    d="M176 352h-48V48a16 16 0 0 0-16-16H80a16 16 0 0 0-16 16v304H16c-14.19 0-21.36 17.24-11.29 27.31l80 96a16 16 0 0 0 22.62 0l80-96C197.35 369.26 190.22 352 176 352zm203.29-219.31l-80-96a16 16 0 0 0-22.62 0l-80 96C186.65 142.74 193.78 160 208 160h48v304a16 16 0 0 0 16 16h32a16 16 0 0 0 16-16V160h48c14.19 0 21.36-17.24 11.29-27.31z"
+                    data-icontype="sortable"
+                    fill="#ccc"
+                  />
+                </svg>
                 Price
               </button>
             </th>
             <th
-              className="undefined "
-              key="name"
+              class="undefined "
               scope="col"
             >
               <button
-                onClick={[Function]}
-                style={
-                  Object {
-                    "background": "none",
-                    "border": "none",
-                    "padding": "none",
-                    "textAlign": "left",
-                    "width": "100%",
-                  }
-                }
+                style="background: none; width: 100%; text-align: left;"
                 type="button"
               >
-                <SortIcons
-                  color="#ccc"
-                  sortAsc={true}
-                  type="sortable"
+                <svg
+                  aria-hidden="true"
+                  role="img"
+                  style="width: 20px; height: 20px; display: inline-block; padding-right: 5px;"
+                  viewBox="0 0 448 512"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  <svg
-                    aria-hidden="true"
-                    role="img"
-                    style={
-                      Object {
-                        "display": "inline-block",
-                        "height": "20px",
-                        "paddingRight": "5px",
-                        "width": "20px",
-                      }
-                    }
-                    viewBox="0 0 448 512"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M176 352h-48V48a16 16 0 0 0-16-16H80a16 16 0 0 0-16 16v304H16c-14.19 0-21.36 17.24-11.29 27.31l80 96a16 16 0 0 0 22.62 0l80-96C197.35 369.26 190.22 352 176 352zm203.29-219.31l-80-96a16 16 0 0 0-22.62 0l-80 96C186.65 142.74 193.78 160 208 160h48v304a16 16 0 0 0 16 16h32a16 16 0 0 0 16-16V160h48c14.19 0 21.36-17.24 11.29-27.31z"
-                      data-icontype="sortable"
-                      fill="#ccc"
-                    />
-                  </svg>
-                </SortIcons>
+                  <path
+                    d="M176 352h-48V48a16 16 0 0 0-16-16H80a16 16 0 0 0-16 16v304H16c-14.19 0-21.36 17.24-11.29 27.31l80 96a16 16 0 0 0 22.62 0l80-96C197.35 369.26 190.22 352 176 352zm203.29-219.31l-80-96a16 16 0 0 0-22.62 0l-80 96C186.65 142.74 193.78 160 208 160h48v304a16 16 0 0 0 16 16h32a16 16 0 0 0 16-16V160h48c14.19 0 21.36-17.24 11.29-27.31z"
+                    data-icontype="sortable"
+                    fill="#ccc"
+                  />
+                </svg>
                 Product Name
               </button>
             </th>
             <th
-              className="undefined "
-              key="stock"
+              class="undefined "
               scope="col"
             >
               <button
-                onClick={[Function]}
-                style={
-                  Object {
-                    "background": "none",
-                    "border": "none",
-                    "padding": "none",
-                    "textAlign": "left",
-                    "width": "100%",
-                  }
-                }
+                style="background: none; width: 100%; text-align: left;"
                 type="button"
               >
-                <SortIcons
-                  color="#ccc"
-                  sortAsc={true}
-                  type="sortable"
+                <svg
+                  aria-hidden="true"
+                  role="img"
+                  style="width: 20px; height: 20px; display: inline-block; padding-right: 5px;"
+                  viewBox="0 0 448 512"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  <svg
-                    aria-hidden="true"
-                    role="img"
-                    style={
-                      Object {
-                        "display": "inline-block",
-                        "height": "20px",
-                        "paddingRight": "5px",
-                        "width": "20px",
-                      }
-                    }
-                    viewBox="0 0 448 512"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M176 352h-48V48a16 16 0 0 0-16-16H80a16 16 0 0 0-16 16v304H16c-14.19 0-21.36 17.24-11.29 27.31l80 96a16 16 0 0 0 22.62 0l80-96C197.35 369.26 190.22 352 176 352zm203.29-219.31l-80-96a16 16 0 0 0-22.62 0l-80 96C186.65 142.74 193.78 160 208 160h48v304a16 16 0 0 0 16 16h32a16 16 0 0 0 16-16V160h48c14.19 0 21.36-17.24 11.29-27.31z"
-                      data-icontype="sortable"
-                      fill="#ccc"
-                    />
-                  </svg>
-                </SortIcons>
+                  <path
+                    d="M176 352h-48V48a16 16 0 0 0-16-16H80a16 16 0 0 0-16 16v304H16c-14.19 0-21.36 17.24-11.29 27.31l80 96a16 16 0 0 0 22.62 0l80-96C197.35 369.26 190.22 352 176 352zm203.29-219.31l-80-96a16 16 0 0 0-22.62 0l-80 96C186.65 142.74 193.78 160 208 160h48v304a16 16 0 0 0 16 16h32a16 16 0 0 0 16-16V160h48c14.19 0 21.36-17.24 11.29-27.31z"
+                    data-icontype="sortable"
+                    fill="#ccc"
+                  />
+                </svg>
                 Stock
               </button>
             </th>
             <th
-              className="undefined "
-              key="day"
+              class="undefined "
               scope="col"
             >
               <button
-                onClick={[Function]}
-                style={
-                  Object {
-                    "background": "none",
-                    "border": "none",
-                    "padding": "none",
-                    "textAlign": "left",
-                    "width": "100%",
-                  }
-                }
+                style="background: none; width: 100%; text-align: left;"
                 type="button"
               >
-                <SortIcons
-                  color="#ccc"
-                  sortAsc={true}
-                  type="sortable"
+                <svg
+                  aria-hidden="true"
+                  role="img"
+                  style="width: 20px; height: 20px; display: inline-block; padding-right: 5px;"
+                  viewBox="0 0 448 512"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  <svg
-                    aria-hidden="true"
-                    role="img"
-                    style={
-                      Object {
-                        "display": "inline-block",
-                        "height": "20px",
-                        "paddingRight": "5px",
-                        "width": "20px",
-                      }
-                    }
-                    viewBox="0 0 448 512"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M176 352h-48V48a16 16 0 0 0-16-16H80a16 16 0 0 0-16 16v304H16c-14.19 0-21.36 17.24-11.29 27.31l80 96a16 16 0 0 0 22.62 0l80-96C197.35 369.26 190.22 352 176 352zm203.29-219.31l-80-96a16 16 0 0 0-22.62 0l-80 96C186.65 142.74 193.78 160 208 160h48v304a16 16 0 0 0 16 16h32a16 16 0 0 0 16-16V160h48c14.19 0 21.36-17.24 11.29-27.31z"
-                      data-icontype="sortable"
-                      fill="#ccc"
-                    />
-                  </svg>
-                </SortIcons>
+                  <path
+                    d="M176 352h-48V48a16 16 0 0 0-16-16H80a16 16 0 0 0-16 16v304H16c-14.19 0-21.36 17.24-11.29 27.31l80 96a16 16 0 0 0 22.62 0l80-96C197.35 369.26 190.22 352 176 352zm203.29-219.31l-80-96a16 16 0 0 0-22.62 0l-80 96C186.65 142.74 193.78 160 208 160h48v304a16 16 0 0 0 16 16h32a16 16 0 0 0 16-16V160h48c14.19 0 21.36-17.24 11.29-27.31z"
+                    data-icontype="sortable"
+                    fill="#ccc"
+                  />
+                </svg>
                 Sale day
               </button>
             </th>
             <th
-              className="undefined "
-              key="url"
+              class="undefined "
               scope="col"
-              style={
-                Object {
-                  "color": "purple",
-                }
-              }
+              style="color: purple;"
             >
               Link
             </th>
           </tr>
         </thead>
         <tbody>
-          <tr
-            key="1"
-          >
+          <tr>
             <td
-              className=" "
-              data-sorttable-data-cell={true}
-              key="1price"
+              class=" "
+              data-sorttable-data-cell="true"
             >
               $4.90
             </td>
             <th
-              className=" "
-              data-sorttable-data-cell={true}
-              key="1name"
+              class=" "
+              data-sorttable-data-cell="true"
               scope="row"
             >
               Cheese
             </th>
             <td
-              className=" "
-              data-sorttable-data-cell={true}
-              key="1stock"
+              class=" "
+              data-sorttable-data-cell="true"
             >
               20
             </td>
             <td
-              className=" "
-              data-sorttable-data-cell={true}
-              key="1day"
+              class=" "
+              data-sorttable-data-cell="true"
             >
               Friday
             </td>
             <td
-              className="undefined "
-              data-sorttable-data-cell={true}
-              key="1url"
-            />
-          </tr>
-          <tr
-            key="2"
-          >
-            <td
-              className=" "
-              data-sorttable-data-cell={true}
-              key="2price"
+              class="undefined "
+              data-sorttable-data-cell="true"
             >
-              $1.90
+              
             </td>
-            <th
-              className=" "
-              data-sorttable-data-cell={true}
-              key="2name"
-              scope="row"
-            >
-              Milk
-            </th>
-            <td
-              className=" "
-              data-sorttable-data-cell={true}
-              key="2stock"
-            >
-              4
-            </td>
-            <td
-              className=" "
-              data-sorttable-data-cell={true}
-              key="2day"
-            >
-              Monday
-            </td>
-            <td
-              className="undefined "
-              data-sorttable-data-cell={true}
-              key="2url"
-            />
           </tr>
         </tbody>
       </table>
     </div>
     <div
-      className="row"
+      class="row"
+      style=""
     >
       <div
-        className="col-sm"
-        data-pagination-summary={true}
+        class="col-sm"
+        data-pagination-summary="true"
         id="sortTableRowsShownSummary"
       >
-        <TableSummary
-          endRow={2}
-          filteredTotal={11}
-          sortDirection="ascending"
-          startRow={1}
-          totalEntries={11}
-        >
-          <span>
-            1 - 2 of 11 entries.
-          </span>
-        </TableSummary>
+        <span>
+          1 - 1 of 11 entries.
+        </span>
       </div>
       <div
-        className="col-sm"
+        class="col-sm"
       >
-        <Pagination
-          id="sortTable"
-          initialActivePage={1}
-          numberOfPages={6}
-          onPageChange={[Function]}
-        >
-          <div>
-            <div
-              className="text-right text-end"
-              data-skip-pagination-wrapper={true}
+        <div>
+          <div
+            class="text-right text-end"
+            data-skip-pagination-wrapper="true"
+          >
+            <a
+              data-skip-pagination-link="true"
+              href="#sortTableEndPagination"
             >
-              <a
-                data-skip-pagination-link={true}
-                href="#sortTableEndPagination"
-              >
-                Skip pagination
-              </a>
-            </div>
-            <nav
-              aria-label="Table pagination"
-            >
-              <ul
-                className="pagination pagination-sm justify-content-end"
-                data-pagination={true}
-              >
-                <PaginationButton
-                  active={false}
-                  disabled={true}
-                  isPrevious={true}
-                  onClick={[Function]}
-                >
-                  <li
-                    className="page-item disabled "
-                    data-pagination-previous-button={true}
-                  >
-                    <button
-                      aria-label="Previous page"
-                      className="page-link "
-                      disabled={true}
-                      onClick={[Function]}
-                      type="button"
-                    >
-                      <span
-                        aria-hidden="true"
-                      >
-                        «
-                      </span>
-                    </button>
-                  </li>
-                </PaginationButton>
-                <PaginationButton
-                  active={true}
-                  key="1"
-                  onClick={[Function]}
-                  pageNumber={1}
-                >
-                  <li
-                    className="page-item  active"
-                    data-pagination-button={true}
-                  >
-                    <button
-                      aria-current="page"
-                      className="page-link active"
-                      onClick={[Function]}
-                      type="button"
-                    >
-                      <span
-                        className="sr-only visually-hidden"
-                      >
-                        page 
-                      </span>
-                      1
-                    </button>
-                  </li>
-                </PaginationButton>
-                <PaginationButton
-                  active={false}
-                  key="2"
-                  onClick={[Function]}
-                  pageNumber={2}
-                >
-                  <li
-                    className="page-item  "
-                    data-pagination-button={true}
-                  >
-                    <button
-                      className="page-link "
-                      onClick={[Function]}
-                      type="button"
-                    >
-                      <span
-                        className="sr-only visually-hidden"
-                      >
-                        page 
-                      </span>
-                      2
-                    </button>
-                  </li>
-                </PaginationButton>
-                <PaginationButton
-                  active={false}
-                  key="3"
-                  onClick={[Function]}
-                  pageNumber={3}
-                >
-                  <li
-                    className="page-item  "
-                    data-pagination-button={true}
-                  >
-                    <button
-                      className="page-link "
-                      onClick={[Function]}
-                      type="button"
-                    >
-                      <span
-                        className="sr-only visually-hidden"
-                      >
-                        page 
-                      </span>
-                      3
-                    </button>
-                  </li>
-                </PaginationButton>
-                <PaginationButton
-                  active={false}
-                  key="4"
-                  onClick={[Function]}
-                  pageNumber={4}
-                >
-                  <li
-                    className="page-item  "
-                    data-pagination-button={true}
-                  >
-                    <button
-                      className="page-link "
-                      onClick={[Function]}
-                      type="button"
-                    >
-                      <span
-                        className="sr-only visually-hidden"
-                      >
-                        page 
-                      </span>
-                      4
-                    </button>
-                  </li>
-                </PaginationButton>
-                <PaginationButton
-                  active={false}
-                  key="5"
-                  onClick={[Function]}
-                  pageNumber={5}
-                >
-                  <li
-                    className="page-item  "
-                    data-pagination-button={true}
-                  >
-                    <button
-                      className="page-link "
-                      onClick={[Function]}
-                      type="button"
-                    >
-                      <span
-                        className="sr-only visually-hidden"
-                      >
-                        page 
-                      </span>
-                      5
-                    </button>
-                  </li>
-                </PaginationButton>
-                <PaginationButton
-                  active={false}
-                  key="6"
-                  onClick={[Function]}
-                  pageNumber={6}
-                >
-                  <li
-                    className="page-item  "
-                    data-pagination-button={true}
-                  >
-                    <button
-                      className="page-link "
-                      onClick={[Function]}
-                      type="button"
-                    >
-                      <span
-                        className="sr-only visually-hidden"
-                      >
-                        page 
-                      </span>
-                      6
-                    </button>
-                  </li>
-                </PaginationButton>
-                <PaginationButton
-                  active={false}
-                  disabled={false}
-                  isNext={true}
-                  onClick={[Function]}
-                >
-                  <li
-                    className="page-item  "
-                    data-pagination-next-button={true}
-                  >
-                    <button
-                      aria-label="Next page"
-                      className="page-link "
-                      disabled={false}
-                      onClick={[Function]}
-                      type="button"
-                    >
-                      <span
-                        aria-hidden="true"
-                      >
-                        »
-                      </span>
-                    </button>
-                  </li>
-                </PaginationButton>
-              </ul>
-            </nav>
-            <div
-              id="sortTableEndPagination"
-            />
+              Skip pagination
+            </a>
           </div>
-        </Pagination>
+          <nav
+            aria-label="Table pagination"
+          >
+            <ul
+              class="pagination pagination-sm justify-content-end"
+              data-pagination="true"
+            >
+              <li
+                class="page-item disabled "
+                data-pagination-previous-button="true"
+              >
+                <button
+                  aria-label="Previous page"
+                  class="page-link "
+                  disabled=""
+                  type="button"
+                >
+                  <span
+                    aria-hidden="true"
+                  >
+                    «
+                  </span>
+                </button>
+              </li>
+              <li>
+                <select
+                  aria-label="Show page number"
+                  class="form-select form-select-sm custom-select custom-select-sm"
+                  data-pagination-select="true"
+                  style="width: 6em;"
+                >
+                  <option
+                    value="1"
+                  >
+                    1
+                  </option>
+                  <option
+                    value="2"
+                  >
+                    2
+                  </option>
+                  <option
+                    value="3"
+                  >
+                    3
+                  </option>
+                  <option
+                    value="4"
+                  >
+                    4
+                  </option>
+                  <option
+                    value="5"
+                  >
+                    5
+                  </option>
+                  <option
+                    value="6"
+                  >
+                    6
+                  </option>
+                  <option
+                    value="7"
+                  >
+                    7
+                  </option>
+                  <option
+                    value="8"
+                  >
+                    8
+                  </option>
+                  <option
+                    value="9"
+                  >
+                    9
+                  </option>
+                  <option
+                    value="10"
+                  >
+                    10
+                  </option>
+                  <option
+                    value="11"
+                  >
+                    11
+                  </option>
+                </select>
+              </li>
+              <li
+                class="page-item  "
+                data-pagination-next-button="true"
+              >
+                <button
+                  aria-label="Next page"
+                  class="page-link "
+                  type="button"
+                >
+                  <span
+                    aria-hidden="true"
+                  >
+                    »
+                  </span>
+                </button>
+              </li>
+            </ul>
+          </nav>
+          <div
+            id="sortTableEndPagination"
+          />
+        </div>
       </div>
     </div>
   </div>
-</SortTable>
+</div>
 `;

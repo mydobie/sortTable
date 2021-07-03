@@ -1,334 +1,384 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable react/react-in-jsx-scope */
-import { sortTable, viewSteps, data, columnText } from './helpers/helpers';
+
+import { fireEvent } from '@testing-library/react';
+import {
+  sortTableFactory,
+  viewSteps,
+  data,
+  changeViewItemsToView,
+  clickPaginationButton,
+  columnText,
+  changeFilter,
+} from './helpers/helpers';
 
 describe('Sort Table Pagination', () => {
-  test('Show results drop down has correct options', () => {
-    const wrapper = sortTable({ showPagination: true });
-    const options = wrapper
-      .find('[data-sort-number-of-inputs] select')
-      .children();
+  test('Show results drop down has correct options', async () => {
+    const container = await sortTableFactory({ showPagination: true });
 
+    const options = container.querySelectorAll(
+      '[data-sort-number-of-inputs] select option'
+    );
     expect(options.length).toBeGreaterThan(1);
     viewSteps.forEach((step, index) => {
-      expect(step).toEqual(options.at(index).prop('value'));
+      expect(`${step}`).toEqual(options.item(index).getAttribute('value'));
     });
   });
 
-  test('All is shown as an option', () => {
-    const wrapper = sortTable({ showPagination: true });
-    const options = wrapper
-      .find('[data-sort-number-of-inputs] select')
-      .children();
-    expect(options.last().text()).toBe('All');
+  test('All is shown as an option', async () => {
+    const container = await sortTableFactory({ showPagination: true });
+    const lastOption = container.querySelector(
+      '[data-sort-number-of-inputs] select option:last-child'
+    ).textContent;
+    expect(lastOption).toEqual('All');
   });
 
-  test('All rows are shown if defaultToAll prop is set', () => {
-    const wrapper = sortTable({ showPagination: true, defaultToAll: true });
-    const value = wrapper
-      .find('[data-sort-number-of-inputs] select')
-      .prop('value');
-    expect(value).toEqual('');
-
-    const rows = wrapper.find('tbody tr');
+  test('All rows are shown if defaultToAll prop is set', async () => {
+    const container = await sortTableFactory({
+      showPagination: true,
+      defaultToAll: true,
+    });
+    const rows = container.querySelectorAll('table tbody tr');
     expect(rows).toHaveLength(data.length);
   });
 
-  test('All rows are shown if "all" chosen', () => {
-    let wrapper = sortTable({ showPagination: true });
-    // test set up - ensure all is not shown and all rows are not showing
-    const value = wrapper.find('[data-sort-number-of-inputs]').prop('value');
-    expect(value).not.toEqual('');
+  test('If defaultToAll is not set, then the number of elements shown matches the first option', async () => {
+    const container = await sortTableFactory({ showPagination: true });
+    const numberToShow = parseInt(
+      container
+        .querySelector('[data-sort-number-of-inputs] select option:first-child')
+        .getAttribute('value'),
+      10
+    );
 
-    let rows = wrapper.find('tbody tr');
+    const rows = container.querySelectorAll('table tbody tr');
     expect(rows).not.toHaveLength(data.length);
+    expect(rows).toHaveLength(numberToShow);
+  });
 
-    wrapper = sortTable({ showPagination: true }, { viewSet: '' });
-
-    rows = wrapper.find('tbody tr');
+  test('All rows are shown if "all" chosen', async () => {
+    const container = await sortTableFactory(
+      { showPagination: true },
+      { viewSet: '' }
+    );
+    const rows = container.querySelectorAll('table tbody tr');
     expect(rows).toHaveLength(data.length);
   });
 
-  test('Changing show results changes number of rows shown', () => {
-    let wrapper = sortTable({ showPagination: true }, { viewSet: 2 });
-    expect(wrapper.find('tbody tr')).toHaveLength(2);
-
-    wrapper = sortTable({ showPagination: true }, { viewSet: 4 });
-    expect(wrapper.find('tbody tr')).toHaveLength(4);
-  });
-
-  test('Changing show results changes table summary', () => {
-    let wrapper = sortTable({ showPagination: true, defaultToAll: true });
-    expect(wrapper.find('[data-pagination-summary]').text()).toEqual(
-      `${data.length} entries.`
-    );
-
-    wrapper = sortTable(
-      { showPagination: true, defaultToAll: true },
-      { viewSet: 50 }
-    );
-    expect(wrapper.find('[data-pagination-summary]').text()).toEqual(
-      `${data.length} entries.`
-    );
-
-    wrapper = sortTable(
-      { showPagination: true, defaultToAll: true },
+  test('Changing show results changes number of rows shown', async () => {
+    let container = await sortTableFactory(
+      { showPagination: true },
       { viewSet: 2 }
     );
-    expect(wrapper.find('[data-pagination-summary]').text()).toEqual(
-      `1 - 2 of ${data.length} entries.`
-    );
-
-    wrapper = sortTable(
-      { showPagination: true, defaultToAll: true },
-      { viewSet: 4 }
-    );
-    expect(wrapper.find('[data-pagination-summary]').text()).toEqual(
-      `1 - 4 of ${data.length} entries.`
-    );
+    let rows = container.querySelectorAll('table tbody tr');
+    expect(rows).toHaveLength(2);
+    container = changeViewItemsToView(container, 4);
+    rows = container.querySelectorAll('table tbody tr');
+    expect(rows).toHaveLength(4);
   });
 
-  test('Changing rows shown does not change aria row count', () => {
-    let wrapper = sortTable({ showPagination: true });
-    expect(wrapper.find('table').props()['aria-rowcount']).toEqual(
-      data.length + 1
-    );
+  test('Table summary when default to all is set', async () => {
+    const container = await sortTableFactory({
+      showPagination: true,
+      defaultToAll: true,
+    });
+    const expectedSummary = `${data.length} entries.`;
+    expect(
+      container.querySelector('[data-pagination-summary]').textContent
+    ).toEqual(expectedSummary);
+  });
 
-    wrapper = sortTable(
-      { showPagination: true, defaultToAll: true },
-      { viewSet: 4 }
+  test('Table summary when selected items per page is larger than number of rows', async () => {
+    expect(data.length).toBeLessThan(50);
+    const container = await sortTableFactory(
+      { showPagination: true },
+      { viewSet: 50 }
     );
-    expect(wrapper.find('table').props()['aria-rowcount']).toEqual(
-      data.length + 1
+    const expectedSummary = `${data.length} entries.`;
+    expect(
+      container.querySelector('[data-pagination-summary]').textContent
+    ).toEqual(expectedSummary);
+  });
+
+  test('Table summary when selected items per page is selected', async () => {
+    let container = await sortTableFactory(
+      { showPagination: true },
+      { viewSet: 2 }
     );
+    let expectedSummary = `1 - 2 of ${data.length} entries.`;
+
+    expect(
+      container.querySelector('[data-pagination-summary]').textContent
+    ).toEqual(expectedSummary);
+
+    container = changeViewItemsToView(container, 4);
+
+    expectedSummary = `1 - 4 of ${data.length} entries.`;
+
+    expect(
+      container.querySelector('[data-pagination-summary]').textContent
+    ).toEqual(expectedSummary);
+  });
+
+  test('Changing rows shown does not change aria row count', async () => {
+    let container = await sortTableFactory({ showPagination: true });
+    expect(
+      container.querySelector('table').getAttribute('aria-rowcount')
+    ).toEqual(`${data.length + 1}`);
+
+    container = changeViewItemsToView(container, 4);
+    expect(
+      container.querySelector('table').getAttribute('aria-rowcount')
+    ).toEqual(`${data.length + 1}`);
   });
 
   describe('Page links/buttons', () => {
-    test('Pages/link are shown if under 10 pages is present', () => {
-      const wrapper = sortTable({ showPagination: true }, { viewSet: 4 });
-
-      expect(wrapper.find('[data-pagination-select]')).toHaveLength(0);
-      expect(wrapper.find('[data-pagination-button]')).not.toHaveLength(0);
+    test('Pages/link are shown if under 10 pages is present', async () => {
+      const container = await sortTableFactory(
+        { showPagination: true },
+        { viewSet: 2 }
+      );
+      expect(
+        container.querySelector('[data-pagination-select]')
+      ).not.toBeInTheDocument();
+      expect(
+        container.querySelector('[data-pagination-button]')
+      ).toBeInTheDocument();
     });
 
-    test('Correct number of pages are shown', () => {
-      const wrapper = sortTable({ showPagination: true }, { viewSet: 4 });
+    test('Correct number of pages are shown', async () => {
       const numberOfPages = Math.ceil(data.length / 4);
       expect(numberOfPages).toBeGreaterThan(1);
-      expect(wrapper.find('[data-pagination-button]')).toHaveLength(
-        numberOfPages
+      const container = await sortTableFactory(
+        { showPagination: true },
+        { viewSet: 4 }
       );
+      expect(
+        container.querySelectorAll('[data-pagination-button]')
+      ).toHaveLength(numberOfPages);
       // ensure previous and next buttons are available
-      expect(wrapper.find('[data-pagination-previous-button]')).toHaveLength(1);
-      expect(wrapper.find('[data-pagination-next-button]')).toHaveLength(1);
+      expect(
+        container.querySelector('[data-pagination-previous-button]')
+      ).toBeInTheDocument();
+      expect(
+        container.querySelector('[data-pagination-next-button]')
+      ).toBeInTheDocument();
     });
 
-    test('Number of pages changes when changing show results changes', () => {
-      let wrapper = sortTable({ showPagination: true }, { viewSet: 4 });
-      const numPages = wrapper.find('[data-pagination-button]').length;
-
-      wrapper = sortTable({ showPagination: true }, { viewSet: 2 });
-      expect(numPages).not.toEqual(
-        wrapper.find('[data-pagination-button]').length
-      );
-    });
-
-    test('Clicking on a page changes the items shown', () => {
-      let wrapper = sortTable({ showPagination: true }, { viewSet: 2 });
-      const initalValues = columnText(wrapper, 1);
-
-      wrapper = sortTable(
+    test('Number of pages changes when changing show results changes', async () => {
+      let container = await sortTableFactory(
         { showPagination: true },
-        { viewSet: 2, pageIndex: 1 }
+        { viewSet: 4 }
       );
-      const newValues = columnText(wrapper, 1);
-      expect(initalValues).not.toEqual(newValues);
+      const numberOfPages = container.querySelectorAll(
+        '[data-pagination-button]'
+      ).length;
+      container = changeViewItemsToView(container, 2);
+      expect(
+        container.querySelectorAll('[data-pagination-button]')
+      ).not.toHaveLength(numberOfPages);
     });
 
-    test('Clicking on a page changes table summary', () => {
-      let wrapper = sortTable({ showPagination: true }, { viewSet: 2 });
-      expect(wrapper.find('[data-pagination-summary]').text()).toEqual(
-        `1 - 2 of ${data.length} entries.`
-      );
-
-      wrapper = sortTable(
+    test('Clicking on a page changes the items shown', async () => {
+      let container = await sortTableFactory(
         { showPagination: true },
-        { viewSet: 2, pageIndex: 1 }
+        { viewSet: 2 }
       );
-      expect(wrapper.find('[data-pagination-summary]').text()).toEqual(
-        `3 - 4 of ${data.length} entries.`
+      const testColumnIndex = 1;
+      const initialValues = columnText(container, testColumnIndex);
+      container = clickPaginationButton(container, 1);
+      expect(columnText(container, testColumnIndex)).not.toEqual(initialValues);
+    });
+
+    test('Clicking on a page changes table summary', async () => {
+      let container = await sortTableFactory(
+        { showPagination: true },
+        { viewSet: 2 }
       );
+      let expectedSummary = `1 - 2 of ${data.length} entries.`;
+      expect(
+        container.querySelector('[data-pagination-summary]').textContent
+      ).toEqual(expectedSummary);
+      container = clickPaginationButton(container, 1);
+      expectedSummary = `3 - 4 of ${data.length} entries.`;
+      expect(
+        container.querySelector('[data-pagination-summary]').textContent
+      ).toEqual(expectedSummary);
     });
   });
 
   describe('Previous and next buttons', () => {
-    test('Previous button goes to previous page', () => {
-      const wrapper = sortTable(
+    test('Previous button goes to previous page', async () => {
+      const container = await sortTableFactory(
         { showPagination: true },
-        { viewSet: 2, pageIndex: 1 }
+        { viewSet: 2, pageIndex: 3 }
       );
-
       expect(
-        wrapper
-          .find('[data-pagination-button]')
-          .at(1)
-          .find('button[aria-current]')
-      ).toHaveLength(1);
+        container
+          .querySelectorAll('[data-pagination-button]')
+          .item(3)
+          .querySelector('button[aria-current]')
+      ).toBeInTheDocument();
 
-      wrapper
-        .find('[data-pagination-previous-button] button')
-        .simulate('click')
-        .update();
-
+      fireEvent.click(
+        container.querySelector('[data-pagination-previous-button] button')
+      );
       expect(
-        wrapper
-          .find('[data-pagination-button]')
-          .at(0)
-          .find('button[aria-current]')
-      ).toHaveLength(1);
+        container
+          .querySelectorAll('[data-pagination-button]')
+          .item(2)
+          .querySelector('button[aria-current]')
+      ).toBeInTheDocument();
     });
 
-    test('Previous button is disabled on first page', () => {
-      const wrapper = sortTable(
-        { showPagination: true },
-        { viewSet: 2, pageIndex: 0 }
-      );
-
-      expect(
-        wrapper.find('[data-pagination-previous-button] button[disabled]')
-      ).toHaveLength(1);
-    });
-
-    test('Next button goes to next page', () => {
-      const wrapper = sortTable(
+    test('Previous button is disabled on first page', async () => {
+      const container = await sortTableFactory(
         { showPagination: true },
         { viewSet: 2, pageIndex: 0 }
       );
       expect(
-        wrapper
-          .find('[data-pagination-button]')
-          .at(0)
-          .find('button[aria-current]')
-      ).toHaveLength(1);
-
-      wrapper.find('[data-pagination-next-button] button').simulate('click');
-
-      expect(
-        wrapper
-          .find('[data-pagination-button]')
-          .at(1)
-          .find('button[aria-current]')
-      ).toHaveLength(1);
+        container.querySelector(
+          '[data-pagination-previous-button] button[disabled]'
+        )
+      ).toBeInTheDocument();
     });
 
-    test('Next button is disabled on last page', () => {
+    test('Next button goes to next page', async () => {
+      const container = await sortTableFactory(
+        { showPagination: true },
+        { viewSet: 2, pageIndex: 0 }
+      );
+      expect(
+        container
+          .querySelectorAll('[data-pagination-button]')
+          .item(0)
+          .querySelector('button[aria-current]')
+      ).toBeInTheDocument();
+
+      fireEvent.click(
+        container.querySelector('[data-pagination-next-button] button')
+      );
+
+      expect(
+        container
+          .querySelectorAll('[data-pagination-button]')
+          .item(1)
+          .querySelector('button[aria-current]')
+      ).toBeInTheDocument();
+    });
+
+    test('Next button is disabled on last page', async () => {
       const numberOfPages = Math.ceil(data.length / 4);
-      const wrapper = sortTable(
+      const container = await sortTableFactory(
         { showPagination: true },
         { viewSet: 4, pageIndex: numberOfPages - 1 }
       );
 
-      expect(
-        // ensure that the last page is active
-        wrapper
-          .find('[data-pagination-button]')
-          .last()
-          .find('button[aria-current]')
-      ).toHaveLength(1);
+      const buttons = container.querySelectorAll('[data-pagination-button]');
 
       expect(
-        wrapper.find('[data-pagination-next-button] button[disabled]')
-      ).toHaveLength(1);
+        buttons.item(buttons.length - 1).querySelector('button[aria-current]')
+      ).toBeInTheDocument();
+
+      expect(
+        container.querySelector(
+          '[data-pagination-next-button] button[disabled]'
+        )
+      ).toBeInTheDocument();
     });
   });
-  describe('Pagination drop down', () => {
-    test('Drop down of pages is shown if there are 10 or more pages', () => {
-      const wrapper = sortTable({ showPagination: true }, { viewSet: 1 });
 
+  describe('Pagination drop down', () => {
+    test('Drop down of pages is shown if there are 10 or more pages', async () => {
+      const container = await sortTableFactory(
+        { showPagination: true },
+        { viewSet: 1 }
+      );
       expect(data.length).toBeGreaterThan(10);
-      expect(wrapper.find('[data-pagination-select]')).toHaveLength(1);
+      expect(
+        container.querySelector('[data-pagination-select]')
+      ).toBeInTheDocument();
     });
 
-    test('Correct number  of options are shown', () => {
-      const wrapper = sortTable({ showPagination: true }, { viewSet: 1 });
-      expect(wrapper.find('[data-pagination-select] option')).toHaveLength(
-        data.length
+    test('Correct number  of options are shown', async () => {
+      const container = await sortTableFactory(
+        { showPagination: true },
+        { viewSet: 1 }
       );
+      expect(
+        container.querySelectorAll('[data-pagination-select] option')
+      ).toHaveLength(data.length);
     });
 
     test.todo('Number of pages changes when changing show results changes');
 
-    test('Selecting on a page changes the items shown', () => {
-      let wrapper = sortTable({ showPagination: true }, { viewSet: 1 });
-      const initalValues = columnText(wrapper, 1);
-
-      wrapper = sortTable(
+    test('Selecting on a page changes the items shown', async () => {
+      let container = await sortTableFactory(
         { showPagination: true },
-        { viewSet: 1, pageIndex: 1 }
+        { viewSet: 1 }
       );
-      expect(wrapper.find('[data-pagination-select]')).toHaveLength(1);
-      const newValues = columnText(wrapper, 1);
+      const initalValues = columnText(container, 1);
+
+      container = clickPaginationButton(container, 2);
+
+      expect(
+        container.querySelectorAll('[data-pagination-select]')
+      ).toHaveLength(1);
+      const newValues = columnText(container, 1);
       expect(initalValues).not.toEqual(newValues);
     });
 
-    test('Selecting a page changes table summary', () => {
-      let wrapper = sortTable({ showPagination: true }, { viewSet: 1 });
-      expect(wrapper.find('[data-pagination-summary]').text()).toEqual(
-        `1 - 1 of ${data.length} entries.`
-      );
-
-      wrapper = sortTable(
+    test('Selecting a page changes table summary', async () => {
+      let container = await sortTableFactory(
         { showPagination: true },
-        { viewSet: 1, pageIndex: 1 }
+        { viewSet: 1 }
       );
-      expect(wrapper.find('[data-pagination-summary]').text()).toEqual(
-        `2 - 2 of ${data.length} entries.`
-      );
+      expect(
+        container.querySelector('[data-pagination-summary]').textContent
+      ).toEqual(`1 - 1 of ${data.length} entries.`);
+
+      container = clickPaginationButton(container, 2);
+      expect(
+        container.querySelector('[data-pagination-summary]').textContent
+      ).toEqual(`2 - 2 of ${data.length} entries.`);
     });
   });
 
   describe('Pagination and filtering', () => {
-    test('Number of pages chanages when filtering', () => {
-      let wrapper = sortTable(
+    test('Number of pages chanages when filtering', async () => {
+      let container = await sortTableFactory(
         { showPagination: true, showFilter: true },
         { viewSet: 2, filter: '' }
       );
 
-      const initialNumberOfPages = wrapper.find(
+      const initialNumberOfPages = container.querySelectorAll(
         '[data-pagination-button]'
       ).length;
 
-      wrapper = sortTable(
-        { showPagination: true, showFilter: true },
-        { viewSet: 2, filter: 'cheese' }
-      );
+      container = changeFilter(container, 'cheese');
 
-      expect(wrapper.find('[data-pagination-button]')).not.toHaveLength(
-        initialNumberOfPages
-      );
+      expect(
+        container.querySelectorAll('[data-pagination-button]')
+      ).not.toHaveLength(initialNumberOfPages);
     });
 
     test.todo('Aria rowindex does not change on each row');
 
-    test('Table summary updates when filtering', () => {
-      // Showing 1 to 2 of 7 entries
-      // Showing 1 to 2 of 5 entries(filtered from 7 total entries)
-      let wrapper = sortTable(
+    test('Table summary updates when filtering', async () => {
+      let container = await sortTableFactory(
         { showPagination: true, showFilter: true },
         { viewSet: 2, filter: '' }
       );
 
-      expect(wrapper.find('[data-pagination-summary]').text()).toEqual(
-        `1 - 2 of ${data.length} entries.`
-      );
+      expect(
+        container.querySelector('[data-pagination-summary]').textContent
+      ).toEqual(`1 - 2 of ${data.length} entries.`);
 
-      wrapper = sortTable(
-        { showPagination: true, showFilter: true },
-        { viewSet: 2, filter: 'cheese' }
-      );
+      container = changeFilter(container, 'cheese');
 
-      expect(wrapper.find('[data-pagination-summary]').text()).toEqual(
-        `1 - 2 of 3 entries (filtered from ${data.length}).`
-      );
+      expect(
+        container.querySelector('[data-pagination-summary]').textContent
+      ).toEqual(`1 - 2 of 3 entries (filtered from ${data.length}).`);
     });
   });
 });
