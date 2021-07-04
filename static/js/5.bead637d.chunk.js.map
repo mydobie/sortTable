@@ -1,0 +1,1 @@
+{"version":3,"sources":["Components/ResponsiveCss.tsx"],"names":["ResponsiveCss"],"mappings":"sJAAA,6BAKeA,UAFO,kBAAM","file":"static/js/5.bead637d.chunk.js","sourcesContent":["import React from 'react';\nimport './responsive.css';\n\nconst ResponsiveCss = () => <></>;\n\nexport default ResponsiveCss;\n"],"sourceRoot":""}
