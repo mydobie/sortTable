@@ -25,7 +25,7 @@ The above steps will create a `.tgz` file in the root of this project. Move this
 
 ```
 dependencies: {
-  "feature_flags": "file:/"path_to_tgz_file.tgz",
+  "sort-table": "file:./path_to_tgz_file.tgz",
 }
 ```
 
@@ -39,7 +39,7 @@ Then run `npm install`.
 
 ```
 dependencies: {
-  "feature_flags": "file:/"path_to_tgz_file.tgz",
+  "sort-table": "file:./path_to_tgz_file.tgz",
 }
 ```
 
