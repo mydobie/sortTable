@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import { mount } from 'enzyme';
+
+import { render, waitFor, fireEvent } from '@testing-library/react';
 
 import SortTable, {
   tableDataType,
@@ -15,6 +16,7 @@ export const data: tableDataType[] = [
     stock: 20,
     day: 'Friday',
     saledaynum: 5,
+    url: '',
   },
   {
     id: 2,
@@ -107,13 +109,13 @@ export const headers: headerDataType[] = [
     style: { color: 'purple' },
   },
 ];
-export const viewSteps: number[] = [2, 4, 10];
+export const viewSteps: number[] = [1, 2, 4, 10];
 
-export const sortTable = (
+export const sortTableFactory = async (
   props?: any,
   initial?: {
     viewSet?: number | string;
-    filter?: string | number;
+    filter?: string;
     pageIndex?: number;
   }
 ) => {
@@ -121,77 +123,117 @@ export const sortTable = (
   const tableData = props?.tableData ? props.tableData : data;
   const tableHeaders = props?.headers ? props.headers : headers;
 
-  const wrapper = mount(
+  let wrapper = <></>;
+
+  wrapper = (
     <SortTable
       tableData={tableData}
       headers={tableHeaders}
       viewSteps={steps}
       {...props}
     />
-  ).update();
+  );
+
+  let { container } = render(wrapper);
 
   if (props?.showFilter) {
-    wrapper
-      .find('[data-filter-input]')
-      .simulate('change', {
-        target: { value: initial?.filter ? `${initial.filter}` : '' },
-      })
-      .update();
+    await waitFor(() =>
+      expect(container.querySelector('[data-filter]')).toBeInTheDocument()
+    );
   }
+
+  if (props?.showPagination) {
+    await waitFor(() =>
+      expect(
+        container.querySelector('[data-sort-number-of-inputs]')
+      ).toBeInTheDocument()
+    );
+  }
+
+  if (props?.isLoading && !props?.isLoadingMessage) {
+    await waitFor(() =>
+      expect(
+        container.querySelector('[data-sort-table-loading]')
+      ).toBeInTheDocument()
+    );
+  }
+
+  if (props?.showFilter) {
+    container = changeFilter(container, initial?.filter);
+  }
+
   if (props?.showPagination && initial?.viewSet !== undefined) {
-    wrapper
-      .find('[data-sort-number-of-inputs] select')
-      .simulate('change', { target: { value: `${initial.viewSet}` } })
-      .update();
+    container = changeViewItemsToView(container, initial.viewSet);
   }
 
   if (props?.showPagination && initial?.pageIndex !== undefined) {
-    if (wrapper.find('[data-pagination-select]').length > 0) {
-      // drop down
-      const value = wrapper
-        .find('[data-pagination-select] option')
-        .at(initial.pageIndex)
-        .prop('value');
-
-      wrapper
-        .find('[data-pagination-select]')
-        .simulate('change', { target: { value } })
-        .update();
-    } else {
-      wrapper
-        .find('[data-pagination-button]')
-        .at(initial.pageIndex)
-        .find('button')
-        .simulate('click')
-        .update();
-    }
+    container = clickPaginationButton(container, initial.pageIndex);
   }
 
-  return wrapper;
+  return container;
 };
 
-export const columnText = (wrapper, columnIndex: number) => {
-  const rows = wrapper.find('tbody tr');
-
-  return rows.map(
-    (row) => row.find('[data-sorttable-data-cell]').at(columnIndex).text() ?? ''
+export const clickHeader = (container, headerIndex: number) => {
+  fireEvent.click(
+    container
+      .querySelectorAll('thead th')
+      .item(headerIndex)
+      .querySelector('button')
   );
+  return container;
 };
 
-// export const isInObject = (object: Object, value: string | number): boolean => {
-//   for (const key in object) {
-//     if (object[key] === value) {
-//       return true;
-//     }
-//   }
-//   return false;
-// };
+export const changeFilter = (container, filterText: string = '') => {
+  // The first fire event is needed if filterText is ""
+  // Having the first fire event will ensure a filte rof '' will fire
+  fireEvent.change(container.querySelector('[data-filter-input]'), {
+    target: { value: 'testStringSoEmptyWillRegisterAsAChange' },
+  });
 
-// export const arrayInObjectOfArray = (
-//   array: (string | number)[],
-//   objectArray: object[]
-// ): boolean =>
-//   array.every((item) => objectArray.some((object) => isInObject(object, item)));
+  fireEvent.change(container.querySelector('[data-filter-input]'), {
+    target: { value: filterText },
+  });
+  return container;
+};
+
+export const changeViewItemsToView = (container, numShown: number | string) => {
+  fireEvent.change(
+    container.querySelector('[data-sort-number-of-inputs] select'),
+    { target: { value: `${numShown}` } }
+  );
+  return container;
+};
+
+export const clickPaginationButton = (container, pageIndex: number) => {
+  if (container.querySelector(`[data-pagination-button]`)) {
+    fireEvent.click(
+      container
+        .querySelectorAll(`[data-pagination-button]`)
+        .item(pageIndex)
+        .querySelector('button')
+    );
+  } else {
+    fireEvent.change(container.querySelector('[data-pagination-select]'), {
+      target: { value: `${pageIndex}` },
+    });
+  }
+  return container;
+};
+
+export const columnText = (container, columnIndex: number) => {
+  const rows = container.querySelectorAll('tbody tr');
+
+  const cells = [];
+  rows.forEach((row) => {
+    // rows is a nodeList and map, filter, reduce etc are not available
+    cells.push(
+      row.querySelector(
+        `[data-sorttable-data-cell]:nth-child(${columnIndex + 1})`
+      ).innerHTML
+    );
+  });
+  return cells;
+};
 
 export const expectedInObjectArray = (
   array: (string | number)[],

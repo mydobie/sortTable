@@ -7,9 +7,7 @@ import React from 'react';
 // enableHooks(jest);
 // React.useLayoutEffect = React.useEffect;
 
-import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
-
-import { configure } from 'enzyme';
-configure({ adapter: new Adapter() });
 import { toHaveNoViolations } from 'jest-axe';
 expect.extend(toHaveNoViolations);
+
+import '@testing-library/jest-dom';

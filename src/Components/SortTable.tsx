@@ -1,14 +1,17 @@
-/* eslint-disable no-console */
 /* Component to create a sortable and filterable table
 Like a lightweight data tables (https://datatables.net/)
 */
 
 import React from 'react';
 import SortIcons from './SortIcons';
-import Pagination from './Pagination';
-import Filter from './Filter';
-import Loading from './Loading';
-import './responsive.css';
+import './sortTable.css';
+import TableSummary from './TableSummary';
+
+const Pagination = React.lazy(() => import('./Pagination'));
+const Filter = React.lazy(() => import('./Filter'));
+const Loading = React.lazy(() => import('./Loading'));
+const List = React.lazy(() => import('./List'));
+const ResponsiveCss = React.lazy(() => import('./ResponsiveCss'));
 
 export type tableDataType = {
   [key: string]: any;
@@ -41,16 +44,20 @@ interface Props {
   caseSensitiveFilter?: boolean;
   dangerouslySetInnerHTML?: boolean; // Used very rarely, but should the table process html in a string
   defaultToAll?: boolean;
+  emptyCellClassName?: string;
   headerClassName?: string;
   id?: string;
-  initialSort?: headerType; // what column shouold be sorted intially
+  initialSort?: headerType; // what column should be sorted initially
   initialSortDsc?: boolean;
   isLoading?: boolean;
   isLoadingMessage?: JSX.Element;
   isResponsive?: boolean;
+  isResponsiveList?: boolean;
+  isResponsiveListAlwaysShow?: boolean; // only used for testing
   noDataMessage?: JSX.Element;
   showFilter?: boolean;
   showPagination?: boolean;
+  sortedCellClass?: string;
   tableClassName?: string;
   viewSteps?: number[];
 }
@@ -68,6 +75,8 @@ const SortTable = (props: Props): JSX.Element => {
     caseSensitiveFilter,
     id,
     isResponsive,
+    isResponsiveList,
+    isResponsiveListAlwaysShow,
     caption,
     tableClassName,
     headerClassName,
@@ -76,18 +85,22 @@ const SortTable = (props: Props): JSX.Element => {
     isLoading,
     isLoadingMessage,
     initialSortDsc,
+    emptyCellClassName,
+    sortedCellClass,
   } = props;
 
   const sortTableId = id ?? 'sortTable';
 
   const [tableDisplayRows, setTableDisplayRows] = React.useState(tableData);
-  const [sortCol, setSortCol] = React.useState(''); // sort by this columnn
+  const [sortCol, setSortCol] = React.useState(''); // sort by this column
   const [sortAscending, setSortAscending] = React.useState(true);
   const [filterValue, setFilterValue] = React.useState('');
   const [maxNumber, setMaxNumber] = React.useState(
     defaultToAll || !viewSteps ? null : viewSteps[0]
   );
   const [startRow, setStartRow] = React.useState(0);
+  const [isAlert, setAlert] = React.useState(false);
+  const [alertText, setAlertText] = React.useState('');
 
   const noData: JSX.Element = noDataMessage ?? (
     <p data-sort-no-data-message>No data is available</p>
@@ -132,14 +145,12 @@ const SortTable = (props: Props): JSX.Element => {
           if (a[sortCol] < b[sortCol]) {
             return sortAscending === true ? -1 : 1;
           }
-          // if (a[sortCol] > b[sortCol]) {
           return sortAscending === false ? -1 : 1;
-          // }
         })
         .map((row, index) => ({ ...row, rowindex: index + 2 }));
       setTableDisplayRows(newSortData);
     }
-    // Adding chagne to tableDisplayRows causes an infinate loop
+    // Adding change to tableDisplayRows causes an infinite loop
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sortAscending, sortCol]);
 
@@ -159,12 +170,19 @@ const SortTable = (props: Props): JSX.Element => {
         type='button'
         onClick={() => {
           const col = header.sortKey ?? header.key;
+          const isSortAscending = col !== sortCol || !sortAscending;
           if (col !== sortCol) {
-            setSortAscending(true);
+            // setSortAscending(true);
             setSortCol(col);
-          } else {
-            setSortAscending(!sortAscending);
           }
+          setSortAscending(isSortAscending);
+          setAlertText(
+            `Sorted by ${header.name} ${
+              isSortAscending ? 'ascending' : 'descending'
+            }`
+          );
+
+          setAlert(true);
         }}
         style={{
           border: 'none',
@@ -193,14 +211,22 @@ const SortTable = (props: Props): JSX.Element => {
   };
 
   const buildHeaders = (
-    <tr aria-rowindex={showPagination ? 1 : undefined}>
+    <tr
+      aria-rowindex={showPagination ? 1 : undefined}
+      role={isResponsive && !isResponsiveList ? 'row' : undefined}
+    >
       {headers.map((header) => (
         <th
           scope='col'
           key={header.key}
           aria-sort={setAriaSort(header.key)}
           style={header.style}
-          className={header.className}
+          className={`${header.className} ${
+            header.key === sortCol || header.sortKey === sortCol
+              ? sortedCellClass
+              : ''
+          }`}
+          role={isResponsive && !isResponsiveList ? 'columnheader' : undefined}
         >
           {headerButton(header)}
         </th>
@@ -213,6 +239,7 @@ const SortTable = (props: Props): JSX.Element => {
     <tr
       key={rowData.id}
       aria-rowindex={showPagination ? rowData.rowindex : undefined}
+      role={isResponsive && !isResponsiveList ? 'row' : undefined}
     >
       {headers.map((header) => {
         const data = dangerouslySetInnerHTML ? (
@@ -221,13 +248,20 @@ const SortTable = (props: Props): JSX.Element => {
         ) : (
           rowData[header.key]
         );
+
+        const className = `${!data ? emptyCellClassName : ''} ${
+          header.key === sortCol || header.sortKey === sortCol
+            ? sortedCellClass
+            : ''
+        }`;
         if (header.rowheader) {
           return (
             <th
               scope='row'
               key={`${rowData.id}${header.key}`}
               data-sorttable-data-cell
-              data-label={header.name}
+              role={isResponsive && !isResponsiveList ? 'rowheader' : undefined}
+              className={className}
             >
               {data}
             </th>
@@ -237,8 +271,14 @@ const SortTable = (props: Props): JSX.Element => {
           <td
             key={`${rowData.id}${header.key}`}
             data-sorttable-data-cell
-            data-label={header.name}
+            role={isResponsive && !isResponsiveList ? 'cell' : undefined}
+            className={className}
           >
+            {isResponsive && !isResponsiveList ? (
+              <span aria-hidden data-responsive-header>
+                {header.name}
+              </span>
+            ) : null}
             {data}
           </td>
         );
@@ -247,16 +287,15 @@ const SortTable = (props: Props): JSX.Element => {
   );
 
   /* ********************************* */
-  const buildData = () => {
-    const rows =
-      !showPagination || !maxNumber
-        ? tableDisplayRows.filter((row) => !row.hide)
-        : tableDisplayRows
-            .filter((row) => !row.hide)
-            .slice(startRow, startRow + maxNumber);
+  const displayRows = () =>
+    !showPagination || !maxNumber
+      ? tableDisplayRows.filter((row) => !row.hide)
+      : tableDisplayRows
+          .filter((row) => !row.hide)
+          .slice(startRow, startRow + maxNumber);
 
-    return rows.map((row) => buildDataRow(row));
-  };
+  /* ********************************* */
+  const buildData = () => displayRows().map((row) => buildDataRow(row));
 
   /* ********************************* */
   const filterRows = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -320,101 +359,143 @@ const SortTable = (props: Props): JSX.Element => {
   );
 
   /* ********************************* */
-  const rowsShownSummary = () => {
-    const totalRows = tableDisplayRows.length;
-    const totalFiltered = tableDisplayRows.filter((row) => !row.hide).length;
-
-    let endRow = totalFiltered;
-
-    if (maxNumber) {
-      endRow = startRow + maxNumber;
-      endRow = endRow > totalFiltered ? totalFiltered : endRow;
-    }
-
-    if (totalFiltered === totalRows && startRow === 0 && endRow === totalRows) {
-      return `Showing ${totalRows} entries`;
-    }
-
-    return `Showing ${
-      showPagination ? `${startRow + 1} to ${endRow} of ` : ''
-    }${totalFiltered} entries${
-      filterValue === '' ? '' : `(filtered from ${totalRows} total entries)`
-    }`;
-  };
-
-  /* ********************************* */
   if (tableDisplayRows.length === 0) {
     return noData;
   }
   return (
     <div className='container-fluid'>
-      <div
-        className='row'
-        style={{ marginBottom: showPagination || showFilter ? '15px' : '0' }}
-      >
-        {showPagination ? (
-          <div className='col-sm'>{showNumberInput()}</div>
-        ) : null}
-        {showFilter ? (
-          <div className='col-sm' style={{ textAlign: 'right' }}>
-            <Filter
-              value={filterValue}
-              onChange={filterRows}
-              label='Filter'
-              id={sortTableId}
-            />{' '}
-          </div>
-        ) : null}
-      </div>
-      <div className='row'>
-        <table
-          className={`table ${tableClassName}`}
-          id={sortTableId}
-          aria-describedby={`${sortTableId}RowsShownSummary`}
-          aria-rowcount={
-            showPagination || showFilter ? tableDisplayRows.length : undefined
-          }
-          data-sort-responsive={isResponsive ?? undefined}
-        >
-          {caption ? <caption>{caption}</caption> : null}
-          <thead className={headerClassName}>{buildHeaders}</thead>
-          {!isLoading ? <tbody>{buildData()}</tbody> : null}
-        </table>
-        {tableDisplayRows.findIndex((row) => !row.hide) === -1
-          ? allFiltered
-          : null}
+      <React.Suspense fallback={<></>}>
+        {isResponsive && !isResponsiveList ? <ResponsiveCss /> : null}
 
-        {isLoading && !isLoadingMessage ? <Loading /> : null}
-        {isLoading && isLoadingMessage ? isLoadingMessage : null}
-      </div>
-      <div className='row'>
         <div
-          className='col-sm'
-          id={`${sortTableId}RowsShownSummary`}
-          data-pagination-summary
+          className='row'
+          style={{ marginBottom: showPagination || showFilter ? '15px' : '0' }}
         >
-          {!isLoading ? rowsShownSummary() : null}
+          {showPagination ? (
+            <div className='col-sm'>{showNumberInput()}</div>
+          ) : null}
+
+          {showFilter ? (
+            <div className='col-sm' style={{ textAlign: 'right' }}>
+              <Filter
+                value={filterValue}
+                onChange={filterRows}
+                label='Filter'
+                id={sortTableId}
+              />{' '}
+            </div>
+          ) : null}
         </div>
-        {showPagination ? (
-          <div className='col-sm'>
-            <Pagination
-              numberOfPages={Math.ceil(
-                maxNumber && maxNumber > 0
-                  ? tableDisplayRows.filter((row) => !row.hide).length /
-                      maxNumber
-                  : 1
-              )}
-              initialActivePage={1}
-              id={sortTableId}
-              onPageChange={(page) => {
-                setStartRow(
-                  maxNumber && page !== 0 ? (page - 1) * maxNumber : 0
-                );
-              }}
+        <div className='row'>
+          {isAlert ? (
+            <div data-sort-table-confirm>
+              <div className='alert alert-success' role='alert'>
+                {alertText}
+              </div>
+            </div>
+          ) : null}
+
+          <table
+            className={`table ${tableClassName}`}
+            id={sortTableId}
+            aria-describedby={`${sortTableId}RowsShownSummary`}
+            aria-rowcount={
+              showPagination || showFilter
+                ? tableDisplayRows.length + 1
+                : undefined
+            }
+            data-sort-responsive={
+              (isResponsive && !isResponsiveList) ?? undefined
+            }
+            data-sort-responsive-has-list={isResponsiveList ?? undefined}
+            data-sort-responsive-has-list-always-hide={
+              isResponsiveListAlwaysShow ?? undefined
+            }
+            role={isResponsive && !isResponsiveList ? 'table' : undefined}
+          >
+            {caption ? <caption>{caption}</caption> : null}
+            <thead
+              className={headerClassName}
+              role={isResponsive && !isResponsiveList ? 'rowgroup' : undefined}
+            >
+              {buildHeaders}
+            </thead>
+            {!isLoading ? (
+              <tbody
+                role={
+                  isResponsive && !isResponsiveList ? 'rowgroup' : undefined
+                }
+              >
+                {buildData()}
+              </tbody>
+            ) : null}
+          </table>
+
+          {isResponsiveList ? (
+            <List
+              headers={headers}
+              tableData={displayRows()}
+              isResponsiveListAlwaysShow={isResponsiveListAlwaysShow}
             />
+          ) : null}
+
+          {tableDisplayRows.findIndex((row) => !row.hide) === -1
+            ? allFiltered
+            : null}
+
+          {isLoading && !isLoadingMessage ? <Loading /> : null}
+          {isLoading && isLoadingMessage ? isLoadingMessage : null}
+        </div>
+        <div className='row'>
+          <div
+            className='col-sm'
+            id={`${sortTableId}RowsShownSummary`}
+            data-pagination-summary
+          >
+            {!isLoading ? (
+              <TableSummary
+                totalEntries={tableData.length}
+                startRow={startRow + 1}
+                endRow={
+                  maxNumber
+                    ? startRow + maxNumber
+                    : tableDisplayRows.filter((row) => !row.hide).length
+                }
+                filteredTotal={
+                  tableDisplayRows.filter((row) => !row.hide).length
+                }
+                sortColumn={
+                  headers.find(
+                    (header) =>
+                      header.key === sortCol || header.sortKey === sortCol
+                  )?.name
+                }
+                sortDirection={sortAscending ? 'ascending' : 'descending'}
+              />
+            ) : null}
           </div>
-        ) : null}
-      </div>
+
+          {showPagination ? (
+            <div className='col-sm'>
+              <Pagination
+                numberOfPages={Math.ceil(
+                  maxNumber && maxNumber > 0
+                    ? tableDisplayRows.filter((row) => !row.hide).length /
+                        maxNumber
+                    : 1
+                )}
+                initialActivePage={1}
+                id={sortTableId}
+                onPageChange={(page) => {
+                  setStartRow(
+                    maxNumber && page !== 0 ? (page - 1) * maxNumber : 0
+                  );
+                }}
+              />
+            </div>
+          ) : null}
+        </div>
+      </React.Suspense>
     </div>
   );
 };

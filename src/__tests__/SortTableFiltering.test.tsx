@@ -1,15 +1,15 @@
 /* eslint-disable react/react-in-jsx-scope */
-// import { axe } from 'jest-axe';
+
 import {
-  sortTable,
   columnText,
   expectedInObjectArray,
   data,
   headers,
+  sortTableFactory,
 } from './helpers/helpers';
 
 describe('Sort Table Filtering (without pagination)', () => {
-  test('Entering a value filters filterable columns case insensitive by defaault', () => {
+  test('Entering a value filters filterable columns case insensitive by defaault', async () => {
     const expectedNamesSorted = ['Milk', 'Heavy Cream', 'Sour Cream'];
 
     // test set-up - ensure expected is in data
@@ -20,12 +20,14 @@ describe('Sort Table Filtering (without pagination)', () => {
     const index = headers.findIndex((header) => header.key === 'name');
 
     // test start
-    const wrapper = sortTable({ showFilter: true }, { filter: 'M' });
-
-    expect(columnText(wrapper, index)).toEqual(expectedNamesSorted);
+    const container = await sortTableFactory(
+      { showFilter: true },
+      { filter: 'M' }
+    );
+    expect(columnText(container, index)).toEqual(expectedNamesSorted);
   });
 
-  test('Filtering matches in a noFilter column are not displayed', () => {
+  test('Filtering matches in a noFilter column are not displayed', async () => {
     // test set-up
     const expectedStockFiltered = ['20', '12'];
     expect(
@@ -41,11 +43,14 @@ describe('Sort Table Filtering (without pagination)', () => {
     const index = headers.findIndex((header) => header.key === 'stock');
 
     // test start
-    const wrapper = sortTable({ showFilter: true }, { filter: 4 });
-    expect(columnText(wrapper, index)).toEqual(expectedStockFiltered);
+    const container = await sortTableFactory(
+      { showFilter: true },
+      { filter: '4' }
+    );
+    expect(columnText(container, index)).toEqual(expectedStockFiltered);
   });
 
-  test('Filtering is case sensitive when caseSensitiveFilter is set to true', () => {
+  test('Filtering is case sensitive when caseSensitiveFilter is set to true', async () => {
     const expectedNamesSorted = ['Heavy Cream', 'Sour Cream'];
 
     // test set-up - ensure expected is in data
@@ -56,35 +61,47 @@ describe('Sort Table Filtering (without pagination)', () => {
     const index = headers.findIndex((header) => header.key === 'name');
 
     // test start
-    const wrapper = sortTable(
+    const container = await sortTableFactory(
       { showFilter: true, caseSensitiveFilter: true },
       { filter: 'm' }
     );
-
-    expect(columnText(wrapper, index)).toEqual(expectedNamesSorted);
+    expect(columnText(container, index)).toEqual(expectedNamesSorted);
   });
 
-  test('Table summary changes with filtering', () => {
-    // Unfiltered
-    let wrapper = sortTable({ showFilter: true });
-    expect(wrapper.find('[data-pagination-summary]').text()).toEqual(
-      `Showing ${data.length} entries`
-    );
-
-    // Filtered
-    wrapper = sortTable({ showFilter: true }, { filter: 'M' });
-    expect(wrapper.find('[data-pagination-summary]').text()).toEqual(
-      `Showing 3 entries(filtered from ${data.length} total entries)`
-    );
+  test('Table summary without filtering', async () => {
+    const container = await sortTableFactory({ showFilter: true });
+    expect(
+      container.querySelector('[data-pagination-summary] span').innerHTML
+    ).toEqual(`${data.length} entries.`);
   });
 
-  test('Aria row count is correct and does not change with filtering', () => {
-    let wrapper = sortTable({ showFilter: true });
-    expect(wrapper.find('table').props()['aria-rowcount']).toEqual(data.length);
+  test('Table summary changes with filtering', async () => {
+    const container = await sortTableFactory(
+      { showFilter: true },
+      { filter: 'M' }
+    );
+    expect(
+      container.querySelector('[data-pagination-summary] span').innerHTML
+    ).toEqual(`3 entries (filtered from ${data.length}).`);
+  });
 
-    wrapper = sortTable({ showFilter: true }, { filter: 'M' });
+  test('Aria row count is same as available rows', async () => {
+    const container = await sortTableFactory({ showFilter: true });
+    expect(
+      container.querySelector('table').getAttribute('aria-rowcount')
+    ).toEqual(`${data.length + 1}`);
+  });
 
-    expect(wrapper.find('tbody tr')).not.toEqual(data.length);
-    expect(wrapper.find('table').props()['aria-rowcount']).toEqual(data.length);
+  test('Aria row count is correct and does not change with filtering', async () => {
+    const container = await sortTableFactory(
+      { showFilter: true },
+      { filter: 'M' }
+    );
+    expect(container.querySelectorAll('table tr').length).not.toEqual(
+      data.length + 1
+    );
+    expect(
+      container.querySelector('table').getAttribute('aria-rowcount')
+    ).toEqual(`${data.length + 1}`);
   });
 });

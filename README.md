@@ -1,5 +1,7 @@
 # React Sort Table
 
+![Test and build](https://github.com/mydobie/sortTable/actions/workflows/test_and_build.yml/badge.svg)
+
 ## Description
 
 This is a lightweight replacement for the jQuery DataTables. The following options are supported:
@@ -23,7 +25,7 @@ The above steps will create a `.tgz` file in the root of this project. Move this
 
 ```
 dependencies: {
-  "feature_flags": "file:/"path_to_tgz_file.tgz",
+  "sort-table": "file:./path_to_tgz_file.tgz",
 }
 ```
 
@@ -37,7 +39,7 @@ Then run `npm install`.
 
 ```
 dependencies: {
-  "feature_flags": "file:/"path_to_tgz_file.tgz",
+  "sort-table": "file:./path_to_tgz_file.tgz",
 }
 ```
 
@@ -57,6 +59,8 @@ In order to use these components, you need to ensure that the following are in y
 
 - react
 - react-dom
+
+This component is not optimized to use in the browser. In addition, it uses React.lazy, so ensure that your project can support this feature. See the [React.lazy documentation](https://reactjs.org/docs/code-splitting.html#reactlazy)
 
 #### CSS
 
@@ -161,6 +165,14 @@ The following props are available to be sent to the `SortTable` component:
     <td>"sortTable"</td>
     <td>Id applied to the table.  If there is more than one sortTable on the screen at once, this must be set to a unique value.</td>
   </tr>
+   <tr>
+    <td>emptyCellClassName</td>
+    <td>string</td>
+    <td>no</td>
+    <td>(no default)</td>
+    <td>This class will be applied to any <code>td</code> tag where the value is empty or undefined.  This can be used enter a value via css.  Example: <code>.emptyCell:after {content 'not known' } </code>
+    </td>
+  </tr>
   <tr>
     <td>initialSort</td>
     <td>string</td>
@@ -193,9 +205,17 @@ The following props are available to be sent to the `SortTable` component:
     <td>isResponsive</td>
     <td>boolean</td>
     <td>no</td>
-    <td></td>
+    <td>false/td>
     <td>When set, css will be applied so the table displays as a list on small screens.  Note:  This works best when the row header is the first cell in a row.</td>
   </tr>
+  <tr>
+    <td>isResponsiveList</td>
+    <td>boolean</td>
+    <td>no</td>
+    <td>false</td>
+    <td>When set, the responsive view will be a definition list instead of a table.  This provides more accessibility support when viewing in responsive mode.  Note:  Both the table and definition list will be in the DOM and CSS is used to hide/show the proper version.  If the table is very large, this may cause performance issues.  `isResponsive` must not be set as a prop in order for this feature to be active. </td>
+  </tr>
+
   <tr>
     <td>noDataMessage</td>
     <td>JSX.Element</td>
@@ -216,6 +236,13 @@ The following props are available to be sent to the `SortTable` component:
     <td>no</td>
     <td>false</td>
     <td>Show the pagination links and elements per page drop down.</td>
+  </tr>
+  <tr>
+    <td>sortedCellClass</td>
+    <td>string</td>
+    <td>no</td>
+    <td>''</td>
+    <td>CSS class applied to cells in a sorted column.</td>
   </tr>
   <tr>
     <td>tableClassName</td>

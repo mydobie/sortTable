@@ -1,7 +1,8 @@
 name: Publish Package
 on:
-  release:
-    types: [created]
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
@@ -9,15 +10,15 @@ jobs:
     name: test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2.3.1 
+      - uses: actions/checkout@v2.3.1
         with:
           persist-credentials: false
       - uses: actions/setup-node@v1
         with:
-          node-version: 12
+          node-version: 14
 
       - name: Install dependencies
-        run:  npm run d
+        run: npm run d
 
       - name: Tests
         run: npm run test
@@ -31,17 +32,41 @@ jobs:
       - name: Security audit
         run: npm run npmAudit
 
-  publish:
-    name: publish module
+  bump-version:
+    name: 'Bump Version on master'
     runs-on: ubuntu-latest
     needs: test
     steps:
-      - uses: actions/checkout@v2.3.1 
+      - name: 'Checkout source code'
+        uses: 'actions/checkout@v2'
+        with:
+          ref: ${{ github.ref }}
+      - name: 'cat package.json'
+        run: cat ./package.json
+      - name: 'Setup Node.js'
+        uses: 'actions/setup-node@v1'
+        with:
+          node-version: 14
+      - name: 'Automated Version Bump'
+        uses: 'phips28/gh-action-bump-version@master'
+        with:
+          tag-prefix: 'v'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: 'cat package.json'
+        run: cat ./package.json
+
+  publish:
+    name: publish module
+    runs-on: ubuntu-latest
+    needs: bump-version
+    steps:
+      - uses: actions/checkout@v2.3.1
         with:
           persist-credentials: false
       - uses: actions/setup-node@v1
         with:
-          node-version: '12.x'
+          node-version: '14.x'
           registry-url: https://npm.pkg.github.com/
 
           scope: '@mydobie'
@@ -61,26 +86,26 @@ jobs:
   pages:
     name: publish gitHub pages
     runs-on: ubuntu-latest
-    needs: test
+    needs: bump-version
     steps:
       - name: Checkout action
-        uses: actions/checkout@v2.3.1 
+        uses: actions/checkout@v2.3.1
         with:
           persist-credentials: false
 
       - name: Install dependencies
         run: npm run d
 
-      - name: Build 
+      - name: Build
         run: npm run build:ci
 
       - name: Fix paths in index.html
         run: node utils/resetPathIndex.js
 
-      - name: Deploy 
+      - name: Deploy
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages 
-          FOLDER: build 
-          CLEAN: true 
+          BRANCH: gh-pages
+          FOLDER: build
+          CLEAN: true
