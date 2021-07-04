@@ -53,6 +53,7 @@ interface Props {
   isLoadingMessage?: JSX.Element;
   isResponsive?: boolean;
   isResponsiveList?: boolean;
+  isResponsiveListAlwaysShow?: boolean; // only used for testing
   noDataMessage?: JSX.Element;
   showFilter?: boolean;
   showPagination?: boolean;
@@ -75,6 +76,7 @@ const SortTable = (props: Props): JSX.Element => {
     id,
     isResponsive,
     isResponsiveList,
+    isResponsiveListAlwaysShow,
     caption,
     tableClassName,
     headerClassName,
@@ -406,6 +408,9 @@ const SortTable = (props: Props): JSX.Element => {
               (isResponsive && !isResponsiveList) ?? undefined
             }
             data-sort-responsive-has-list={isResponsiveList ?? undefined}
+            data-sort-responsive-has-list-always-hide={
+              isResponsiveListAlwaysShow ?? undefined
+            }
             role={isResponsive && !isResponsiveList ? 'table' : undefined}
           >
             {caption ? <caption>{caption}</caption> : null}
@@ -427,7 +432,11 @@ const SortTable = (props: Props): JSX.Element => {
           </table>
 
           {isResponsiveList ? (
-            <List headers={headers} tableData={displayRows()} />
+            <List
+              headers={headers}
+              tableData={displayRows()}
+              isResponsiveListAlwaysShow={isResponsiveListAlwaysShow}
+            />
           ) : null}
 
           {tableDisplayRows.findIndex((row) => !row.hide) === -1

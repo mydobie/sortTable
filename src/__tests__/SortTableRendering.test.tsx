@@ -172,6 +172,7 @@ describe('Sort Table Rendering', () => {
 
     test('Custom style is added to column header', async () => {
       const index = headers.findIndex((header) => header.style);
+      // @ts-ignore
       const color = headers[index].style?.color;
       expect(color).not.toBeUndefined();
 
@@ -260,7 +261,38 @@ describe('Sort Table Rendering', () => {
     });
 
     test('Is accessible with pagination buttons', async () => {
-      const container = await sortTableFactory({ showPagination: true });
+      const container = await sortTableFactory(
+        { showPagination: true },
+        { viewSet: 4 }
+      );
+      expect(
+        container.querySelector('[data-pagination-button]')
+      ).toBeInTheDocument();
+      const results = await axe(`<main>${container.innerHTML}</main>`);
+      expect(results).toHaveNoViolations();
+    });
+
+    test('Is accessible with pagination drop down', async () => {
+      const container = await sortTableFactory(
+        { showPagination: true },
+        { viewSet: 1 }
+      );
+      expect(
+        container.querySelector('[data-pagination-select]')
+      ).toBeInTheDocument();
+      const results = await axe(`<main>${container.innerHTML}</main>`);
+      expect(results).toHaveNoViolations();
+    });
+
+    test('Is accessible with defation list', async () => {
+      const container = await sortTableFactory({
+        showPagination: true,
+        isResponsiveList: true,
+        isResponsiveListAlwaysShow: true,
+      });
+      expect(
+        container.querySelector('[data-sort-responsive-list]')
+      ).toBeInTheDocument();
       const results = await axe(`<main>${container.innerHTML}</main>`);
       expect(results).toHaveNoViolations();
     });

@@ -124,7 +124,7 @@ function App() {
       <p>
         This table has sorting, filter, and pagination enable. To assist users
         to know what column is sorted, the sorted cells have a custom CSS
-        applied. On screens less than 600px, custom CSS will be applied to
+        applied. On screens less than 700px, custom CSS will be applied to
         display the table to appear as if it is a list.
       </p>
       <SortTable

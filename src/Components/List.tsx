@@ -5,6 +5,8 @@ import './responsivelist.css';
 type listProps = {
   headers: headerDataType[];
   tableData: tableDataType[];
+  // eslint-disable-next-line react/require-default-props
+  isResponsiveListAlwaysShow?: boolean;
 };
 
 const ListRow = (props: {
@@ -20,11 +22,14 @@ const ListRow = (props: {
   );
 };
 
-const List = (props: listProps) => {
-  const { headers, tableData } = props;
+const List = (props: listProps): JSX.Element => {
+  const { headers, tableData, isResponsiveListAlwaysShow } = props;
 
   return (
-    <div data-sort-responsive-list>
+    <div
+      data-sort-responsive-list
+      data-sort-responsive-list-always-show={isResponsiveListAlwaysShow}
+    >
       {tableData.map((row) => (
         <dl key={row.id}>
           {headers.map((header) => (

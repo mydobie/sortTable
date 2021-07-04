@@ -25,9 +25,10 @@ const TableSummary = (props: TableSummaryProps) => {
   if (endRow) {
     if (filteredTotal && endRow > filteredTotal) {
       endingRow = filteredTotal;
-    } else if (endRow > totalEntries) {
-      endingRow = totalEntries;
     }
+    // else if (endRow > totalEntries) {
+    // endingRow = totalEntries;
+    // }
   }
   let displayString =
     startRow &&

@@ -160,10 +160,6 @@ export const sortTableFactory = async (
   }
 
   if (props?.showFilter) {
-    // console.log('NOW IN FILTER WITH VALUE:', initial.filter);
-    //  fireEvent.change(container.querySelector('[data-filter-input]'), {
-    //    target: { value: initial.filter },
-    //  });
     container = changeFilter(container, initial?.filter);
   }
 

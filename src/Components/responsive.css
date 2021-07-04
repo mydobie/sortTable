@@ -2,7 +2,7 @@ table[data-sort-responsive] td span[data-responsive-header] {
   display: none;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 700px) {
   table[data-sort-responsive] {
     border: 0;
   }

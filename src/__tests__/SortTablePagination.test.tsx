@@ -205,6 +205,22 @@ describe('Sort Table Pagination', () => {
         container.querySelector('[data-pagination-summary]').textContent
       ).toEqual(expectedSummary);
     });
+
+    test('Correct table summary is shown when last page does not have full number of entries', async () => {
+      // ensure that the last page will not have 4 entries
+      const itemsOnLastPage = data.length % 4;
+      expect(itemsOnLastPage).not.toEqual(0);
+      const lastPage = Math.ceil(data.length / 4);
+      const container = await sortTableFactory(
+        { showPagination: true },
+        { viewSet: 4, pageIndex: lastPage - 1 }
+      );
+
+      const expectedSummary = `9 - ${data.length} of ${data.length} entries.`;
+      expect(
+        container.querySelector('[data-pagination-summary]').textContent
+      ).toEqual(expectedSummary);
+    });
   });
 
   describe('Previous and next buttons', () => {
