@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-// import userEvent from '@testing-library/user-event';
 
 import { render, waitFor, fireEvent } from '@testing-library/react';
 
@@ -163,46 +162,11 @@ export const sortTableFactory = async (
     container = changeFilter(container, initial?.filter);
   }
 
-  // if (props?.showFilter && initial?.filter) {
-  //   // console.log('NOW IN FILTER WITH VALUE:', initial.filter);
-  //   fireEvent.change(container.querySelector('[data-filter-input]'), {
-  //     target: { value: initial.filter },
-  //   });
-  // }
-
-  // if (props?.showFilter && !initial?.filter) {
-  //   // Need to set value to anything so the empty is registered later
-  //   // console.log('IN FILTER');
-  //   fireEvent.change(container.querySelector('[data-filter-input]'), {
-  //     target: { value: 'testStringSoEmptyWillRegisterAsAChange' },
-  //   });
-  //   fireEvent.change(container.querySelector('[data-filter-input]'), {
-  //     target: { value: '' },
-  //   });
-  // }
-
   if (props?.showPagination && initial?.viewSet !== undefined) {
-    // fireEvent.change(
-    //   container.querySelector('[data-sort-number-of-inputs] select'),
-    //   { target: { value: initial.viewSet } }
-    // );
     container = changeViewItemsToView(container, initial.viewSet);
   }
 
   if (props?.showPagination && initial?.pageIndex !== undefined) {
-    // if (container.querySelector('[data-pagination-select]')) {
-    //   // drop down
-    //   // const value = wrapper
-    //   //   .find('[data-pagination-select] option')
-    //   //   .at(initial.pageIndex)
-    //   //   .prop('value');
-    //   // wrapper
-    //   //   .find('[data-pagination-select]')
-    //   //   .simulate('change', { target: { value } })
-    //   //   .update();
-    // } else {
-    //   container = clickPaginationButton(container, initial.pageIndex);
-    // }
     container = clickPaginationButton(container, initial.pageIndex);
   }
 
@@ -255,114 +219,6 @@ export const clickPaginationButton = (container, pageIndex: number) => {
   }
   return container;
 };
-
-// export const sortTableFactoryOLD = (
-//   props?: any,
-//   initial?: {
-//     viewSet?: number | string;
-//     filter?: string | number;
-//     pageIndex?: number;
-//   }
-// ) => {
-//   const steps = props?.showPagination ? viewSteps : undefined;
-//   const tableData = props?.tableData ? props.tableData : data;
-//   const tableHeaders = props?.headers ? props.headers : headers;
-
-//   const wrapper = (
-//     <SortTable
-//       tableData={tableData}
-//       headers={tableHeaders}
-//       viewSteps={steps}
-//       {...props}
-//     />
-//   );
-//   return wrapper;
-//   // const { container } = render(wrapper);
-
-//   // console.log('****************************');
-
-//   // if (props?.showFilter) {
-//   //   console.log(container.querySelector('[data-filter-input]'));
-//   //   console.log('ABOUT TO WAIT');
-
-//   //   // test-filter;
-//   //   await container.findByTestId('test-filter');
-
-//   //   // await waitFor(() => {
-//   //   //   console.log(container.querySelector('[data-filter-input]'));
-//   //   //   return container.querySelector('[data-filter-input]');
-//   //   // });
-//   //   console.log(container.querySelector('[data-filter-input]'));
-//   //   console.log('DONE WAITING');
-//   // }
-
-//   // console.log('ABOUT TO RETURN');
-//   // return container;
-// };
-
-// export const sortTableOLD = async (
-//   props?: any,
-//   initial?: {
-//     viewSet?: number | string;
-//     filter?: string | number;
-//     pageIndex?: number;
-//   }
-// ) => {
-//   const steps = props?.showPagination ? viewSteps : undefined;
-//   const tableData = props?.tableData ? props.tableData : data;
-//   const tableHeaders = props?.headers ? props.headers : headers;
-
-//   const wrapper = mount(
-//     <SortTable
-//       tableData={tableData}
-//       headers={tableHeaders}
-//       viewSteps={steps}
-//       {...props}
-//     />
-//   ).update();
-
-//   await sleep(0);
-//   wrapper.update();
-
-//   if (props?.showFilter) {
-//     wrapper
-//       .find('[data-filter-input]')
-//       .simulate('change', {
-//         target: { value: initial?.filter ? `${initial.filter}` : '' },
-//       })
-//       .update();
-//   }
-//   if (props?.showPagination && initial?.viewSet !== undefined) {
-//     wrapper
-//       .find('[data-sort-number-of-inputs] select')
-//       .simulate('change', { target: { value: `${initial.viewSet}` } })
-//       .update();
-//   }
-
-//   if (props?.showPagination && initial?.pageIndex !== undefined) {
-//     if (wrapper.find('[data-pagination-select]').length > 0) {
-//       // drop down
-//       const value = wrapper
-//         .find('[data-pagination-select] option')
-//         .at(initial.pageIndex)
-//         .prop('value');
-
-//       wrapper
-//         .find('[data-pagination-select]')
-//         .simulate('change', { target: { value } })
-//         .update();
-//     } else {
-//       wrapper
-//         .find('[data-pagination-button]')
-//         .at(initial.pageIndex)
-//         .find('button')
-//         .simulate('click')
-//         .update();
-//     }
-//   }
-
-//   return wrapper;
-// };
 
 export const columnText = (container, columnIndex: number) => {
   const rows = container.querySelectorAll('tbody tr');
