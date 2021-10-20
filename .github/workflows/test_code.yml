@@ -1,4 +1,4 @@
-name: Test and build
+name: Test Code
 
 on:
   pull_request:
@@ -6,7 +6,7 @@ on:
 
 jobs:
   test:
-    name: test and build
+    name: test_code
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
