@@ -3,6 +3,7 @@ Like a lightweight data tables (https://datatables.net/)
 */
 
 import React from 'react';
+import debounce from 'lodash/debounce';
 import SortIcons from './SortIcons';
 import './sortTable.css';
 import TableSummary from './TableSummary';
@@ -299,6 +300,8 @@ const SortTable = (props: Props): JSX.Element => {
 
   /* ********************************* */
   const filterRows = (event: React.ChangeEvent<HTMLInputElement>) => {
+    // eslint-disable-next-line no-console
+    console.log('Filtering rows', event.target.value);
     const filterText =
       caseSensitiveFilter === true
         ? event.target.value
@@ -324,7 +327,6 @@ const SortTable = (props: Props): JSX.Element => {
     });
 
     setTableDisplayRows(newTableDisplayRows);
-    setFilterValue(filterText);
     setStartRow(0);
   };
 
@@ -358,6 +360,9 @@ const SortTable = (props: Props): JSX.Element => {
     </div>
   );
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const debounceFn = React.useCallback(debounce(filterRows, 200), []);
+
   /* ********************************* */
   if (tableDisplayRows.length === 0) {
     return noData;
@@ -379,7 +384,10 @@ const SortTable = (props: Props): JSX.Element => {
             <div className='col-sm' style={{ textAlign: 'right' }}>
               <Filter
                 value={filterValue}
-                onChange={filterRows}
+                onChange={(a) => {
+                  debounceFn(a);
+                  setFilterValue(a.target.value);
+                }}
                 label='Filter'
                 id={sortTableId}
               />{' '}

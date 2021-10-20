@@ -7,10 +7,9 @@ packageJSON = JSON.parse(packageJSON);
 
 const newPackageJSON = {
   ...packageJSON,
-  peerDependencies: packageJSON.dependencies,
+  dependencies: packageJSON.dependencies,
   scripts: {},
   devDependencies: {},
-  dependencies: {},
   prettier: {},
   babel: {},
   eslintConfig: {},
