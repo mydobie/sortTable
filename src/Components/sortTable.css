@@ -3,7 +3,7 @@
   left: -99999px;
 }
 @media screen and (max-width: 700px) {
- [data-filter]{
-   text-align:left
- }
+  [data-filter] {
+    text-align: left;
+  }
 }

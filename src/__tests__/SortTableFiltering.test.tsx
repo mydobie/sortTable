@@ -1,5 +1,7 @@
 /* eslint-disable react/react-in-jsx-scope */
 
+import { act } from '@testing-library/react';
+
 import {
   columnText,
   expectedInObjectArray,
@@ -20,10 +22,11 @@ describe('Sort Table Filtering (without pagination)', () => {
     const index = headers.findIndex((header) => header.key === 'name');
 
     // test start
-    const container = await sortTableFactory(
-      { showFilter: true },
-      { filter: 'M' }
-    );
+    let container;
+    await act(async () => {
+      container = await sortTableFactory({ showFilter: true }, { filter: 'M' });
+    });
+
     expect(columnText(container, index)).toEqual(expectedNamesSorted);
   });
 
@@ -43,10 +46,10 @@ describe('Sort Table Filtering (without pagination)', () => {
     const index = headers.findIndex((header) => header.key === 'stock');
 
     // test start
-    const container = await sortTableFactory(
-      { showFilter: true },
-      { filter: '4' }
-    );
+    let container;
+    await act(async () => {
+      container = await sortTableFactory({ showFilter: true }, { filter: '4' });
+    });
     expect(columnText(container, index)).toEqual(expectedStockFiltered);
   });
 
@@ -61,42 +64,51 @@ describe('Sort Table Filtering (without pagination)', () => {
     const index = headers.findIndex((header) => header.key === 'name');
 
     // test start
-    const container = await sortTableFactory(
-      { showFilter: true, caseSensitiveFilter: true },
-      { filter: 'm' }
-    );
+    let container;
+    await act(async () => {
+      container = await sortTableFactory(
+        { showFilter: true, caseSensitiveFilter: true },
+        { filter: 'm' }
+      );
+    });
     expect(columnText(container, index)).toEqual(expectedNamesSorted);
   });
 
   test('Table summary without filtering', async () => {
-    const container = await sortTableFactory({ showFilter: true });
+    let container;
+    await act(async () => {
+      container = await sortTableFactory({ showFilter: true });
+    });
     expect(
       container.querySelector('[data-pagination-summary] span').innerHTML
     ).toEqual(`${data.length} entries.`);
   });
 
   test('Table summary changes with filtering', async () => {
-    const container = await sortTableFactory(
-      { showFilter: true },
-      { filter: 'M' }
-    );
+    let container;
+    await act(async () => {
+      container = await sortTableFactory({ showFilter: true }, { filter: 'M' });
+    });
     expect(
       container.querySelector('[data-pagination-summary] span').innerHTML
     ).toEqual(`3 entries (filtered from ${data.length}).`);
   });
 
   test('Aria row count is same as available rows', async () => {
-    const container = await sortTableFactory({ showFilter: true });
+    let container;
+    await act(async () => {
+      container = await sortTableFactory({ showFilter: true });
+    });
     expect(
       container.querySelector('table').getAttribute('aria-rowcount')
     ).toEqual(`${data.length + 1}`);
   });
 
   test('Aria row count is correct and does not change with filtering', async () => {
-    const container = await sortTableFactory(
-      { showFilter: true },
-      { filter: 'M' }
-    );
+    let container;
+    await act(async () => {
+      container = await sortTableFactory({ showFilter: true }, { filter: 'M' });
+    });
     expect(container.querySelectorAll('table tr').length).not.toEqual(
       data.length + 1
     );

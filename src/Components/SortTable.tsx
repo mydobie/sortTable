@@ -4,6 +4,7 @@ Like a lightweight data tables (https://datatables.net/)
 
 import React from 'react';
 import debounce from 'lodash/debounce';
+// import { distance } from 'fastest-levenshtein';
 import SortIcons from './SortIcons';
 import './sortTable.css';
 import TableSummary from './TableSummary';
@@ -61,6 +62,9 @@ interface Props {
   sortedCellClass?: string;
   tableClassName?: string;
   viewSteps?: number[];
+  useFuzzySearch?: boolean;
+  maxFuzzyDistance?: number;
+  debounceTimeout?: number; // this normally wouldn't be changed - used in testing
 }
 
 const SortTable = (props: Props): JSX.Element => {
@@ -88,6 +92,9 @@ const SortTable = (props: Props): JSX.Element => {
     initialSortDsc,
     emptyCellClassName,
     sortedCellClass,
+    // useFuzzySearch,
+    // maxFuzzyDistance = 3,
+    debounceTimeout = 200,
   } = props;
 
   const sortTableId = id ?? 'sortTable';
@@ -300,8 +307,6 @@ const SortTable = (props: Props): JSX.Element => {
 
   /* ********************************* */
   const filterRows = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // eslint-disable-next-line no-console
-    console.log('Filtering rows', event.target.value);
     const filterText =
       caseSensitiveFilter === true
         ? event.target.value
@@ -319,7 +324,11 @@ const SortTable = (props: Props): JSX.Element => {
           let value = row[header.key].toString();
           value = caseSensitiveFilter === true ? value : value.toLowerCase();
 
-          if (value.includes(filterText)) {
+          if (
+            // (useFuzzySearch &&
+            //   distance(value, filterText) <= maxFuzzyDistance) ||
+            value.includes(filterText)
+          ) {
             newTableDisplayRows[index].hide = false;
           }
         }
@@ -361,7 +370,10 @@ const SortTable = (props: Props): JSX.Element => {
   );
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debounceFn = React.useCallback(debounce(filterRows, 200), []);
+  const debounceFn = React.useCallback(
+    debounce(filterRows, debounceTimeout),
+    []
+  );
 
   /* ********************************* */
   if (tableDisplayRows.length === 0) {

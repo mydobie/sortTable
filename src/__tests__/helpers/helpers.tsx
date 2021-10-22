@@ -127,6 +127,7 @@ export const sortTableFactory = async (
 
   wrapper = (
     <SortTable
+      debounceTimeout={1}
       tableData={tableData}
       headers={tableHeaders}
       viewSteps={steps}
@@ -159,6 +160,7 @@ export const sortTableFactory = async (
   }
 
   if (props?.showFilter) {
+    // @ts-ignore
     container = changeFilter(container, initial?.filter);
   }
 
@@ -167,6 +169,7 @@ export const sortTableFactory = async (
   }
 
   if (props?.showPagination && initial?.pageIndex !== undefined) {
+    // @ts-ignore
     container = clickPaginationButton(container, initial.pageIndex);
   }
 
@@ -183,7 +186,7 @@ export const clickHeader = (container, headerIndex: number) => {
   return container;
 };
 
-export const changeFilter = (container, filterText: string = '') => {
+export const changeFilter = async (container, filterText: string = '') => {
   // The first fire event is needed if filterText is ""
   // Having the first fire event will ensure a filte rof '' will fire
   fireEvent.change(container.querySelector('[data-filter-input]'), {
@@ -193,6 +196,9 @@ export const changeFilter = (container, filterText: string = '') => {
   fireEvent.change(container.querySelector('[data-filter-input]'), {
     target: { value: filterText },
   });
+
+  // TODO Change this to waitfor statements
+  await new Promise((r) => setTimeout(r, 25)); // time to to allow debounce to finish
   return container;
 };
 
@@ -204,7 +210,7 @@ export const changeViewItemsToView = (container, numShown: number | string) => {
   return container;
 };
 
-export const clickPaginationButton = (container, pageIndex: number) => {
+export const clickPaginationButton = async (container, pageIndex: number) => {
   if (container.querySelector(`[data-pagination-button]`)) {
     fireEvent.click(
       container
@@ -212,11 +218,14 @@ export const clickPaginationButton = (container, pageIndex: number) => {
         .item(pageIndex)
         .querySelector('button')
     );
-  } else {
-    fireEvent.change(container.querySelector('[data-pagination-select]'), {
-      target: { value: `${pageIndex}` },
-    });
+
+    await new Promise((r) => setTimeout(r, 25)); // time to to allow debounce to finish
+    return container;
   }
+  fireEvent.change(container.querySelector('[data-pagination-select]'), {
+    target: { value: `${pageIndex}` },
+  });
+  await new Promise((r) => setTimeout(r, 25)); // time to to allow debounce to finish
   return container;
 };
 

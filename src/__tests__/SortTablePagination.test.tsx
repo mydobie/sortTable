@@ -179,15 +179,16 @@ describe('Sort Table Pagination', () => {
       ).not.toHaveLength(numberOfPages);
     });
 
-    test('Clicking on a page changes the items shown', async () => {
+    test.only('Clicking on a page changes the items shown', async () => {
       let container = await sortTableFactory(
         { showPagination: true },
         { viewSet: 2 }
       );
-      const testColumnIndex = 1;
-      const initialValues = columnText(container, testColumnIndex);
+      // const testColumnIndex = 1;
+      //const initialValues = columnText(container, testColumnIndex);
       container = clickPaginationButton(container, 1);
-      expect(columnText(container, testColumnIndex)).not.toEqual(initialValues);
+      console.log(container.innerHTML);
+      // expect(columnText(container, testColumnIndex)).not.toEqual(initialValues);
     });
 
     test('Clicking on a page changes table summary', async () => {

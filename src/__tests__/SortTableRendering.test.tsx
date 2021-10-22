@@ -1,20 +1,28 @@
 /* eslint-disable react/react-in-jsx-scope */
 
+import { act } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { axe } from 'jest-axe';
 import { sortTableFactory, data, headers } from './helpers/helpers';
 
 describe('Sort Table Rendering', () => {
   test('Snapshot test', async () => {
-    const container = await sortTableFactory({
-      showPagination: true,
-      showFilter: true,
+    let container;
+    await act(async () => {
+      container = await sortTableFactory({
+        showPagination: true,
+        showFilter: true,
+      });
     });
+
     expect(container).toMatchSnapshot();
   });
 
   test('Expected number of columns and cells', async () => {
-    const container = await sortTableFactory();
+    let container;
+    await act(async () => {
+      container = await sortTableFactory();
+    });
     const rows = container.querySelectorAll('tbody tr');
     const cols = container.querySelectorAll('thead tr th');
     expect(rows).toHaveLength(data.length);
@@ -22,7 +30,10 @@ describe('Sort Table Rendering', () => {
   });
 
   test('Row headers are marked with th tags', async () => {
-    const container = await sortTableFactory();
+    let container;
+    await act(async () => {
+      container = await sortTableFactory();
+    });
     const headerCells = container.querySelectorAll('tbody tr:first-child th');
     expect(headerCells).toHaveLength(1);
 
@@ -42,8 +53,11 @@ describe('Sort Table Rendering', () => {
     const nameIndex = headers.findIndex((row) => row.key === 'name');
     expect(nameIndex).not.toBeUndefined();
 
-    const container = await sortTableFactory({
-      tableData: dataHtml,
+    let container;
+    await act(async () => {
+      container = await sortTableFactory({
+        tableData: dataHtml,
+      });
     });
     expect(
       container.querySelector(
@@ -60,10 +74,12 @@ describe('Sort Table Rendering', () => {
     ];
     const nameIndex = headers.findIndex((row) => row.key === 'name');
     expect(nameIndex).not.toBeUndefined();
-
-    const container = await sortTableFactory({
-      dangerouslySetInnerHTML: true,
-      tableData: dataHtml,
+    let container;
+    await act(async () => {
+      container = await sortTableFactory({
+        dangerouslySetInnerHTML: true,
+        tableData: dataHtml,
+      });
     });
     expect(
       container.querySelector(
@@ -75,12 +91,18 @@ describe('Sort Table Rendering', () => {
   });
 
   test('Filtering text box is not shown by default', async () => {
-    const container = await sortTableFactory();
+    let container;
+    await act(async () => {
+      container = await sortTableFactory();
+    });
     expect(container.querySelector('[data-filter]')).not.toBeInTheDocument();
   });
 
   test('Pagination is not shown by default', async () => {
-    const container = await sortTableFactory();
+    let container;
+    await act(async () => {
+      container = await sortTableFactory();
+    });
     expect(
       container.querySelector('[data-pagination]')
     ).not.toBeInTheDocument();
@@ -88,25 +110,37 @@ describe('Sort Table Rendering', () => {
 
   test('Table caption is shown when value is passed', async () => {
     const myCaption = 'my caption';
-    const container = await sortTableFactory({ caption: myCaption });
+    let container;
+    await act(async () => {
+      container = await sortTableFactory({ caption: myCaption });
+    });
     expect(container.querySelector('caption')).toBeInTheDocument();
     expect(container.querySelector('caption')).toHaveTextContent(myCaption);
   });
 
   test('Empty caption tags are not shown', async () => {
-    const container = await sortTableFactory();
+    let container;
+    await act(async () => {
+      container = await sortTableFactory();
+    });
     expect(container.querySelector('caption')).not.toBeInTheDocument();
   });
 
   test('Is loading default message is not shown by default', async () => {
-    const container = await sortTableFactory();
+    let container;
+    await act(async () => {
+      container = await sortTableFactory();
+    });
     expect(
       container.querySelector('[data-sort-table-loading]')
     ).not.toBeInTheDocument();
   });
 
   test('Is Loading default message is shown', async () => {
-    const container = await sortTableFactory({ isLoading: true });
+    let container;
+    await act(async () => {
+      container = await sortTableFactory({ isLoading: true });
+    });
     expect(
       container.querySelector('[data-sort-table-loading]')
     ).toBeInTheDocument();
@@ -118,9 +152,12 @@ describe('Sort Table Rendering', () => {
 
   test('Is Loading custom message is shown', async () => {
     const customLoad = <div id='MyCustomLoading'>My custom loader</div>;
-    const container = await sortTableFactory({
-      isLoading: true,
-      isLoadingMessage: customLoad,
+    let container;
+    await act(async () => {
+      container = await sortTableFactory({
+        isLoading: true,
+        isLoadingMessage: customLoad,
+      });
     });
     expect(container.querySelector('#MyCustomLoading')).toBeInTheDocument();
     expect(
@@ -130,8 +167,11 @@ describe('Sort Table Rendering', () => {
 
   describe('Custom CSS', () => {
     test('Table header class name is set when passed', async () => {
-      const container = await sortTableFactory({
-        headerClassName: 'myCustomHeaderClass',
+      let container;
+      await act(async () => {
+        container = await sortTableFactory({
+          headerClassName: 'myCustomHeaderClass',
+        });
       });
       expect(
         container.querySelector('thead.myCustomHeaderClass')
@@ -139,22 +179,31 @@ describe('Sort Table Rendering', () => {
     });
 
     test('Responsive data attribute is not set by default', async () => {
-      const container = await sortTableFactory();
+      let container;
+      await act(async () => {
+        container = await sortTableFactory();
+      });
       expect(
         container.querySelector('table[data-sort-responsive]')
       ).not.toBeInTheDocument();
     });
 
     test('Responsive data attribute is set', async () => {
-      const container = await sortTableFactory({ isResponsive: true });
+      let container;
+      await act(async () => {
+        container = await sortTableFactory({ isResponsive: true });
+      });
       expect(
         container.querySelector('table[data-sort-responsive]')
       ).toBeInTheDocument();
     });
 
     test('Custom table class name is set', async () => {
-      const container = await sortTableFactory({
-        tableClassName: 'myCustomClass',
+      let container;
+      await act(async () => {
+        container = await sortTableFactory({
+          tableClassName: 'myCustomClass',
+        });
       });
       expect(
         container.querySelector('table.myCustomClass')
@@ -165,8 +214,10 @@ describe('Sort Table Rendering', () => {
       const index = headers.findIndex((header) => header.className);
       const { className } = headers[index];
       expect(className).not.toBeUndefined();
-
-      const container = await sortTableFactory();
+      let container;
+      await act(async () => {
+        container = await sortTableFactory();
+      });
       expect(container.querySelector(`th.${className}`)).toBeInTheDocument();
     });
 
@@ -176,7 +227,10 @@ describe('Sort Table Rendering', () => {
       const color = headers[index].style?.color;
       expect(color).not.toBeUndefined();
 
-      const container = await sortTableFactory();
+      let container;
+      await act(async () => {
+        container = await sortTableFactory();
+      });
       const styleAttr = container
         .querySelector(`thead th:nth-child(${index + 1})`)
         .getAttribute('style');
@@ -192,8 +246,11 @@ describe('Sort Table Rendering', () => {
       expect(urlIndex).not.toEqual(-1);
       expect(index).not.toEqual(-1);
 
-      const container = await sortTableFactory({
-        emptyCellClassName: 'myCustomCSSClassName',
+      let container;
+      await act(async () => {
+        container = await sortTableFactory({
+          emptyCellClassName: 'myCustomCSSClassName',
+        });
       });
       expect(
         container.querySelector(
@@ -212,8 +269,11 @@ describe('Sort Table Rendering', () => {
       expect(urlIndex).not.toEqual(-1);
       expect(index).not.toEqual(-1);
 
-      const container = await sortTableFactory({
-        emptyCellClassName: 'myCustomCSSClassName',
+      let container;
+      await act(async () => {
+        container = await sortTableFactory({
+          emptyCellClassName: 'myCustomCSSClassName',
+        });
       });
       expect(
         container.querySelector(
@@ -232,8 +292,11 @@ describe('Sort Table Rendering', () => {
       expect(urlIndex).not.toEqual(-1);
       expect(index).not.toEqual(-1);
 
-      const container = await sortTableFactory({
-        emptyCellClassName: 'myCustomCSSClassName',
+      let container;
+      await act(async () => {
+        container = await sortTableFactory({
+          emptyCellClassName: 'myCustomCSSClassName',
+        });
       });
       expect(
         container.querySelector(
@@ -249,22 +312,31 @@ describe('Sort Table Rendering', () => {
 
   describe('Accessibility', () => {
     test('Is accessible with default settings', async () => {
-      const container = await sortTableFactory();
+      let container;
+      await act(async () => {
+        container = await sortTableFactory();
+      });
       const results = await axe(`<main>${container.innerHTML}</main>`);
       expect(results).toHaveNoViolations();
     });
 
     test('Is accessible with filtering', async () => {
-      const container = await sortTableFactory({ showFilter: true });
+      let container;
+      await act(async () => {
+        container = await sortTableFactory({ showFilter: true });
+      });
       const results = await axe(`<main>${container.innerHTML}</main>`);
       expect(results).toHaveNoViolations();
     });
 
     test('Is accessible with pagination buttons', async () => {
-      const container = await sortTableFactory(
-        { showPagination: true },
-        { viewSet: 4 }
-      );
+      let container;
+      await act(async () => {
+        container = await sortTableFactory(
+          { showPagination: true },
+          { viewSet: 4 }
+        );
+      });
       expect(
         container.querySelector('[data-pagination-button]')
       ).toBeInTheDocument();
@@ -273,10 +345,13 @@ describe('Sort Table Rendering', () => {
     });
 
     test('Is accessible with pagination drop down', async () => {
-      const container = await sortTableFactory(
-        { showPagination: true },
-        { viewSet: 1 }
-      );
+      let container;
+      await act(async () => {
+        container = await sortTableFactory(
+          { showPagination: true },
+          { viewSet: 1 }
+        );
+      });
       expect(
         container.querySelector('[data-pagination-select]')
       ).toBeInTheDocument();
@@ -285,10 +360,13 @@ describe('Sort Table Rendering', () => {
     });
 
     test('Is accessible with defation list', async () => {
-      const container = await sortTableFactory({
-        showPagination: true,
-        isResponsiveList: true,
-        isResponsiveListAlwaysShow: true,
+      let container;
+      await act(async () => {
+        container = await sortTableFactory({
+          showPagination: true,
+          isResponsiveList: true,
+          isResponsiveListAlwaysShow: true,
+        });
       });
       expect(
         container.querySelector('[data-sort-responsive-list]')

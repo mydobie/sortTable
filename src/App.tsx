@@ -141,6 +141,7 @@ function App() {
         isResponsive
         emptyCellClassName='emptyCell'
         sortedCellClass='sortedCellClass'
+        useFuzzySearch
         // allDataFilteredMessage='My custom all filtered message'
       />
       <hr />
