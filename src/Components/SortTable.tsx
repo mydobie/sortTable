@@ -4,7 +4,7 @@ Like a lightweight data tables (https://datatables.net/)
 
 import React from 'react';
 import debounce from 'lodash/debounce';
-// import { distance } from 'fastest-levenshtein';
+import { distance } from 'fastest-levenshtein';
 import SortIcons from './SortIcons';
 import './sortTable.css';
 import TableSummary from './TableSummary';
@@ -92,8 +92,8 @@ const SortTable = (props: Props): JSX.Element => {
     initialSortDsc,
     emptyCellClassName,
     sortedCellClass,
-    // useFuzzySearch,
-    // maxFuzzyDistance = 3,
+    useFuzzySearch,
+    maxFuzzyDistance = 3,
     debounceTimeout = 200,
   } = props;
 
@@ -325,8 +325,8 @@ const SortTable = (props: Props): JSX.Element => {
           value = caseSensitiveFilter === true ? value : value.toLowerCase();
 
           if (
-            // (useFuzzySearch &&
-            //   distance(value, filterText) <= maxFuzzyDistance) ||
+            (useFuzzySearch &&
+              distance(value, filterText) <= maxFuzzyDistance) ||
             value.includes(filterText)
           ) {
             newTableDisplayRows[index].hide = false;
@@ -398,7 +398,6 @@ const SortTable = (props: Props): JSX.Element => {
                 value={filterValue}
                 onChange={(a) => {
                   debounceFn(a);
-                  // filterRows(a);
                   setFilterValue(a.target.value);
                 }}
                 label='Filter'
