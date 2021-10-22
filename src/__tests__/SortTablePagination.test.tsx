@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable react/react-in-jsx-scope */
 
-import { fireEvent } from '@testing-library/react';
+import { fireEvent, act } from '@testing-library/react';
 import {
   sortTableFactory,
   viewSteps,
@@ -14,7 +14,10 @@ import {
 
 describe('Sort Table Pagination', () => {
   test('Show results drop down has correct options', async () => {
-    const container = await sortTableFactory({ showPagination: true });
+    let container;
+    await act(async () => {
+      container = await sortTableFactory({ showPagination: true });
+    });
 
     const options = container.querySelectorAll(
       '[data-sort-number-of-inputs] select option'
@@ -26,7 +29,12 @@ describe('Sort Table Pagination', () => {
   });
 
   test('All is shown as an option', async () => {
-    const container = await sortTableFactory({ showPagination: true });
+    let container;
+
+    await act(async () => {
+      container = await sortTableFactory({ showPagination: true });
+    });
+
     const lastOption = container.querySelector(
       '[data-sort-number-of-inputs] select option:last-child'
     ).textContent;
@@ -34,16 +42,26 @@ describe('Sort Table Pagination', () => {
   });
 
   test('All rows are shown if defaultToAll prop is set', async () => {
-    const container = await sortTableFactory({
-      showPagination: true,
-      defaultToAll: true,
+    let container;
+
+    await act(async () => {
+      container = await sortTableFactory({
+        showPagination: true,
+        defaultToAll: true,
+      });
     });
+
     const rows = container.querySelectorAll('table tbody tr');
     expect(rows).toHaveLength(data.length);
   });
 
   test('If defaultToAll is not set, then the number of elements shown matches the first option', async () => {
-    const container = await sortTableFactory({ showPagination: true });
+    let container;
+
+    await act(async () => {
+      container = await sortTableFactory({ showPagination: true });
+    });
+
     const numberToShow = parseInt(
       container
         .querySelector('[data-sort-number-of-inputs] select option:first-child')
@@ -57,31 +75,45 @@ describe('Sort Table Pagination', () => {
   });
 
   test('All rows are shown if "all" chosen', async () => {
-    const container = await sortTableFactory(
-      { showPagination: true },
-      { viewSet: '' }
-    );
+    let container;
+
+    await act(async () => {
+      container = await sortTableFactory(
+        { showPagination: true },
+        { viewSet: '' }
+      );
+    });
+
     const rows = container.querySelectorAll('table tbody tr');
     expect(rows).toHaveLength(data.length);
   });
 
   test('Changing show results changes number of rows shown', async () => {
-    let container = await sortTableFactory(
-      { showPagination: true },
-      { viewSet: 2 }
-    );
+    let container;
+
+    await act(async () => {
+      container = await sortTableFactory(
+        { showPagination: true },
+        { viewSet: 2 }
+      );
+    });
     let rows = container.querySelectorAll('table tbody tr');
     expect(rows).toHaveLength(2);
-    container = changeViewItemsToView(container, 4);
+    container = await changeViewItemsToView(container, 4);
     rows = container.querySelectorAll('table tbody tr');
     expect(rows).toHaveLength(4);
   });
 
   test('Table summary when default to all is set', async () => {
-    const container = await sortTableFactory({
-      showPagination: true,
-      defaultToAll: true,
+    let container;
+
+    await act(async () => {
+      container = await sortTableFactory({
+        showPagination: true,
+        defaultToAll: true,
+      });
     });
+
     const expectedSummary = `${data.length} entries.`;
     expect(
       container.querySelector('[data-pagination-summary]').textContent
@@ -90,10 +122,15 @@ describe('Sort Table Pagination', () => {
 
   test('Table summary when selected items per page is larger than number of rows', async () => {
     expect(data.length).toBeLessThan(50);
-    const container = await sortTableFactory(
-      { showPagination: true },
-      { viewSet: 50 }
-    );
+    let container;
+
+    await act(async () => {
+      container = await sortTableFactory(
+        { showPagination: true },
+        { viewSet: 50 }
+      );
+    });
+
     const expectedSummary = `${data.length} entries.`;
     expect(
       container.querySelector('[data-pagination-summary]').textContent
@@ -101,17 +138,21 @@ describe('Sort Table Pagination', () => {
   });
 
   test('Table summary when selected items per page is selected', async () => {
-    let container = await sortTableFactory(
-      { showPagination: true },
-      { viewSet: 2 }
-    );
+    let container;
+    await act(async () => {
+      container = await sortTableFactory(
+        { showPagination: true },
+        { viewSet: 2 }
+      );
+    });
+
     let expectedSummary = `1 - 2 of ${data.length} entries.`;
 
     expect(
       container.querySelector('[data-pagination-summary]').textContent
     ).toEqual(expectedSummary);
 
-    container = changeViewItemsToView(container, 4);
+    container = await changeViewItemsToView(container, 4);
 
     expectedSummary = `1 - 4 of ${data.length} entries.`;
 
@@ -121,12 +162,16 @@ describe('Sort Table Pagination', () => {
   });
 
   test('Changing rows shown does not change aria row count', async () => {
-    let container = await sortTableFactory({ showPagination: true });
+    let container;
+    await act(async () => {
+      container = await sortTableFactory({ showPagination: true });
+    });
+
     expect(
       container.querySelector('table').getAttribute('aria-rowcount')
     ).toEqual(`${data.length + 1}`);
 
-    container = changeViewItemsToView(container, 4);
+    container = await changeViewItemsToView(container, 4);
     expect(
       container.querySelector('table').getAttribute('aria-rowcount')
     ).toEqual(`${data.length + 1}`);
@@ -134,10 +179,15 @@ describe('Sort Table Pagination', () => {
 
   describe('Page links/buttons', () => {
     test('Pages/link are shown if under 10 pages is present', async () => {
-      const container = await sortTableFactory(
-        { showPagination: true },
-        { viewSet: 2 }
-      );
+      let container;
+
+      await act(async () => {
+        container = await sortTableFactory(
+          { showPagination: true },
+          { viewSet: 2 }
+        );
+      });
+
       expect(
         container.querySelector('[data-pagination-select]')
       ).not.toBeInTheDocument();
@@ -149,10 +199,15 @@ describe('Sort Table Pagination', () => {
     test('Correct number of pages are shown', async () => {
       const numberOfPages = Math.ceil(data.length / 4);
       expect(numberOfPages).toBeGreaterThan(1);
-      const container = await sortTableFactory(
-        { showPagination: true },
-        { viewSet: 4 }
-      );
+      let container;
+
+      await act(async () => {
+        container = await sortTableFactory(
+          { showPagination: true },
+          { viewSet: 4 }
+        );
+      });
+
       expect(
         container.querySelectorAll('[data-pagination-button]')
       ).toHaveLength(numberOfPages);
@@ -166,41 +221,54 @@ describe('Sort Table Pagination', () => {
     });
 
     test('Number of pages changes when changing show results changes', async () => {
-      let container = await sortTableFactory(
-        { showPagination: true },
-        { viewSet: 4 }
-      );
-      const numberOfPages = container.querySelectorAll(
-        '[data-pagination-button]'
-      ).length;
-      container = changeViewItemsToView(container, 2);
+      let container;
+      let numberOfPages;
+      await act(async () => {
+        container = await sortTableFactory(
+          { showPagination: true },
+          { viewSet: 4 }
+        );
+        numberOfPages = container.querySelectorAll(
+          '[data-pagination-button]'
+        ).length;
+        container = await changeViewItemsToView(container, 2);
+      });
       expect(
         container.querySelectorAll('[data-pagination-button]')
       ).not.toHaveLength(numberOfPages);
     });
 
-    test.only('Clicking on a page changes the items shown', async () => {
-      let container = await sortTableFactory(
-        { showPagination: true },
-        { viewSet: 2 }
-      );
-      // const testColumnIndex = 1;
-      //const initialValues = columnText(container, testColumnIndex);
-      container = clickPaginationButton(container, 1);
-      console.log(container.innerHTML);
-      // expect(columnText(container, testColumnIndex)).not.toEqual(initialValues);
+    test('Clicking on a page changes the items shown', async () => {
+      let container;
+      let initialValues;
+      const testColumnIndex = 1;
+      await act(async () => {
+        container = await sortTableFactory(
+          { showPagination: true },
+          { viewSet: 2 }
+        );
+
+        initialValues = columnText(container, testColumnIndex);
+        // console.log(container.innerHTML);
+        container = await clickPaginationButton(container, 1);
+      });
+
+      expect(columnText(container, testColumnIndex)).not.toEqual(initialValues);
     });
 
     test('Clicking on a page changes table summary', async () => {
-      let container = await sortTableFactory(
-        { showPagination: true },
-        { viewSet: 2 }
-      );
+      let container;
+      await act(async () => {
+        container = await sortTableFactory(
+          { showPagination: true },
+          { viewSet: 2 }
+        );
+      });
       let expectedSummary = `1 - 2 of ${data.length} entries.`;
       expect(
         container.querySelector('[data-pagination-summary]').textContent
       ).toEqual(expectedSummary);
-      container = clickPaginationButton(container, 1);
+      container = await clickPaginationButton(container, 1);
       expectedSummary = `3 - 4 of ${data.length} entries.`;
       expect(
         container.querySelector('[data-pagination-summary]').textContent
@@ -212,11 +280,13 @@ describe('Sort Table Pagination', () => {
       const itemsOnLastPage = data.length % 4;
       expect(itemsOnLastPage).not.toEqual(0);
       const lastPage = Math.ceil(data.length / 4);
-      const container = await sortTableFactory(
-        { showPagination: true },
-        { viewSet: 4, pageIndex: lastPage - 1 }
-      );
-
+      let container;
+      await act(async () => {
+        container = await sortTableFactory(
+          { showPagination: true },
+          { viewSet: 4, pageIndex: lastPage - 1 }
+        );
+      });
       const expectedSummary = `9 - ${data.length} of ${data.length} entries.`;
       expect(
         container.querySelector('[data-pagination-summary]').textContent
@@ -226,10 +296,14 @@ describe('Sort Table Pagination', () => {
 
   describe('Previous and next buttons', () => {
     test('Previous button goes to previous page', async () => {
-      const container = await sortTableFactory(
-        { showPagination: true },
-        { viewSet: 2, pageIndex: 3 }
-      );
+      let container;
+      await act(async () => {
+        container = await sortTableFactory(
+          { showPagination: true },
+          { viewSet: 2, pageIndex: 3 }
+        );
+      });
+
       expect(
         container
           .querySelectorAll('[data-pagination-button]')
@@ -240,6 +314,8 @@ describe('Sort Table Pagination', () => {
       fireEvent.click(
         container.querySelector('[data-pagination-previous-button] button')
       );
+      await new Promise((r) => setTimeout(r, 25)); // time to to allow debounce to finish
+
       expect(
         container
           .querySelectorAll('[data-pagination-button]')
@@ -249,10 +325,15 @@ describe('Sort Table Pagination', () => {
     });
 
     test('Previous button is disabled on first page', async () => {
-      const container = await sortTableFactory(
-        { showPagination: true },
-        { viewSet: 2, pageIndex: 0 }
-      );
+      let container;
+
+      await act(async () => {
+        container = await sortTableFactory(
+          { showPagination: true },
+          { viewSet: 2, pageIndex: 0 }
+        );
+      });
+
       expect(
         container.querySelector(
           '[data-pagination-previous-button] button[disabled]'
@@ -261,10 +342,15 @@ describe('Sort Table Pagination', () => {
     });
 
     test('Next button goes to next page', async () => {
-      const container = await sortTableFactory(
-        { showPagination: true },
-        { viewSet: 2, pageIndex: 0 }
-      );
+      let container;
+
+      await act(async () => {
+        container = await sortTableFactory(
+          { showPagination: true },
+          { viewSet: 2, pageIndex: 0 }
+        );
+      });
+
       expect(
         container
           .querySelectorAll('[data-pagination-button]')
@@ -286,10 +372,14 @@ describe('Sort Table Pagination', () => {
 
     test('Next button is disabled on last page', async () => {
       const numberOfPages = Math.ceil(data.length / 4);
-      const container = await sortTableFactory(
-        { showPagination: true },
-        { viewSet: 4, pageIndex: numberOfPages - 1 }
-      );
+      let container;
+
+      await act(async () => {
+        container = await sortTableFactory(
+          { showPagination: true },
+          { viewSet: 4, pageIndex: numberOfPages - 1 }
+        );
+      });
 
       const buttons = container.querySelectorAll('[data-pagination-button]');
 
@@ -307,10 +397,15 @@ describe('Sort Table Pagination', () => {
 
   describe('Pagination drop down', () => {
     test('Drop down of pages is shown if there are 10 or more pages', async () => {
-      const container = await sortTableFactory(
-        { showPagination: true },
-        { viewSet: 1 }
-      );
+      let container;
+
+      await act(async () => {
+        container = await sortTableFactory(
+          { showPagination: true },
+          { viewSet: 1 }
+        );
+      });
+
       expect(data.length).toBeGreaterThan(10);
       expect(
         container.querySelector('[data-pagination-select]')
@@ -318,10 +413,15 @@ describe('Sort Table Pagination', () => {
     });
 
     test('Correct number  of options are shown', async () => {
-      const container = await sortTableFactory(
-        { showPagination: true },
-        { viewSet: 1 }
-      );
+      let container;
+
+      await act(async () => {
+        container = await sortTableFactory(
+          { showPagination: true },
+          { viewSet: 1 }
+        );
+      });
+
       expect(
         container.querySelectorAll('[data-pagination-select] option')
       ).toHaveLength(data.length);
@@ -330,13 +430,17 @@ describe('Sort Table Pagination', () => {
     test.todo('Number of pages changes when changing show results changes');
 
     test('Selecting on a page changes the items shown', async () => {
-      let container = await sortTableFactory(
-        { showPagination: true },
-        { viewSet: 1 }
-      );
+      let container;
+      await act(async () => {
+        container = await sortTableFactory(
+          { showPagination: true },
+          { viewSet: 1 }
+        );
+      });
+
       const initalValues = columnText(container, 1);
 
-      container = clickPaginationButton(container, 2);
+      container = await clickPaginationButton(container, 2);
 
       expect(
         container.querySelectorAll('[data-pagination-select]')
@@ -346,15 +450,19 @@ describe('Sort Table Pagination', () => {
     });
 
     test('Selecting a page changes table summary', async () => {
-      let container = await sortTableFactory(
-        { showPagination: true },
-        { viewSet: 1 }
-      );
+      let container;
+      await act(async () => {
+        container = await sortTableFactory(
+          { showPagination: true },
+          { viewSet: 1 }
+        );
+      });
+
       expect(
         container.querySelector('[data-pagination-summary]').textContent
       ).toEqual(`1 - 1 of ${data.length} entries.`);
 
-      container = clickPaginationButton(container, 2);
+      container = await clickPaginationButton(container, 2);
       expect(
         container.querySelector('[data-pagination-summary]').textContent
       ).toEqual(`2 - 2 of ${data.length} entries.`);
@@ -363,16 +471,22 @@ describe('Sort Table Pagination', () => {
 
   describe('Pagination and filtering', () => {
     test('Number of pages chanages when filtering', async () => {
-      let container = await sortTableFactory(
-        { showPagination: true, showFilter: true },
-        { viewSet: 2, filter: '' }
-      );
+      let container;
+
+      await act(async () => {
+        container = await sortTableFactory(
+          { showPagination: true, showFilter: true },
+          { viewSet: 2, filter: '' }
+        );
+      });
 
       const initialNumberOfPages = container.querySelectorAll(
         '[data-pagination-button]'
       ).length;
 
-      container = changeFilter(container, 'cheese');
+      await act(async () => {
+        container = await changeFilter(container, 'cheese');
+      });
 
       expect(
         container.querySelectorAll('[data-pagination-button]')
@@ -382,16 +496,22 @@ describe('Sort Table Pagination', () => {
     test.todo('Aria rowindex does not change on each row');
 
     test('Table summary updates when filtering', async () => {
-      let container = await sortTableFactory(
-        { showPagination: true, showFilter: true },
-        { viewSet: 2, filter: '' }
-      );
+      let container;
+
+      await act(async () => {
+        container = await sortTableFactory(
+          { showPagination: true, showFilter: true },
+          { viewSet: 2, filter: '' }
+        );
+      });
 
       expect(
         container.querySelector('[data-pagination-summary]').textContent
       ).toEqual(`1 - 2 of ${data.length} entries.`);
 
-      container = changeFilter(container, 'cheese');
+      await act(async () => {
+        container = await changeFilter(container, 'cheese');
+      });
 
       expect(
         container.querySelector('[data-pagination-summary]').textContent

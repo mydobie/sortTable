@@ -160,29 +160,30 @@ export const sortTableFactory = async (
   }
 
   if (props?.showFilter) {
-    // @ts-ignore
-    container = changeFilter(container, initial?.filter);
+    container = await changeFilter(container, initial?.filter);
   }
 
   if (props?.showPagination && initial?.viewSet !== undefined) {
-    container = changeViewItemsToView(container, initial.viewSet);
+    container = await changeViewItemsToView(container, initial.viewSet);
   }
 
   if (props?.showPagination && initial?.pageIndex !== undefined) {
     // @ts-ignore
-    container = clickPaginationButton(container, initial.pageIndex);
+    container = await clickPaginationButton(container, initial.pageIndex);
   }
 
   return container;
 };
 
-export const clickHeader = (container, headerIndex: number) => {
+export const clickHeader = async (container, headerIndex: number) => {
   fireEvent.click(
     container
       .querySelectorAll('thead th')
       .item(headerIndex)
       .querySelector('button')
   );
+  await new Promise((r) => setTimeout(r, 25)); // time to to allow debounce to finish
+
   return container;
 };
 
@@ -202,11 +203,16 @@ export const changeFilter = async (container, filterText: string = '') => {
   return container;
 };
 
-export const changeViewItemsToView = (container, numShown: number | string) => {
+export const changeViewItemsToView = async (
+  container,
+  numShown: number | string
+) => {
   fireEvent.change(
     container.querySelector('[data-sort-number-of-inputs] select'),
     { target: { value: `${numShown}` } }
   );
+  await new Promise((r) => setTimeout(r, 25)); // time to to allow debounce to finish
+
   return container;
 };
 
@@ -222,6 +228,7 @@ export const clickPaginationButton = async (container, pageIndex: number) => {
     await new Promise((r) => setTimeout(r, 25)); // time to to allow debounce to finish
     return container;
   }
+
   fireEvent.change(container.querySelector('[data-pagination-select]'), {
     target: { value: `${pageIndex}` },
   });

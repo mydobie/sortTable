@@ -398,6 +398,7 @@ const SortTable = (props: Props): JSX.Element => {
                 value={filterValue}
                 onChange={(a) => {
                   debounceFn(a);
+                  // filterRows(a);
                   setFilterValue(a.target.value);
                 }}
                 label='Filter'

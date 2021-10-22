@@ -95,7 +95,7 @@ describe('Sort Table Sorting', () => {
     let nameColumn = columnText(container, nameIndex);
     expect(sortedData).not.toEqual(nameColumn);
 
-    container = clickHeader(container, nameIndex);
+    container = await clickHeader(container, nameIndex);
 
     nameColumn = columnText(container, nameIndex);
     expect(sortedData).toEqual(nameColumn);
@@ -106,7 +106,7 @@ describe('Sort Table Sorting', () => {
 
     let container = await sortTableFactory();
 
-    container = clickHeader(container, nameIndex);
+    container = await clickHeader(container, nameIndex);
 
     expect(
       container
@@ -124,7 +124,7 @@ describe('Sort Table Sorting', () => {
     const nameColumn = columnText(container, nameIndex);
     expect(sortedData).toEqual(nameColumn);
 
-    container = clickHeader(container, nameIndex);
+    container = await clickHeader(container, nameIndex);
 
     const nameColumnUpdated = columnText(container, nameIndex);
     expect(nameColumnUpdated).toEqual(sortedData.reverse());
@@ -134,7 +134,7 @@ describe('Sort Table Sorting', () => {
     const nameIndex = headers.findIndex((header) => header.key === 'name');
     let container = await sortTableFactory({ initialSort: 'name' });
 
-    container = clickHeader(container, nameIndex);
+    container = await clickHeader(container, nameIndex);
 
     expect(
       container
@@ -152,7 +152,7 @@ describe('Sort Table Sorting', () => {
 
     let container = await sortTableFactory({ initialSort: 'name' });
 
-    container = clickHeader(container, stockIndex);
+    container = await clickHeader(container, stockIndex);
 
     const stockColumn = columnText(container, stockIndex).map((item) =>
       parseInt(item, 10)
