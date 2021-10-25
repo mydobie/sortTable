@@ -4,10 +4,16 @@ import SortTable, {
   headerDataType,
 } from './Components/SortTable';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import { devDependencies } from '../package.json';
 import './app.css';
 
 function App() {
+  const [bootstrap, setBootstrap] = React.useState(null);
+
+  React.useEffect(() => {
+    fetch('/versions.json')
+      .then((response) => response.json())
+      .then((response) => setBootstrap(response.bootstrap));
+  }, []);
   const headers: headerDataType[] = [
     { name: 'Product Name', key: 'name', type: 'alpha', rowheader: true },
     { name: 'Price', key: 'price', className: 'myCustomPriceClass' },
@@ -179,7 +185,7 @@ function App() {
         </li>
         <li>
           <strong>Bootstrap CSS Version: </strong>
-          {devDependencies.bootstrap}
+          {bootstrap}
         </li>
       </ul>
     </div>
