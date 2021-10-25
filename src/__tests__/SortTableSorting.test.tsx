@@ -1,11 +1,12 @@
 /* eslint-disable react/react-in-jsx-scope */
-
+import { screen, fireEvent } from '@testing-library/react';
 import {
   sortTableFactory,
   data,
   headers,
   columnText,
   clickHeader,
+  columnTextWithHeader,
 } from './helpers/helpers';
 
 describe('Sort Table Sorting', () => {
@@ -252,5 +253,114 @@ describe('Sort Table Sorting', () => {
         .item(sizeTypeIndex)
         .querySelector('button svg path[data-icontype="defaultAscending"]')
     ).toBeInTheDocument();
+  });
+});
+
+describe('Sort Table Sorting Responsive', () => {
+  test('Sort drop down is not available on non responsive view', async () => {
+    await sortTableFactory();
+    expect(screen.queryByTestId('sortDropDownWrapper')).not.toBeInTheDocument();
+  });
+
+  test('Columns are part of the sort drop down on responsive view', async () => {
+    await sortTableFactory({ isResponsive: true });
+    expect(screen.getByTestId('sortDropDownWrapper')).toBeInTheDocument();
+  });
+
+  test('If no column is sorted, then the sort direction button is not shown', async () => {
+    await sortTableFactory({ isResponsive: true });
+    expect(screen.getByTestId('sortDropDownColumn')).toBeInTheDocument();
+    expect(screen.getByTestId('sortDropDownColumn').value).toEqual('');
+    expect(screen.queryByTestId('sortDropDownButton')).not.toBeInTheDocument();
+  });
+
+  test('Columns marked as not sortable are not part of the drop down', async () => {
+    await sortTableFactory({ isResponsive: true });
+
+    const sortableHeaders = headers
+      .filter((header) => !header.noSort)
+      .map((header) => header.sortKey || header.key);
+
+    sortableHeaders.push(''); // this is for the "select a column option"
+
+    Array.from(
+      screen.getByTestId('sortDropDownColumn').getElementsByTagName('option')
+    ).forEach((option) => {
+      expect(sortableHeaders).toContain(option.value);
+    });
+  });
+
+  test('If a column is already sorted, then the sort column and direction are correct', async () => {
+    await sortTableFactory({ initialSort: 'name', isResponsive: true });
+    expect(screen.getByTestId('sortDropDownColumn').value).toEqual('name');
+    expect(screen.getByTestId('sortDropDownButton')).toBeInTheDocument();
+    expect(
+      screen
+        .getByTestId('sortDropDownButton')
+        .getAttribute('data-sortdirection')
+    ).toEqual('asc');
+  });
+
+  test('Choosing a column, sorts the column ascending', async () => {
+    await sortTableFactory({ isResponsive: true });
+    const sortedData = data.map((row) => row.name).sort();
+
+    fireEvent.change(screen.getByTestId('sortDropDownColumn'), {
+      target: { value: 'name' },
+    });
+
+    const nameColumn = columnTextWithHeader('name');
+    expect(sortedData).toEqual(nameColumn);
+
+    expect(
+      screen
+        .getByTestId('sortDropDownButton')
+        .getAttribute('data-sortdirection')
+    ).toEqual('asc');
+  });
+
+  test('Clicking the sort column switches the order to descending', async () => {
+    await sortTableFactory({ isResponsive: true, initialSort: 'name' });
+    const sortedData = data.map((row) => row.name).sort();
+    expect(
+      screen
+        .getByTestId('sortDropDownButton')
+        .getAttribute('data-sortdirection')
+    ).toEqual('asc');
+    fireEvent.click(screen.getByTestId('sortDropDownButton'));
+    expect(
+      screen
+        .getByTestId('sortDropDownButton')
+        .getAttribute('data-sortdirection')
+    ).toEqual('desc');
+
+    const nameColumn = columnTextWithHeader('name');
+    expect(sortedData.reverse()).toEqual(nameColumn);
+  });
+
+  test('Column with a sortKey is sorted according to the sortKey value', async () => {
+    // const sorted = data
+    //   .sort((a, b) => {
+    //     const intA = a.saledaynum;
+    //     const intB = b.saledaynum;
+    //     if (intA === intB) return 0;
+    //     if (intA === undefined) return 1;
+    //     if (intB === undefined) return -1;
+    //     return intA - intB;
+    //   })
+    //   .map((item) => item.day ?? '');
+
+    await sortTableFactory({ isResponsive: true });
+    expect(
+      screen
+        .getByTestId('sortDropDownColumn')
+        .querySelector('option[value="saledaynum"]')
+    ).toBeInTheDocument();
+    fireEvent.change(screen.getByTestId('sortDropDownColumn'), {
+      target: { value: 'saledaynum' },
+    });
+    // const nameColumn = columnTextWithHeader('day');
+    // expect(nameColumn).toEqual(sorted);
+    // TODO fix this test.  The responsive header html is preventing the sort from working.
   });
 });

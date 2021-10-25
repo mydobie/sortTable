@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 
-import { render, waitFor, fireEvent } from '@testing-library/react';
+import { render, waitFor, fireEvent, screen } from '@testing-library/react';
 
 import SortTable, {
   tableDataType,
@@ -250,6 +250,25 @@ export const columnText = (container, columnIndex: number) => {
   });
   return cells;
 };
+
+/* ***************************************** */
+
+export const columnTextWithHeader = (column) => {
+  const columnIndex = headers.findIndex(
+    (header) => header.sortKey === column || header.key === column
+  );
+
+  const rows = screen.getByTestId('sortTableBody').getElementsByTagName('tr');
+  const cells = [];
+
+  Array.from(rows).forEach((row) => {
+    // console.log('CELL LENGTH: ', row.getElementsByTagName('td').length);
+    cells.push(row.querySelectorAll('td, th').item(columnIndex).innerHTML);
+  });
+  return cells;
+};
+
+/* ***************************************** */
 
 export const expectedInObjectArray = (
   array: (string | number)[],

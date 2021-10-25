@@ -8,6 +8,7 @@ import { distance } from 'fastest-levenshtein';
 import SortIcons from './SortIcons';
 import './sortTable.css';
 import TableSummary from './TableSummary';
+import SortDropDown from './SortDropDown';
 
 const Pagination = React.lazy(() => import('./Pagination'));
 const Filter = React.lazy(() => import('./Filter'));
@@ -22,7 +23,7 @@ export type tableDataType = {
   rowindex?: number;
 };
 
-type headerType = string;
+export type headerType = string;
 
 export type headerDataType = {
   name: string;
@@ -407,6 +408,20 @@ const SortTable = (props: Props): JSX.Element => {
           ) : null}
         </div>
         <div className='row'>
+          {isResponsive || isResponsiveList ? (
+            <SortDropDown
+              headers={headers}
+              selected={sortCol}
+              sortAscending={sortAscending}
+              onChange={(a) => {
+                setSortCol(a);
+              }}
+              onOrderChange={(a) => {
+                setSortAscending(a);
+              }}
+            />
+          ) : null}
+
           {isAlert ? (
             <div data-sort-table-confirm>
               <div className='alert alert-success' role='alert'>
@@ -445,6 +460,7 @@ const SortTable = (props: Props): JSX.Element => {
                 role={
                   isResponsive && !isResponsiveList ? 'rowgroup' : undefined
                 }
+                data-testid='sortTableBody'
               >
                 {buildData()}
               </tbody>
