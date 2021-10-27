@@ -3,7 +3,6 @@ Like a lightweight data tables (https://datatables.net/)
 */
 
 import React from 'react';
-import debounce from 'lodash/debounce';
 import { distance } from 'fastest-levenshtein';
 import SortIcons from './SortIcons';
 import './sortTable.css';
@@ -95,7 +94,7 @@ const SortTable = (props: Props): JSX.Element => {
     sortedCellClass,
     useFuzzySearch,
     maxFuzzyDistance = 3,
-    debounceTimeout = 200,
+    debounceTimeout,
   } = props;
 
   const sortTableId = id ?? 'sortTable';
@@ -307,38 +306,72 @@ const SortTable = (props: Props): JSX.Element => {
   const buildData = () => displayRows().map((row) => buildDataRow(row));
 
   /* ********************************* */
-  const filterRows = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const filterText =
-      caseSensitiveFilter === true
-        ? event.target.value
-        : event.target.value.toLowerCase();
+  // const filterRows = () => {
+  //   const filterText =
+  //     caseSensitiveFilter === true ? filterValue : filterValue.toLowerCase();
 
-    const newTableDisplayRows = [...tableDisplayRows];
+  //   const newTableDisplayRows = [...tableDisplayRows];
 
-    newTableDisplayRows.forEach((row, index) => {
-      newTableDisplayRows[index].hide = true;
-      headers.forEach((header) => {
-        if (
-          (header.noFilter === undefined || header.noFilter === false) &&
-          row[header.key] !== undefined
-        ) {
-          let value = row[header.key].toString();
-          value = caseSensitiveFilter === true ? value : value.toLowerCase();
+  //   newTableDisplayRows.forEach((row, index) => {
+  //     newTableDisplayRows[index].hide = true;
+  //     headers.forEach((header) => {
+  //       if (
+  //         (header.noFilter === undefined || header.noFilter === false) &&
+  //         row[header.key] !== undefined
+  //       ) {
+  //         let value = row[header.key].toString();
+  //         value = caseSensitiveFilter === true ? value : value.toLowerCase();
 
+  //         if (
+  //           (useFuzzySearch &&
+  //             distance(value, filterText) <= maxFuzzyDistance) ||
+  //           value.includes(filterText)
+  //         ) {
+  //           newTableDisplayRows[index].hide = false;
+  //         }
+  //       }
+  //     });
+  //   });
+
+  //   setTableDisplayRows(newTableDisplayRows);
+  //   setStartRow(0);
+  // };
+
+  React.useEffect(() => {
+    const filterRows = () => {
+      const filterText =
+        caseSensitiveFilter === true ? filterValue : filterValue.toLowerCase();
+
+      const newTableDisplayRows = [...tableDisplayRows];
+
+      newTableDisplayRows.forEach((row, index) => {
+        newTableDisplayRows[index].hide = true;
+        headers.forEach((header) => {
           if (
-            (useFuzzySearch &&
-              distance(value, filterText) <= maxFuzzyDistance) ||
-            value.includes(filterText)
+            (header.noFilter === undefined || header.noFilter === false) &&
+            row[header.key] !== undefined
           ) {
-            newTableDisplayRows[index].hide = false;
-          }
-        }
-      });
-    });
+            let value = row[header.key].toString();
+            value = caseSensitiveFilter === true ? value : value.toLowerCase();
 
-    setTableDisplayRows(newTableDisplayRows);
-    setStartRow(0);
-  };
+            if (
+              (useFuzzySearch &&
+                distance(value, filterText) <= maxFuzzyDistance) ||
+              value.includes(filterText)
+            ) {
+              newTableDisplayRows[index].hide = false;
+            }
+          }
+        });
+      });
+
+      setTableDisplayRows(newTableDisplayRows);
+      setStartRow(0);
+    };
+
+    filterRows();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [filterValue]);
 
   /* ********************************* */
   const showNumberInput = () => (
@@ -370,12 +403,6 @@ const SortTable = (props: Props): JSX.Element => {
     </div>
   );
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debounceFn = React.useCallback(
-    debounce(filterRows, debounceTimeout),
-    []
-  );
-
   /* ********************************* */
   if (tableDisplayRows.length === 0) {
     return noData;
@@ -398,12 +425,12 @@ const SortTable = (props: Props): JSX.Element => {
               <Filter
                 value={filterValue}
                 onChange={(a) => {
-                  debounceFn(a);
                   setFilterValue(a.target.value);
                 }}
                 label='Filter'
                 id={sortTableId}
-              />{' '}
+                debounceTimeout={debounceTimeout}
+              />
             </div>
           ) : null}
         </div>
