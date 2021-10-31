@@ -4,7 +4,6 @@ Like a lightweight data tables (https://datatables.net/)
 */
 
 import React from 'react';
-// import { distance } from 'fastest-levenshtein';
 import SortIcons from './SortIcons';
 import './sortTable.css';
 import TableSummary from './TableSummary';
@@ -39,38 +38,40 @@ export type headerDataType = {
   type?: string;
 };
 
-// TODO Sort this in more logical way (required alpha and then optional alpha, then test only alpha)
 interface Props {
+  // Required
   headers: headerDataType[];
   tableData: tableDataType[];
 
-  allDataFilteredMessage?: JSX.Element;
+  // Optional - data
+  allDataFilteredMessage?: JSX.Element | string;
   caption?: string;
+  initialFilter?: string;
+  initialPage?: number;
+  initialRowsDisplayed?: number;
+  initialSort?: headerType; // what column should be sorted initially
+  initialSortDsc?: boolean;
+  isLoadingMessage?: JSX.Element | string; // Used if isLoading is true
+  noDataMessage?: JSX.Element | string;
+  viewSteps?: number[];
+
+  // Optional - config
   caseSensitiveFilter?: boolean;
   dangerouslySetInnerHTML?: boolean; // Used very rarely, but should the table process html in a string
   defaultToAll?: boolean;
   emptyCellClassName?: string;
   headerClassName?: string;
   id?: string;
-  initialSort?: headerType; // what column should be sorted initially
-  initialSortDsc?: boolean;
   isLoading?: boolean;
-  isLoadingMessage?: JSX.Element;
   isResponsive?: boolean;
   isResponsiveList?: boolean;
-  isResponsiveListAlwaysShow?: boolean; // only used for testing
-  noDataMessage?: JSX.Element;
   showFilter?: boolean;
   showPagination?: boolean;
   sortedCellClass?: string;
   tableClassName?: string;
-  viewSteps?: number[];
   useFuzzySearch?: boolean;
-  maxFuzzyDistance?: number;
-  debounceTimeout?: number; // this normally wouldn't be changed - used in testing
-  initialFilter?: string;
-  initialRowsDisplayed?: number;
-  initialPage?: number;
+
+  // Optional - callbacks
   onChange?: (props: {
     sortedColumn: headerType;
     sortedAscending: boolean;
@@ -80,43 +81,58 @@ interface Props {
     pages: number;
     totalFiltered: number;
   }) => void;
+
+  // For testing (wouldn't normally be used)
+  debounceTimeout?: number;
+  isResponsiveListAlwaysShow?: boolean;
+  maxFuzzyDistance?: number;
 }
 
 const SortTable = (props: Props): JSX.Element => {
   const {
-    tableData,
-    defaultToAll,
-    viewSteps,
-    initialSort,
+    // Required
     headers,
-    showPagination,
-    dangerouslySetInnerHTML,
-    showFilter,
+    tableData,
+
+    // Optional - data
+    allDataFilteredMessage,
+    caption,
+    initialFilter = '',
+    initialPage,
+    initialRowsDisplayed,
+    initialSort,
+    initialSortDsc,
+    isLoadingMessage,
+    noDataMessage,
+    viewSteps,
+
+    // Optional - config
     caseSensitiveFilter,
+    dangerouslySetInnerHTML,
+    defaultToAll,
+    emptyCellClassName,
+    headerClassName,
     id,
+    isLoading,
     isResponsive,
     isResponsiveList,
-    isResponsiveListAlwaysShow,
-    caption,
-    tableClassName,
-    headerClassName,
-    noDataMessage,
-    allDataFilteredMessage,
-    isLoading,
-    isLoadingMessage,
-    initialSortDsc,
-    emptyCellClassName,
+    showFilter,
+    showPagination,
     sortedCellClass,
+    tableClassName,
     useFuzzySearch,
-    maxFuzzyDistance = 3,
-    debounceTimeout,
-    initialFilter = '',
-    initialRowsDisplayed,
-    initialPage,
+
+    // Optional - callbacks
     onChange = () => {},
+
+    // For testing (wouldn't normally be used)
+    debounceTimeout,
+    isResponsiveListAlwaysShow,
+    maxFuzzyDistance = 3,
   } = props;
 
   let rowsDisplayed = defaultToAll || !viewSteps ? null : viewSteps[0];
+
   if (initialRowsDisplayed && viewSteps) {
     rowsDisplayed = viewSteps.includes(initialRowsDisplayed)
       ? initialRowsDisplayed
@@ -179,7 +195,7 @@ const SortTable = (props: Props): JSX.Element => {
   const startRow = maxNumber ? (activePage - 1) * maxNumber : 1;
 
   /* ***************************** */
-  const noData: JSX.Element = noDataMessage ?? (
+  const noData: JSX.Element | string = noDataMessage ?? (
     <p data-sort-no-data-message>No data is available</p>
   );
 
@@ -197,8 +213,7 @@ const SortTable = (props: Props): JSX.Element => {
       const col: headerType =
         initialSortColumn.sortKey ?? initialSortColumn.key;
 
-      // Clean this up so we can use the given helpers above
-
+      // TODO Clean this up so we can use the given helpers above
       sortRows({
         rows: tableDisplayRows,
         sortCol: col,
@@ -412,7 +427,7 @@ const SortTable = (props: Props): JSX.Element => {
 
   /* ********************************* */
   if (tableDisplayRows.length === 0) {
-    return noData;
+    return <>{noData}</>;
   }
   return (
     <div className='container-fluid'>
@@ -512,7 +527,6 @@ const SortTable = (props: Props): JSX.Element => {
             data-pagination-summary
           >
             {!isLoading ? (
-              // This is incorrect anytime the amount per page is set to "all"
               <TableSummary
                 totalEntries={tableData.length}
                 startRow={maxNumber ? startRow + 1 : 0}
@@ -533,7 +547,6 @@ const SortTable = (props: Props): JSX.Element => {
 
           {showPagination ? (
             <div className='col-sm'>
-              {/* KKD - number of pages can never be less than 1 */}
               <Pagination
                 numberOfPages={numberOfPages}
                 activePage={activePage}

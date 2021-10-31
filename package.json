@@ -14,13 +14,17 @@
   "engines": {
     "node": "^14"
   },
-  "dependencies": {
-    "fastest-levenshtein": "^1.0.12",
+  "peerDependencies": {
     "react": "16.8.0 - 17.999.999",
-    "react-debounce-input": "^3.2.5",
     "react-dom": "16.8.0 - 17.999.999"
   },
+  "dependencies": {
+    "fastest-levenshtein": "^1.0.12",
+    "react-debounce-input": "^3.2.5"
+  },
   "devDependencies": {
+    "react": "16.8.0 - 17.999.999",
+    "react-dom": "16.8.0 - 17.999.999",
     "@babel/preset-react": "^7.12.10",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.1.2",

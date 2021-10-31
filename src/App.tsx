@@ -7,13 +7,6 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './app.css';
 
 function App() {
-  const [bootstrap, setBootstrap] = React.useState(null);
-
-  React.useEffect(() => {
-    fetch('/versions.json')
-      .then((response) => response.json())
-      .then((response) => setBootstrap(response.bootstrap));
-  }, []);
   const headers: headerDataType[] = [
     { name: 'Product Name', key: 'name', type: 'alpha', rowheader: true },
     { name: 'Price', key: 'price', className: 'myCustomPriceClass' },
@@ -137,7 +130,8 @@ function App() {
         id='sampleTable1'
         tableData={data}
         headers={headers}
-        initialSort='month'
+        initialSort='name'
+        initialSortDsc
         showFilter
         showPagination
         viewSteps={[1, 2, 4, 50]}
@@ -148,7 +142,14 @@ function App() {
         emptyCellClassName='emptyCell'
         sortedCellClass='sortedCellClass'
         useFuzzySearch
-        // allDataFilteredMessage='My custom all filtered message'
+        initialPage={2}
+        initialFilter='cheese'
+        initialRowsDisplayed={2}
+        allDataFilteredMessage='My custom all filtered message'
+        onChange={(changeData) => {
+          // eslint-disable-next-line no-console
+          console.log(changeData);
+        }}
       />
       <hr />
       <h2>Responsive using definition list</h2>
@@ -182,10 +183,6 @@ function App() {
         <li>
           <strong>React Version: </strong>
           {React.version}
-        </li>
-        <li>
-          <strong>Bootstrap CSS Version: </strong>
-          {bootstrap}
         </li>
       </ul>
     </div>
