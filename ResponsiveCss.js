@@ -1,0 +1,1 @@
+"use strict";Object.defineProperty(exports,"__esModule",{value:true});var jsx_runtime_1=require("react/jsx-runtime");require("./responsive.css");var ResponsiveCss=function(){return(0,jsx_runtime_1.jsx)(jsx_runtime_1.Fragment,{},void 0)};exports.default=ResponsiveCss;
