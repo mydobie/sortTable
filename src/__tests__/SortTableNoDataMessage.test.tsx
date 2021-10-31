@@ -72,6 +72,18 @@ describe('Sort Table No Data Messages', () => {
     ).not.toBeInTheDocument();
   });
 
+  test('Custom message not shown by default', async () => {
+    const customMessage = 'My custom all filtered message';
+    let container;
+    await act(async () => {
+      container = await sortTableFactory({
+        showFilter: true,
+        allDataFilteredMessage: customMessage,
+      });
+    });
+    expect(container.innerHTML.includes(customMessage)).toBeFalsy();
+  });
+
   test('Default all filtered data message', async () => {
     let container;
     await act(async () => {
@@ -83,18 +95,6 @@ describe('Sort Table No Data Messages', () => {
     expect(
       container.querySelector('[data-sort-all-data-filtered]')
     ).toBeInTheDocument();
-  });
-
-  test('Custom message not shown by default', async () => {
-    const customMessage = 'My custom all filtered message';
-    let container;
-    await act(async () => {
-      container = await sortTableFactory({
-        showFilter: true,
-        allDataFilteredMessage: customMessage,
-      });
-    });
-    expect(container.innerHTML.includes(customMessage)).toBeFalsy();
   });
 
   test('Custom all filtered message - string', async () => {

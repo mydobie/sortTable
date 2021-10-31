@@ -6,8 +6,7 @@ import { headerDataType, headerType } from './SortTable';
 type SortDropDownProps = {
   headers: headerDataType[];
   selected?: headerType | null;
-  onChange?: (columnKey: headerType) => void;
-  onOrderChange?: (order: boolean) => void;
+  onChange?: (columnKey: headerType, sortAscending: boolean) => void;
   sortAscending?: boolean | null;
   id?: string;
 };
@@ -17,7 +16,6 @@ const SortDropDown = (props: SortDropDownProps): ReactElement => {
     headers,
     selected = null,
     onChange = () => {},
-    onOrderChange = () => {},
     sortAscending = null,
     id = 'sortDropDown',
   } = props;
@@ -33,7 +31,7 @@ const SortDropDown = (props: SortDropDownProps): ReactElement => {
           id={`${id}SortDropDown`}
           value={selected || ''}
           className='form-control form-select'
-          onChange={(e) => onChange(e.target.value)}
+          onChange={(e) => onChange(e.target.value, true)}
           data-testid='sortDropDownColumn'
         >
           {selected === '' ? <option value=''>Select a sort</option> : null}
@@ -53,8 +51,8 @@ const SortDropDown = (props: SortDropDownProps): ReactElement => {
         <div className='col-auto' style={{ paddingLeft: 0 }}>
           <button
             type='button'
-            onClick={(e) => {
-              onOrderChange(!sortAscending);
+            onClick={() => {
+              onChange(selected, !sortAscending);
             }}
             style={{
               border: 'none',

@@ -1,13 +1,15 @@
+/* eslint-disable no-console */
 /* Component to create a sortable and filterable table
 Like a lightweight data tables (https://datatables.net/)
 */
 
 import React from 'react';
-import { distance } from 'fastest-levenshtein';
+// import { distance } from 'fastest-levenshtein';
 import SortIcons from './SortIcons';
 import './sortTable.css';
 import TableSummary from './TableSummary';
 import SortDropDown from './SortDropDown';
+import { sortRows, filterRows } from './sortUtils';
 
 const Pagination = React.lazy(() => import('./Pagination'));
 const Filter = React.lazy(() => import('./Filter'));
@@ -37,6 +39,7 @@ export type headerDataType = {
   type?: string;
 };
 
+// TODO Sort this in more logical way (required alpha and then optional alpha, then test only alpha)
 interface Props {
   headers: headerDataType[];
   tableData: tableDataType[];
@@ -65,6 +68,9 @@ interface Props {
   useFuzzySearch?: boolean;
   maxFuzzyDistance?: number;
   debounceTimeout?: number; // this normally wouldn't be changed - used in testing
+  initialFilter?: string;
+  initialRowsDisplayed?: number;
+  initialPage?: number;
 }
 
 const SortTable = (props: Props): JSX.Element => {
@@ -95,21 +101,63 @@ const SortTable = (props: Props): JSX.Element => {
     useFuzzySearch,
     maxFuzzyDistance = 3,
     debounceTimeout,
+    initialFilter = '',
+    initialRowsDisplayed,
+    initialPage,
   } = props;
 
-  const sortTableId = id ?? 'sortTable';
+  let rowsDisplayed = defaultToAll || !viewSteps ? null : viewSteps[0];
+  if (initialRowsDisplayed && viewSteps) {
+    rowsDisplayed = viewSteps.includes(initialRowsDisplayed)
+      ? initialRowsDisplayed
+      : rowsDisplayed;
+  }
 
+  const sortTableId = id ?? 'sortTable';
   const [tableDisplayRows, setTableDisplayRows] = React.useState(tableData);
   const [sortCol, setSortCol] = React.useState(''); // sort by this column
   const [sortAscending, setSortAscending] = React.useState(true);
   const [filterValue, setFilterValue] = React.useState('');
-  const [maxNumber, setMaxNumber] = React.useState(
-    defaultToAll || !viewSteps ? null : viewSteps[0]
-  );
-  const [startRow, setStartRow] = React.useState(0);
-  const [isAlert, setAlert] = React.useState(false);
-  const [alertText, setAlertText] = React.useState('');
+  const [maxNumber, setMaxNumber] = React.useState(rowsDisplayed); // aka number of rows shown at a time
+  const [activePage, setActivePage] = React.useState(initialPage ?? 1);
 
+  /* ***************************** */
+  const sortTableRows = (
+    col: string,
+    ascending: boolean,
+    initialRows = tableDisplayRows
+  ) => {
+    const rows = sortRows({
+      rows: initialRows,
+      sortCol: col,
+      sortAscending: ascending,
+    });
+
+    setTableDisplayRows(rows);
+
+    setSortCol(col);
+    setSortAscending(ascending);
+  };
+  /* ***************************** */
+  const filterTableRows = (filter: string) => {
+    setTableDisplayRows(
+      filterRows({
+        rows: tableDisplayRows,
+        filterValue: filter,
+        caseSensitiveFilter,
+        headers,
+        useFuzzySearch,
+        maxFuzzyDistance,
+      })
+    );
+    setFilterValue(filter);
+  };
+
+  /* ***************************** */
+
+  const startRow = maxNumber ? (activePage - 1) * maxNumber : 1;
+
+  /* ***************************** */
   const noData: JSX.Element = noDataMessage ?? (
     <p data-sort-no-data-message>No data is available</p>
   );
@@ -125,42 +173,41 @@ const SortTable = (props: Props): JSX.Element => {
       : undefined;
 
     if (initialSortColumn) {
-      setSortAscending(!initialSortDsc);
-
       const col: headerType =
         initialSortColumn.sortKey ?? initialSortColumn.key;
-      setSortCol(col);
+
+      // Clean this up so we can use the given helpers above
+
+      sortRows({
+        rows: tableDisplayRows,
+        sortCol: col,
+        sortAscending: !initialSortDsc,
+        onSort: (sortedRows) => {
+          setSortCol(col);
+          setSortAscending(!initialSortDsc);
+
+          if (initialFilter && initialFilter !== '') {
+            const filteredRows = filterRows({
+              rows: sortedRows,
+              filterValue: initialFilter,
+              caseSensitiveFilter,
+              headers,
+              useFuzzySearch,
+              maxFuzzyDistance,
+            });
+
+            setTableDisplayRows(filteredRows);
+            setFilterValue(initialFilter);
+          } else {
+            setTableDisplayRows(sortedRows);
+          }
+        },
+      });
     }
+
     // We want this to only run on component load, so leaving it as []
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  /* ********************************* */
-  React.useEffect(() => {
-    if (sortCol && sortAscending !== undefined) {
-      const newSortData = [...tableDisplayRows]
-        .sort((a, b) => {
-          if (a[sortCol] === b[sortCol]) {
-            return 0;
-          }
-          if (a[sortCol] === undefined) {
-            return sortAscending === false ? -1 : 1;
-          }
-          if (b[sortCol] === undefined) {
-            return sortAscending === true ? -1 : 1;
-          }
-
-          if (a[sortCol] < b[sortCol]) {
-            return sortAscending === true ? -1 : 1;
-          }
-          return sortAscending === false ? -1 : 1;
-        })
-        .map((row, index) => ({ ...row, rowindex: index + 2 }));
-      setTableDisplayRows(newSortData);
-    }
-    // Adding change to tableDisplayRows causes an infinite loop
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sortAscending, sortCol]);
 
   /* ********************************* */
   const headerButton = (header: headerDataType) => {
@@ -179,18 +226,7 @@ const SortTable = (props: Props): JSX.Element => {
         onClick={() => {
           const col = header.sortKey ?? header.key;
           const isSortAscending = col !== sortCol || !sortAscending;
-          if (col !== sortCol) {
-            // setSortAscending(true);
-            setSortCol(col);
-          }
-          setSortAscending(isSortAscending);
-          setAlertText(
-            `Sorted by ${header.name} ${
-              isSortAscending ? 'ascending' : 'descending'
-            }`
-          );
-
-          setAlert(true);
+          sortTableRows(col, isSortAscending);
         }}
         style={{
           border: 'none',
@@ -302,76 +338,7 @@ const SortTable = (props: Props): JSX.Element => {
           .filter((row) => !row.hide)
           .slice(startRow, startRow + maxNumber);
 
-  /* ********************************* */
   const buildData = () => displayRows().map((row) => buildDataRow(row));
-
-  /* ********************************* */
-  // const filterRows = () => {
-  //   const filterText =
-  //     caseSensitiveFilter === true ? filterValue : filterValue.toLowerCase();
-
-  //   const newTableDisplayRows = [...tableDisplayRows];
-
-  //   newTableDisplayRows.forEach((row, index) => {
-  //     newTableDisplayRows[index].hide = true;
-  //     headers.forEach((header) => {
-  //       if (
-  //         (header.noFilter === undefined || header.noFilter === false) &&
-  //         row[header.key] !== undefined
-  //       ) {
-  //         let value = row[header.key].toString();
-  //         value = caseSensitiveFilter === true ? value : value.toLowerCase();
-
-  //         if (
-  //           (useFuzzySearch &&
-  //             distance(value, filterText) <= maxFuzzyDistance) ||
-  //           value.includes(filterText)
-  //         ) {
-  //           newTableDisplayRows[index].hide = false;
-  //         }
-  //       }
-  //     });
-  //   });
-
-  //   setTableDisplayRows(newTableDisplayRows);
-  //   setStartRow(0);
-  // };
-
-  React.useEffect(() => {
-    const filterRows = () => {
-      const filterText =
-        caseSensitiveFilter === true ? filterValue : filterValue.toLowerCase();
-
-      const newTableDisplayRows = [...tableDisplayRows];
-
-      newTableDisplayRows.forEach((row, index) => {
-        newTableDisplayRows[index].hide = true;
-        headers.forEach((header) => {
-          if (
-            (header.noFilter === undefined || header.noFilter === false) &&
-            row[header.key] !== undefined
-          ) {
-            let value = row[header.key].toString();
-            value = caseSensitiveFilter === true ? value : value.toLowerCase();
-
-            if (
-              (useFuzzySearch &&
-                distance(value, filterText) <= maxFuzzyDistance) ||
-              value.includes(filterText)
-            ) {
-              newTableDisplayRows[index].hide = false;
-            }
-          }
-        });
-      });
-
-      setTableDisplayRows(newTableDisplayRows);
-      setStartRow(0);
-    };
-
-    filterRows();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterValue]);
 
   /* ********************************* */
   const showNumberInput = () => (
@@ -388,7 +355,7 @@ const SortTable = (props: Props): JSX.Element => {
           marginRight: '0.75em',
         }}
         onChange={(e) => {
-          setStartRow(0);
+          setActivePage(1);
           setMaxNumber(parseInt(e.target.value, 10) ?? null);
         }}
       >
@@ -425,7 +392,7 @@ const SortTable = (props: Props): JSX.Element => {
               <Filter
                 value={filterValue}
                 onChange={(a) => {
-                  setFilterValue(a.target.value);
+                  filterTableRows(a.target.value);
                 }}
                 label='Filter'
                 id={sortTableId}
@@ -440,21 +407,10 @@ const SortTable = (props: Props): JSX.Element => {
               headers={headers}
               selected={sortCol}
               sortAscending={sortAscending}
-              onChange={(a) => {
-                setSortCol(a);
-              }}
-              onOrderChange={(a) => {
-                setSortAscending(a);
+              onChange={(col, sortAsc) => {
+                sortTableRows(col, sortAsc);
               }}
             />
-          ) : null}
-
-          {isAlert ? (
-            <div data-sort-table-confirm>
-              <div className='alert alert-success' role='alert'>
-                {alertText}
-              </div>
-            </div>
           ) : null}
 
           <table
@@ -516,9 +472,10 @@ const SortTable = (props: Props): JSX.Element => {
             data-pagination-summary
           >
             {!isLoading ? (
+              // This is incorrect anytime the amount per page is set to "all"
               <TableSummary
                 totalEntries={tableData.length}
-                startRow={startRow + 1}
+                startRow={maxNumber ? startRow + 1 : 0}
                 endRow={
                   maxNumber
                     ? startRow + maxNumber
@@ -547,12 +504,10 @@ const SortTable = (props: Props): JSX.Element => {
                         maxNumber
                     : 1
                 )}
-                initialActivePage={1}
+                activePage={activePage}
                 id={sortTableId}
                 onPageChange={(page) => {
-                  setStartRow(
-                    maxNumber && page !== 0 ? (page - 1) * maxNumber : 0
-                  );
+                  setActivePage(page);
                 }}
               />
             </div>

@@ -11,6 +11,16 @@ import {
 } from './helpers/helpers';
 
 describe('Sort Table Filtering (without pagination)', () => {
+  test('Table summary without filtering', async () => {
+    let container;
+    await act(async () => {
+      container = await sortTableFactory({ showFilter: true });
+    });
+    expect(
+      container.querySelector('[data-pagination-summary] span').innerHTML
+    ).toEqual(`${data.length} entries.`);
+  });
+
   test('Entering a value filters filterable columns case insensitive by defaault', async () => {
     const expectedNamesSorted = ['Milk', 'Heavy Cream', 'Sour Cream'];
 
@@ -72,16 +82,6 @@ describe('Sort Table Filtering (without pagination)', () => {
       );
     });
     expect(columnText(container, index)).toEqual(expectedNamesSorted);
-  });
-
-  test('Table summary without filtering', async () => {
-    let container;
-    await act(async () => {
-      container = await sortTableFactory({ showFilter: true });
-    });
-    expect(
-      container.querySelector('[data-pagination-summary] span').innerHTML
-    ).toEqual(`${data.length} entries.`);
   });
 
   test('Table summary changes with filtering', async () => {
