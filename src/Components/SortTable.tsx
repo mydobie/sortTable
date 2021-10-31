@@ -71,6 +71,15 @@ interface Props {
   initialFilter?: string;
   initialRowsDisplayed?: number;
   initialPage?: number;
+  onChange?: (props: {
+    sortedColumn: headerType;
+    sortedAscending: boolean;
+    rowsShown: number | null;
+    filter: string;
+    page: number;
+    pages: number;
+    totalFiltered: number;
+  }) => void;
 }
 
 const SortTable = (props: Props): JSX.Element => {
@@ -104,6 +113,7 @@ const SortTable = (props: Props): JSX.Element => {
     initialFilter = '',
     initialRowsDisplayed,
     initialPage,
+    onChange = () => {},
   } = props;
 
   let rowsDisplayed = defaultToAll || !viewSteps ? null : viewSteps[0];
@@ -120,6 +130,17 @@ const SortTable = (props: Props): JSX.Element => {
   const [filterValue, setFilterValue] = React.useState('');
   const [maxNumber, setMaxNumber] = React.useState(rowsDisplayed); // aka number of rows shown at a time
   const [activePage, setActivePage] = React.useState(initialPage ?? 1);
+
+  const filteredRows = React.useCallback(
+    () => tableDisplayRows.filter((row) => !row.hide),
+    [tableDisplayRows]
+  );
+
+  const numberOfPages = Math.ceil(
+    maxNumber && maxNumber > 0 && filteredRows().length > 0
+      ? filteredRows().length / maxNumber
+      : 1
+  );
 
   /* ***************************** */
   const sortTableRows = (
@@ -187,7 +208,7 @@ const SortTable = (props: Props): JSX.Element => {
           setSortAscending(!initialSortDsc);
 
           if (initialFilter && initialFilter !== '') {
-            const filteredRows = filterRows({
+            const fRows = filterRows({
               rows: sortedRows,
               filterValue: initialFilter,
               caseSensitiveFilter,
@@ -196,7 +217,7 @@ const SortTable = (props: Props): JSX.Element => {
               maxFuzzyDistance,
             });
 
-            setTableDisplayRows(filteredRows);
+            setTableDisplayRows(fRows);
             setFilterValue(initialFilter);
           } else {
             setTableDisplayRows(sortedRows);
@@ -208,6 +229,27 @@ const SortTable = (props: Props): JSX.Element => {
     // We want this to only run on component load, so leaving it as []
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  React.useEffect(() => {
+    onChange({
+      sortedColumn: sortCol,
+      sortedAscending: sortAscending,
+      rowsShown: maxNumber,
+      filter: filterValue,
+      page: activePage,
+      pages: numberOfPages,
+      totalFiltered: filteredRows().length,
+    });
+  }, [
+    activePage,
+    filterValue,
+    filteredRows,
+    maxNumber,
+    numberOfPages,
+    onChange,
+    sortAscending,
+    sortCol,
+  ]);
 
   /* ********************************* */
   const headerButton = (header: headerDataType) => {
@@ -333,10 +375,8 @@ const SortTable = (props: Props): JSX.Element => {
   /* ********************************* */
   const displayRows = () =>
     !showPagination || !maxNumber
-      ? tableDisplayRows.filter((row) => !row.hide)
-      : tableDisplayRows
-          .filter((row) => !row.hide)
-          .slice(startRow, startRow + maxNumber);
+      ? filteredRows()
+      : filteredRows().slice(startRow, startRow + maxNumber);
 
   const buildData = () => displayRows().map((row) => buildDataRow(row));
 
@@ -477,13 +517,9 @@ const SortTable = (props: Props): JSX.Element => {
                 totalEntries={tableData.length}
                 startRow={maxNumber ? startRow + 1 : 0}
                 endRow={
-                  maxNumber
-                    ? startRow + maxNumber
-                    : tableDisplayRows.filter((row) => !row.hide).length
+                  maxNumber ? startRow + maxNumber : filteredRows().length
                 }
-                filteredTotal={
-                  tableDisplayRows.filter((row) => !row.hide).length
-                }
+                filteredTotal={filteredRows().length}
                 sortColumn={
                   headers.find(
                     (header) =>
@@ -497,13 +533,9 @@ const SortTable = (props: Props): JSX.Element => {
 
           {showPagination ? (
             <div className='col-sm'>
+              {/* KKD - number of pages can never be less than 1 */}
               <Pagination
-                numberOfPages={Math.ceil(
-                  maxNumber && maxNumber > 0
-                    ? tableDisplayRows.filter((row) => !row.hide).length /
-                        maxNumber
-                    : 1
-                )}
+                numberOfPages={numberOfPages}
                 activePage={activePage}
                 id={sortTableId}
                 onPageChange={(page) => {

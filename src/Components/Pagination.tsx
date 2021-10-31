@@ -23,9 +23,13 @@ const Pagination = (props: Props) => {
     }
   }, [activePage, numberOfPages, onPageChange]);
 
+  if (numberOfPages < 1) {
+    console.warn('Number of pagination pages is less than 1');
+  }
+
   const maxNumberOfPages = 10;
 
-  if (numberOfPages === 1) {
+  if (numberOfPages <= 1) {
     return null;
   }
 
