@@ -486,6 +486,17 @@ Information for each data row is contained in an object with the followign keys.
 
 ---
 
+## Get version
+
+The version of sortTable is by calling the `sortTableVersion` constant.
+
+```
+import SortTable, { sortTableVersion } from '.@mydobie/SortTable';
+
+```
+
+---
+
 ---
 
 ---

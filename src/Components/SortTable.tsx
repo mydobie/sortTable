@@ -16,6 +16,8 @@ const Loading = React.lazy(() => import('./Loading'));
 const List = React.lazy(() => import('./List'));
 const ResponsiveCss = React.lazy(() => import('./ResponsiveCss'));
 
+export const sortTableVersion = process.env.REACT_APP_VERSION;
+
 export type tableDataType = {
   [key: string]: any;
   id: string | number;

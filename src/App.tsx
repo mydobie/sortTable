@@ -2,6 +2,7 @@ import React from 'react';
 import SortTable, {
   tableDataType,
   headerDataType,
+  sortTableVersion,
 } from './Components/SortTable';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import './app.css';
@@ -174,7 +175,7 @@ function App() {
         </li>
         <li>
           <strong>Project Version: </strong>
-          {process.env.REACT_APP_VERSION}
+          {sortTableVersion}
         </li>
         <li>
           <strong>Git Commit: </strong>
