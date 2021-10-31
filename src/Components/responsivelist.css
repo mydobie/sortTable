@@ -1,3 +1,7 @@
+div[data-sort-dropdown] {
+  display: none;
+}
+
 div[data-sort-responsive-list] {
   display: none;
 }
@@ -52,5 +56,8 @@ div[data-sort-responsive-list] dl dd:last-of-type {
   }
   div[data-sort-responsive-list] {
     display: block;
+  }
+  div[data-sort-dropdown] {
+    display: flex;
   }
 }

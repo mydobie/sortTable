@@ -2,9 +2,9 @@ import React from 'react';
 import SortTable, {
   tableDataType,
   headerDataType,
+  sortTableVersion,
 } from './Components/SortTable';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import { devDependencies } from '../package.json';
 import './app.css';
 
 function App() {
@@ -131,7 +131,8 @@ function App() {
         id='sampleTable1'
         tableData={data}
         headers={headers}
-        initialSort='month'
+        initialSort='name'
+        initialSortDsc
         showFilter
         showPagination
         viewSteps={[1, 2, 4, 50]}
@@ -141,7 +142,15 @@ function App() {
         isResponsive
         emptyCellClassName='emptyCell'
         sortedCellClass='sortedCellClass'
-        // allDataFilteredMessage='My custom all filtered message'
+        useFuzzySearch
+        initialPage={2}
+        initialFilter='cheese'
+        initialRowsDisplayed={2}
+        allDataFilteredMessage='My custom all filtered message'
+        onChange={(changeData) => {
+          // eslint-disable-next-line no-console
+          console.log(changeData);
+        }}
       />
       <hr />
       <h2>Responsive using definition list</h2>
@@ -166,7 +175,7 @@ function App() {
         </li>
         <li>
           <strong>Project Version: </strong>
-          {process.env.REACT_APP_VERSION}
+          {sortTableVersion}
         </li>
         <li>
           <strong>Git Commit: </strong>
@@ -175,10 +184,6 @@ function App() {
         <li>
           <strong>React Version: </strong>
           {React.version}
-        </li>
-        <li>
-          <strong>Bootstrap CSS Version: </strong>
-          {devDependencies.bootstrap}
         </li>
       </ul>
     </div>

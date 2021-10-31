@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 
-import { render, waitFor, fireEvent } from '@testing-library/react';
+import { render, waitFor, fireEvent, screen } from '@testing-library/react';
 
 import SortTable, {
   tableDataType,
@@ -127,6 +127,7 @@ export const sortTableFactory = async (
 
   wrapper = (
     <SortTable
+      debounceTimeout={1}
       tableData={tableData}
       headers={tableHeaders}
       viewSteps={steps}
@@ -159,31 +160,34 @@ export const sortTableFactory = async (
   }
 
   if (props?.showFilter) {
-    container = changeFilter(container, initial?.filter);
+    container = await changeFilter(container, initial?.filter);
   }
 
   if (props?.showPagination && initial?.viewSet !== undefined) {
-    container = changeViewItemsToView(container, initial.viewSet);
+    container = await changeViewItemsToView(container, initial.viewSet);
   }
 
   if (props?.showPagination && initial?.pageIndex !== undefined) {
-    container = clickPaginationButton(container, initial.pageIndex);
+    // @ts-ignore
+    container = await clickPaginationButton(container, initial.pageIndex);
   }
 
   return container;
 };
 
-export const clickHeader = (container, headerIndex: number) => {
+export const clickHeader = async (container, headerIndex: number) => {
   fireEvent.click(
     container
       .querySelectorAll('thead th')
       .item(headerIndex)
       .querySelector('button')
   );
+  await new Promise((r) => setTimeout(r, 25)); // time to to allow debounce to finish
+
   return container;
 };
 
-export const changeFilter = (container, filterText: string = '') => {
+export const changeFilter = async (container, filterText: string = '') => {
   // The first fire event is needed if filterText is ""
   // Having the first fire event will ensure a filte rof '' will fire
   fireEvent.change(container.querySelector('[data-filter-input]'), {
@@ -193,18 +197,26 @@ export const changeFilter = (container, filterText: string = '') => {
   fireEvent.change(container.querySelector('[data-filter-input]'), {
     target: { value: filterText },
   });
+
+  // TODO Change this to waitfor statements
+  await new Promise((r) => setTimeout(r, 25)); // time to to allow debounce to finish
   return container;
 };
 
-export const changeViewItemsToView = (container, numShown: number | string) => {
+export const changeViewItemsToView = async (
+  container,
+  numShown: number | string
+) => {
   fireEvent.change(
     container.querySelector('[data-sort-number-of-inputs] select'),
     { target: { value: `${numShown}` } }
   );
+  await new Promise((r) => setTimeout(r, 25)); // time to to allow debounce to finish
+
   return container;
 };
 
-export const clickPaginationButton = (container, pageIndex: number) => {
+export const clickPaginationButton = async (container, pageIndex: number) => {
   if (container.querySelector(`[data-pagination-button]`)) {
     fireEvent.click(
       container
@@ -212,11 +224,15 @@ export const clickPaginationButton = (container, pageIndex: number) => {
         .item(pageIndex)
         .querySelector('button')
     );
-  } else {
-    fireEvent.change(container.querySelector('[data-pagination-select]'), {
-      target: { value: `${pageIndex}` },
-    });
+
+    await new Promise((r) => setTimeout(r, 25)); // time to to allow debounce to finish
+    return container;
   }
+
+  fireEvent.change(container.querySelector('[data-pagination-select]'), {
+    target: { value: `${pageIndex}` },
+  });
+  await new Promise((r) => setTimeout(r, 25)); // time to to allow debounce to finish
   return container;
 };
 
@@ -234,6 +250,25 @@ export const columnText = (container, columnIndex: number) => {
   });
   return cells;
 };
+
+/* ***************************************** */
+
+export const columnTextWithHeader = (column) => {
+  const columnIndex = headers.findIndex(
+    (header) => header.sortKey === column || header.key === column
+  );
+
+  const rows = screen.getByTestId('sortTableBody').getElementsByTagName('tr');
+  const cells = [];
+
+  Array.from(rows).forEach((row) => {
+    // console.log('CELL LENGTH: ', row.getElementsByTagName('td').length);
+    cells.push(row.querySelectorAll('td, th').item(columnIndex).innerHTML);
+  });
+  return cells;
+};
+
+/* ***************************************** */
 
 export const expectedInObjectArray = (
   array: (string | number)[],

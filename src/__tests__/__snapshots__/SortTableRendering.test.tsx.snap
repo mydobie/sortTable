@@ -76,7 +76,6 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
             />
           </div>
         </div>
-         
       </div>
     </div>
     <div
@@ -198,7 +197,9 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
             </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody
+          data-testid="sortTableBody"
+        >
           <tr>
             <td
               class=" "

@@ -1,32 +1,35 @@
 /* eslint-disable no-console */
-import React from 'react';
+import React, { useEffect } from 'react';
 import Page from './Page';
 import './pagination.css';
 
 interface Props {
   numberOfPages: number;
-  initialActivePage: number;
+  activePage: number;
   onPageChange: (newPageNumber: number) => void;
   id: string;
 }
 
 const Pagination = (props: Props) => {
-  const { initialActivePage, numberOfPages, onPageChange, id } = props;
-  const [activePage, setActivePage] = React.useState(initialActivePage);
+  const { activePage = 1, numberOfPages, onPageChange, id } = props;
+  // const [activePage, setActivePage] = React.useState(initialActivePage);
+
+  useEffect(() => {
+    if (activePage > numberOfPages) {
+      onPageChange(numberOfPages);
+    }
+    if (activePage < 1) {
+      onPageChange(1);
+    }
+  }, [activePage, numberOfPages, onPageChange]);
+
+  if (numberOfPages < 1) {
+    console.warn('Number of pagination pages is less than 1');
+  }
 
   const maxNumberOfPages = 10;
 
-  React.useEffect(() => {
-    onPageChange(activePage);
-  }, [activePage, onPageChange]);
-
-  React.useEffect(() => {
-    setActivePage(1);
-    onPageChange(1);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [numberOfPages]);
-
-  if (numberOfPages === 1) {
+  if (numberOfPages <= 1) {
     return null;
   }
 
@@ -39,7 +42,7 @@ const Pagination = (props: Props) => {
           key={i}
           active={activePage === i}
           onClick={() => {
-            setActivePage(i);
+            onPageChange(i);
           }}
         />
       );
@@ -61,7 +64,7 @@ const Pagination = (props: Props) => {
         <select
           className='form-select form-select-sm custom-select custom-select-sm'
           style={{ width: '6em' }}
-          onChange={(event) => setActivePage(parseInt(event.target.value, 10))}
+          onChange={(event) => onPageChange(parseInt(event.target.value, 10))}
           value={activePage}
           aria-label='Show page number'
           data-pagination-select
@@ -88,7 +91,7 @@ const Pagination = (props: Props) => {
             active={activePage === 0}
             disabled={activePage <= 1}
             onClick={() => {
-              setActivePage(activePage - 1);
+              onPageChange(activePage - 1);
             }}
             isPrevious
           />
@@ -98,7 +101,7 @@ const Pagination = (props: Props) => {
             active={activePage === numberOfPages + 1}
             disabled={activePage >= numberOfPages}
             onClick={() => {
-              setActivePage(activePage + 1);
+              onPageChange(activePage + 1);
             }}
             isNext
           />

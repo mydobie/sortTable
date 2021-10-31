@@ -14,7 +14,7 @@ This is a lightweight replacement for the jQuery DataTables. The following optio
 
 ## Getting Started - Adding this component to your project
 
-There are three methods of including this into your project.
+There are four methods of including this into your project.
 
 ### Method 1 create and use tgz file
 
@@ -25,7 +25,7 @@ The above steps will create a `.tgz` file in the root of this project. Move this
 
 ```
 dependencies: {
-  "sort-table": "file:./path_to_tgz_file.tgz",
+  "@mydobie/sort-table": "file:./path_to_tgz_file.tgz",
 }
 ```
 
@@ -33,7 +33,7 @@ Then run `npm install`.
 
 ### Method 2 download tgz file from GitHub
 
-1. Go to the [package page](https://github.com/mydobie/featureFlags/packages?ecosystem=npm) for this project and download the wanted version of the `.tgz` file.
+1. Go to the [package page](https://github.com/mydobie/sortTable/packages?ecosystem=npm) for this project and download the wanted version of the `.tgz` file.
 1. Save the downloaded `.tgz` file into your project.
 1. Add the path to the`.tgz` file to your `package.json` file:
 
@@ -45,7 +45,22 @@ dependencies: {
 
 Then run `npm install`.
 
-### Method 3 use GitHubs npm repository
+### Method 3 point to GitHub repo
+
+There are some tags in the Feature Flag repository that contain the package code. In the `package.json` file you can point directly to one of these tags.
+
+1. Go to `https://github.com/mydobie/sortTable/tags` and look for tags that start with `npmbuild` followed by a version number. For example `npmbuild2.1.0`.
+1. In your `package.json` file, point to this repository and the tag. For example:
+
+```
+dependencies: {
+  "@mydobie/sortTable": "mydobie/sortTable#npmbuild2.1.0",
+}
+```
+
+Then run `npm install`
+
+### Method 4 use GitHubs npm repository
 
 Instead of creating or downloading the `.tgz` file, you can have NPM pull this module as if it were any other module. This process has been documented in the [README_GITHUB](README_GITHUB.md) file.
 
@@ -60,7 +75,11 @@ In order to use these components, you need to ensure that the following are in y
 - react
 - react-dom
 
-This component is not optimized to use in the browser. In addition, it uses React.lazy, so ensure that your project can support this feature. See the [React.lazy documentation](https://reactjs.org/docs/code-splitting.html#reactlazy)
+See the `peerDependencies` section in the [README](README.md) file for supported React and React-Dom versions.
+
+This component is not optimized to use in the browser. In addition, it uses React.lazy, so ensure that your project can support this feature. If you’re using Create React App, Next.js, Gatsby, or a similar tool, your webpack configs will support React.lazy.
+
+See the [React.lazy documentation](https://reactjs.org/docs/code-splitting.html#reactlazy) for more information.
 
 #### CSS
 
@@ -71,7 +90,7 @@ This component is configured to use the Bootstrap CSS for styling. The CSS is av
 On the React file that you want to use the web components, include the modules you want to use. For example:
 
 ```
-import  SortTable  from 'sort-table';
+import  SortTable  from '@mydobie/sort-table';
 ```
 
 Then use the component as a normal React component:
@@ -131,7 +150,63 @@ The following props are available to be sent to the `SortTable` component:
     <td>Sets table caption to this string.</td>
   </tr>
   <tr>
-    <td>caseSensitiveFilater</td>
+    <td>initialFilter</td>
+    <td>string</td>
+    <td>no</td>
+    <td>""</td>
+    <td>Filter that should be applied when table data is loaded</td>
+  </tr>
+  <tr>
+    <td>initialPage</td>
+    <td>number</td>
+    <td>no</td>
+    <td>1</td>
+    <td>Pagination page that is shown when table data is loaded.  Only applied when `showPagination` is set to true.</td>
+  </tr>
+<tr>
+    <td>initialRowsDisplayed</td>
+    <td>number</td>
+    <td>no</td>
+    <td>null (shows all rows)</td>
+    <td>Number of pages that are shown at a time (aka per page) when table data is shown.    Only applied when `showPagination` is set to true.</td>
+  </tr>
+  <tr>
+    <td>initialSort</td>
+    <td>string</td>
+    <td>no</td>
+    <td>(no default)</td>
+    <td>If provided, the table will be sorted by this column when loaded.  The value is a value of the "key" entry in a header array entry.</td>
+  </tr>
+<tr>
+    <td>initialSortDsc</td>
+    <td>boolean</td>
+    <td>no</td>
+    <td>false</td>
+    <td>If a initialSort is provided, should it be sorted descending.</td>
+  </tr>
+<tr>
+    <td>isLoadingMessage</td>
+    <td>JSX.Element</td>
+    <td>no</td>
+    <td>"Loading ..."</td>
+    <td>String or component shown when `isLoading` is set to true.</td>
+  </tr>
+<tr>
+    <td>noDataMessage</td>
+    <td>JSX.Element</td>
+    <td>no</td>
+    <td>"No data is available"</td>
+    <td>String or component shown if tableData is an empty array.</td>
+  </tr>
+<tr>
+    <td>viewSteps</td>
+    <td>number[]</td>
+    <td>no</td>
+    <td>[All]</td>
+    <td>Array of numbers that will populate the options in the elements per page drop down.</td>
+  </tr>
+  <tr>
+    <td>caseSensitiveFilter</td>
     <td>boolean</td>
     <td>no</td>
     <td>false</td>
@@ -151,7 +226,15 @@ The following props are available to be sent to the `SortTable` component:
     <td>false</td>
     <td>If pagination and viewSteps are provided, should the table default to showing all entries.</td>
   </tr>
-  <tr>
+ <tr>
+    <td>emptyCellClassName</td>
+    <td>string</td>
+    <td>no</td>
+    <td>(no default)</td>
+    <td>This class will be applied to any <code>td</code> tag where the value is empty or undefined.  This can be used enter a value via css.  Example: <code>.emptyCell:after {content 'not known' } </code>
+    </td>
+  </tr>
+<tr>
     <td>headerClassName</td>
     <td>string</td>
     <td>no</td>
@@ -165,41 +248,12 @@ The following props are available to be sent to the `SortTable` component:
     <td>"sortTable"</td>
     <td>Id applied to the table.  If there is more than one sortTable on the screen at once, this must be set to a unique value.</td>
   </tr>
-   <tr>
-    <td>emptyCellClassName</td>
-    <td>string</td>
-    <td>no</td>
-    <td>(no default)</td>
-    <td>This class will be applied to any <code>td</code> tag where the value is empty or undefined.  This can be used enter a value via css.  Example: <code>.emptyCell:after {content 'not known' } </code>
-    </td>
-  </tr>
-  <tr>
-    <td>initialSort</td>
-    <td>string</td>
-    <td>no</td>
-    <td>(no default)</td>
-    <td>If provided, the table will be sorted by this column when loaded.  The value is a value of the "key" entry in a header array entry.</td>
-  </tr>
-  <tr>
-    <td>initialSortDsc</td>
-    <td>boolean</td>
-    <td>no</td>
-    <td>false</td>
-    <td>If a initialSort is provided, should it be sorted descending.</td>
-  </tr>
-   <tr>
+ <tr>
     <td>isLoading</td>
     <td>boolean</td>
     <td>no</td>
     <td>false</td>
     <td>Display a loading message instead of the tableData</td>
-  </tr>
-   <tr>
-    <td>isLoadingMessage</td>
-    <td>JSX.Element</td>
-    <td>no</td>
-    <td>"Loading ..."</td>
-    <td>String or componet shown when isLoading is set.</td>
   </tr>
   <tr>
     <td>isResponsive</td>
@@ -215,15 +269,7 @@ The following props are available to be sent to the `SortTable` component:
     <td>false</td>
     <td>When set, the responsive view will be a definition list instead of a table.  This provides more accessibility support when viewing in responsive mode.  Note:  Both the table and definition list will be in the DOM and CSS is used to hide/show the proper version.  If the table is very large, this may cause performance issues.  `isResponsive` must not be set as a prop in order for this feature to be active. </td>
   </tr>
-
-  <tr>
-    <td>noDataMessage</td>
-    <td>JSX.Element</td>
-    <td>no</td>
-    <td>"No data is available"</td>
-    <td>String or component shown if tableData is an empty array.</td>
-  </tr>
-  <tr>
+ <tr>
     <td>showFilter</td>
     <td>boolean</td>
     <td>no</td>
@@ -251,12 +297,31 @@ The following props are available to be sent to the `SortTable` component:
     <td>''</td>
     <td>Class name(s) applied to the table.</td>
   </tr>
-  <tr>
-    <td>viewSteps</td>
-    <td>number[]</td>
+<tr>
+    <td>useFuzzySearch</td>
+    <td>boolean</td>
     <td>no</td>
-    <td>[All]</td>
-    <td>Array of numbers that will populate the options in the elements per page drop down.</td>
+    <td>true</td>
+    <td>Use "fuzzy search" matching where an exact string isn't needed to produce a match.  When set to `false` the string in the filter textbox must match a data element.</td>
+  </tr>
+<tr>
+    <td>onChange</td>
+    <td>function</td>
+    <td>no</td>
+    <td>(data)=>{}</td>
+    <td>Function that is called when the table is the following is changed: sorted column, sort order, number of rows shown per page, pagination page, or filter text.  The following object is provided as a parameter:
+    <pre>
+{
+    sortedColumn: headerType;
+    sortedAscending: boolean;
+    rowsShown: number | null;
+    filter: string;
+    page: number;
+    pages: number;
+    totalFiltered: number;
+  }
+    </pre>
+     </td>
   </tr>
 </table>
 
@@ -418,6 +483,17 @@ Information for each data row is contained in an object with the followign keys.
     <td>The value is the data to be displayed in the table.  The key should equal the value of the "key" attribute in a header row.</td>
   </tr>
 </table>
+
+---
+
+## Get version
+
+The version of sortTable is by calling the `sortTableVersion` constant.
+
+```
+import SortTable, { sortTableVersion } from '.@mydobie/SortTable';
+
+```
 
 ---
 
