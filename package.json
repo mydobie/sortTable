@@ -4,6 +4,7 @@
   "main": "SortTable.js",
   "types": "SortTable.d.ts",
   "license": "MIT",
+  "homepage": "https://mydobie.github.io/sortTable/",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
   },
@@ -91,6 +92,7 @@
     "clean": "rm -rf node_modules && rm -rf package-lock.json && npm run d",
     "uglify": "uglifyjs ",
     "preinstall": "npx npm-force-resolutions",
+    "prepare": "husky install",
     "checkCoverage": "node ./utils/testCoverage.js",
     "npmAudit": "npm audit --production --audit-level=high --registry=https://registry.npmjs.org",
     "buildPackage": "npm run d && npm run npmAudit && npm run test && bash  utils/buildPackage.sh"
