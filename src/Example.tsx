@@ -111,6 +111,35 @@ function App(): JSX.Element {
     },
   ];
 
+  const [bootstrap, setBootstrap] = React.useState(null);
+
+  React.useEffect(() => {
+    const getVersions = async () => {
+      try {
+        fetch('/sortTable/versions.json')
+          .then((res) => res.json())
+          .then((response) => {
+            const versions = response;
+
+            if (versions) {
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              setBootstrap(versions.bootstrap);
+            } else {
+              throw Error('Uncaught Error');
+            }
+          })
+          .catch(() => {
+            // eslint-disable-next-line no-console
+            console.log('Error finding versions file');
+          });
+      } catch (_error) {
+        // eslint-disable-next-line no-console
+        console.log('Error finding versions file');
+      }
+    };
+    getVersions();
+  }, []);
   return (
     <div className='container'>
       <h1>Sample Filtering and Sorting Table</h1>
@@ -184,6 +213,10 @@ function App(): JSX.Element {
         <li>
           <strong>React Version: </strong>
           {React.version}
+        </li>
+        <li>
+          <strong>Bootstrap Version: </strong>
+          {bootstrap}
         </li>
       </ul>
     </div>
