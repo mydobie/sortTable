@@ -1,6 +1,6 @@
 import React from 'react';
 import './responsive.css';
 
-const ResponsiveCss = () => <></>;
+const ResponsiveCss = (): JSX.Element => <></>;
 
 export default ResponsiveCss;

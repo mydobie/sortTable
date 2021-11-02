@@ -1,0 +1,2 @@
+(this["webpackJsonp@mydobie/sort-table"]=this["webpackJsonp@mydobie/sort-table"]||[]).push([[6],{42:function(t,e,n){},46:function(t,e,n){"use strict";n.r(e);n(1),n(42);var s=n(0);e.default=function(){return Object(s.jsx)(s.Fragment,{})}}}]);
+//# sourceMappingURL=6.fcd0f960.chunk.js.map

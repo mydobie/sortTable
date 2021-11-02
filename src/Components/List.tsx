@@ -2,6 +2,7 @@ import React from 'react';
 import { headerDataType, tableDataType } from './SortTable';
 import './responsivelist.css';
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 type listProps = {
   headers: headerDataType[];
   tableData: tableDataType[];

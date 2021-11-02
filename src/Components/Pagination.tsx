@@ -10,7 +10,7 @@ interface Props {
   id: string;
 }
 
-const Pagination = (props: Props) => {
+const Pagination = (props: Props): JSX.Element | null => {
   const { activePage = 1, numberOfPages, onPageChange, id } = props;
   // const [activePage, setActivePage] = React.useState(initialActivePage);
 

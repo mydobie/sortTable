@@ -9,7 +9,7 @@ interface TableSummaryProps {
   sortDirection?: string;
 }
 
-const TableSummary = (props: TableSummaryProps) => {
+const TableSummary = (props: TableSummaryProps): JSX.Element => {
   const {
     totalEntries, // total number of rows in table (when unfiltered and not  paginated)
     startRow,

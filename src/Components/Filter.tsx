@@ -9,7 +9,7 @@ interface Props {
   debounceTimeout?: number;
 }
 
-const Filter = (props: Props) => {
+const Filter = (props: Props): JSX.Element => {
   const { label, onChange, value, id, debounceTimeout = 200 } = props;
   return (
     <div className='form-inline justify-content-end' data-filter>

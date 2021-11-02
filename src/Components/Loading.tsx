@@ -14,7 +14,7 @@ interface Props {
   size?: string;
 }
 
-const Loading = (props: Props) => {
+const Loading = (props: Props): JSX.Element => {
   const { color: colorProp, size: sizeProp } = props;
 
   const color: string = colorProp ?? '#aaa ';

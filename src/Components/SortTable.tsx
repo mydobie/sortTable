@@ -18,15 +18,19 @@ const ResponsiveCss = React.lazy(() => import('./ResponsiveCss'));
 
 export const sortTableVersion = process.env.REACT_APP_VERSION;
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 export type tableDataType = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: any;
   id: string | number;
   hidden?: boolean;
   rowindex?: number;
 };
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 export type headerType = string;
 
+// eslint-disable-next-line @typescript-eslint/naming-convention
 export type headerDataType = {
   name: string;
   key: headerType;
@@ -36,6 +40,7 @@ export type headerDataType = {
   noSort?: boolean;
   rowheader?: boolean;
   sortKey?: headerType;
+  // eslint-disable-next-line @typescript-eslint/ban-types
   style?: Object;
   type?: string;
 };

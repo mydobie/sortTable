@@ -16,7 +16,7 @@ interface Props {
   type?: string;
 }
 
-const SortIcons = (props: Props) => {
+const SortIcons = (props: Props): JSX.Element => {
   const {
     sortAsc: sortAscProp,
     color: colorProp,
