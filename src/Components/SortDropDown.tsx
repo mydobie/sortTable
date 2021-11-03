@@ -23,7 +23,6 @@ const SortDropDown = (props: SortDropDownProps): ReactElement => {
   return (
     <div className='row' data-sort-dropdown data-testid='sortDropDownWrapper'>
       <div className='col-auto' style={{ paddingRight: 0 }}>
-        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label htmlFor={`${id}SortDropDown`}>Sort:</label>
       </div>
       <div className='col-auto' style={{ paddingRight: 0 }}>

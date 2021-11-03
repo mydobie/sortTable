@@ -9,3 +9,6 @@ npm-cache/
 /docs
 /dist
 /lib
+lint-staged.config.js
+src/__tests__
+/utils

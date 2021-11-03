@@ -1,11 +1,11 @@
-// Sets scripts run as part of Husky's Git commit hooks.  There normally isn't a need to change this file
-
 module.exports = {
-  'src/**/*.{ts, tsx, js,jsx}': [
+  'src/**/*.{ts,tsx,js,jsx}': [
     (jsFiles) => jsFiles.map((jsFile) => `npm run lint:js ${jsFile}`), // check files
   ],
-
-  'src/**/*.{html, md, json}': [
+  'src/**/*.{scss,css}': [
+    (scssFiles) => scssFiles.map((scssFile) => `npm run lint:scss ${scssFile}`), // check files
+  ],
+  'src/**/*.{html,json,md}': [
     (htmlFiles) => htmlFiles.map((htmlFile) => `npm run prettier ${htmlFile}`), // check files
   ],
 };

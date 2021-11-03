@@ -86,7 +86,7 @@ export const displayRows = ({
   sortedAndFilteredRows: tableDataType[];
   activePage: number | null;
   numberPerPage: number | null;
-}) => {
+}): tableDataType[] => {
   if (activePage === null || numberPerPage === null) {
     return sortedAndFilteredRows;
   }

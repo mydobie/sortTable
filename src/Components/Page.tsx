@@ -8,7 +8,7 @@ interface Props {
   isPrevious?: boolean;
   isNext?: boolean;
 }
-const PaginationButton = (props: Props) => {
+const PaginationButton = (props: Props): JSX.Element => {
   const { active, disabled, pageNumber, onClick, isPrevious, isNext } = props;
 
   let ariaLabel;
