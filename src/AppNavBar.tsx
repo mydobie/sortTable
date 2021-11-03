@@ -6,7 +6,6 @@ import { NavLink } from 'react-router-dom';
 
 import ROUTES from './AppRouteNames';
 
-// EXAMPLE: Navigation bar
 const AppNavBar = (): ReactElement => (
   <nav>
     <ul className='nav'>
