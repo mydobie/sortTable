@@ -1,2 +1,0 @@
-(this["webpackJsonp@mydobie/sort-table"]=this["webpackJsonp@mydobie/sort-table"]||[]).push([[7],{27:function(s,e,a){"use strict";a.r(e);a(1);var t=a(0);e.default=function(s){var e=s.color,a=s.size,i=null!==a&&void 0!==a?a:"40px",l={width:i,height:i,color:null!==e&&void 0!==e?e:"#aaa "};return Object(t.jsx)("div",{className:"spinner-border",role:"status",style:l,"data-sort-table-loading":!0,children:Object(t.jsx)("span",{className:"sr-only visually-hidden",children:"Loading..."})})}}}]);
-//# sourceMappingURL=7.b7495e4b.chunk.js.map
