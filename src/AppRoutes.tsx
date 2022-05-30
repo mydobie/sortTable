@@ -1,6 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import React, { ReactElement } from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 
 import ROUTES from './AppRouteNames';
 
@@ -8,20 +8,12 @@ import Home from './Example';
 import FourOhFour from './FourOhFour';
 
 const AppRoutes = (): ReactElement => (
-  <>
-    <Switch>
-      <Route path={ROUTES.HOME} exact>
-        <Home />
-      </Route>
-      <Route path='/home' exact>
-        <Redirect to={ROUTES.HOME} />
-      </Route>
+  <Routes>
+    <Route path={ROUTES.HOME} element={<Home />} />
+    <Route path='/home' element={<Navigate to={ROUTES.HOME} />} />
 
-      <Route path='/'>
-        <FourOhFour />
-      </Route>
-    </Switch>
-  </>
+    <Route path='*' element={<FourOhFour />} />
+  </Routes>
 );
 
 export default AppRoutes;

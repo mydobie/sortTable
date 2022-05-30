@@ -6,11 +6,17 @@ import { NavLink } from 'react-router-dom';
 
 import ROUTES from './AppRouteNames';
 
+const activeClass = (isActive: boolean) =>
+  `nav-link ${isActive ? 'active' : ''}`;
+
 const AppNavBar = (): ReactElement => (
   <nav>
     <ul className='nav'>
       <li className='nav-item'>
-        <NavLink activeClassName='active' className='nav-link' to={ROUTES.HOME}>
+        <NavLink
+          className={({ isActive }) => activeClass(isActive)}
+          to={ROUTES.HOME}
+        >
           Home
         </NavLink>
       </li>
