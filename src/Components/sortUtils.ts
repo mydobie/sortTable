@@ -2,6 +2,13 @@
 import { distance } from 'fastest-levenshtein';
 import { tableDataType, headerDataType } from './SortTable';
 
+const defaultSort = (a: string | number, b: string | number) => {
+  if (a === b) {
+    return 0;
+  }
+  return a === undefined || a > b ? 1 : -1;
+};
+
 export const sortRows = ({
   rows,
   sortCol,
@@ -14,23 +21,15 @@ export const sortRows = ({
   onSort?: (sortRows: tableDataType[]) => void | undefined;
 }): tableDataType[] => {
   const sortedRows = [...rows]
+    // eslint-disable-next-line arrow-body-style
     .sort((a, b) => {
-      if (a[sortCol] === b[sortCol]) {
-        return 0;
-      }
-      if (a[sortCol] === undefined) {
-        return sortAscending === false ? -1 : 1;
-      }
-      if (b[sortCol] === undefined) {
-        return sortAscending === true ? -1 : 1;
-      }
-
-      if (a[sortCol] < b[sortCol]) {
-        return sortAscending === true ? -1 : 1;
-      }
-      return sortAscending === false ? -1 : 1;
+      return defaultSort(a[sortCol], b[sortCol]);
     })
     .map((row, index) => ({ ...row, rowindex: index + 2 }));
+
+  if (!sortAscending) {
+    sortedRows.reverse();
+  }
 
   onSort(sortedRows);
   return sortedRows;
