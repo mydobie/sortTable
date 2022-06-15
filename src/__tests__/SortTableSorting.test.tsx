@@ -69,7 +69,7 @@ describe('Sort Table Sorting', () => {
       container
         .querySelectorAll('thead th')
         .item(nameIndex)
-        .querySelector('path[data-icontype="sortable"]')
+        .querySelector('svg[data-icontype="sortable"]')
     ).toBeInTheDocument();
   });
 
@@ -217,7 +217,7 @@ describe('Sort Table Sorting', () => {
       container
         .querySelectorAll('thead th')
         .item(undefinedTypeIndex)
-        .querySelector('button svg path[data-icontype="defaultAscending"]')
+        .querySelector('svg[data-icontype="defaultAscending"]')
     ).toBeInTheDocument();
   });
 
@@ -235,7 +235,7 @@ describe('Sort Table Sorting', () => {
       container
         .querySelectorAll('thead th')
         .item(alphaTypeIndex)
-        .querySelector('button svg path[data-icontype="alphaAscending"]')
+        .querySelector('svg[data-icontype="alphaAscending"]')
     ).toBeInTheDocument();
   });
 
@@ -251,7 +251,7 @@ describe('Sort Table Sorting', () => {
       container
         .querySelectorAll('thead th')
         .item(sizeTypeIndex)
-        .querySelector('button svg path[data-icontype="defaultAscending"]')
+        .querySelector('svg[data-icontype="defaultAscending"]')
     ).toBeInTheDocument();
   });
 });

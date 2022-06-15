@@ -4,7 +4,7 @@ Like a lightweight data tables (https://datatables.net/)
 */
 
 import React from 'react';
-import SortIcons from './SortIcons';
+import SortIcons, { SortType } from './SortIcons';
 import './sortTable.css';
 import TableSummary from './TableSummary';
 import SortDropDown from './SortDropDown';
@@ -42,7 +42,7 @@ export type headerDataType = {
   sortKey?: headerType;
   // eslint-disable-next-line @typescript-eslint/ban-types
   style?: Object;
-  type?: string;
+  type?: SortType;
 };
 
 interface Props {
@@ -283,6 +283,7 @@ const SortTable = (props: Props): JSX.Element => {
       header.key === sortCol || header.sortKey === sortCol
         ? header.type
         : 'sortable';
+
     const buttonIconColor = buttonIconType === 'sortable' ? '#ccc' : undefined;
     return (
       <button
