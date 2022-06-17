@@ -1,7 +1,5 @@
 # React Sort Table
 
-![Test and build](https://github.com/mydobie/sortTable/actions/workflows/test_and_build.yml/badge.svg)
-
 ## Description
 
 This is a lightweight replacement for the jQuery DataTables. The following options are supported:
@@ -47,7 +45,7 @@ Then run `npm install`.
 
 ### Method 3 point to GitHub repo
 
-There are some tags in the Feature Flag repository that contain the package code. In the `package.json` file you can point directly to one of these tags.
+There are some tags in the sortTable repository that contain the packaged code. In the `package.json` file you can point directly to one of these tags.
 
 1. Go to `https://github.com/mydobie/sortTable/tags` and look for tags that start with `npmbuild` followed by a version number. For example `npmbuild2.1.0`.
 1. In your `package.json` file, point to this repository and the tag. For example:
@@ -86,8 +84,6 @@ See the [React.lazy documentation](https://reactjs.org/docs/code-splitting.html#
 This component is configured to use the Bootstrap CSS for styling. The CSS is available at the [Bootstrap CDN](https://www.bootstrapcdn.com/) or by downloading the [Bootstrap SCSS.](https://getbootstrap.com/docs/5.0/getting-started/download/). Note that both Bootstrap 4 and 5 are supported.
 
 ### Including this component
-
-On the React file that you want to use the web components, include the modules you want to use. For example:
 
 ```
 import  SortTable  from '@mydobie/sort-table';
@@ -424,10 +420,17 @@ Information for each header is contained in an object with the followign keys.
   </tr>
   <tr>
     <td>type</td>
-    <td>"size" | "alpha</td>
+    <td>"size" | "alpha" | "number"</td>
     <td>no</td>
     <td>"size"</td>
     <td>What sort icon is displayed when the column is sorted.</td>
+  </tr>
+  <tr>
+    <td>customSort</td>
+    <td>(a: any, b: any) => 0 | 1 | -1;</td>
+    <td>no</td>
+    <td>array.sort()</td>
+    <td>Custom sort function used to sort data in this column.</td>
   </tr>
 </table>
 
@@ -458,7 +461,7 @@ const data: tableDataType[] = [
 
 ```
 
-Information for each data row is contained in an object with the followign keys.
+Information for each data row is contained in an object with the following keys.
 
 <table>
   <tr>
@@ -510,7 +513,7 @@ The following sections describe how perform development on this component(s).
 If you are just getting started, perform the following tasks to ensure your environment is ready for development.
 
 1.  Verify node is installed => `node -v`. Ensure that it is the version listed in the `package.json` file
-1.  Install dependencies => `npm run d`
+1.  Install dependencies => `npm i`
 1.  Check for lint errors => `npm run lint`
 1.  Tun the tests => `npm run test`
 1.  Find security advisories => `npm run npmAudit`
