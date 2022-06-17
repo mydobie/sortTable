@@ -27,6 +27,9 @@ export type tableDataType = {
   rowindex?: number;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type CustomSortType = (a: any, b: any) => 0 | 1 | -1;
+
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export type headerType = string;
 
@@ -43,6 +46,7 @@ export type headerDataType = {
   // eslint-disable-next-line @typescript-eslint/ban-types
   style?: Object;
   type?: SortType;
+  customSort?: CustomSortType;
 };
 
 interface Props {
@@ -166,15 +170,25 @@ const SortTable = (props: Props): JSX.Element => {
   );
 
   /* ***************************** */
-  const sortTableRows = (
-    col: string,
-    ascending: boolean,
-    initialRows = tableDisplayRows
-  ) => {
+  const sortTableRows = ({
+    col,
+    ascending,
+    initialRows,
+    customSort,
+  }: {
+    col: string;
+    ascending: boolean;
+    initialRows?: tableDataType[];
+    customSort?: CustomSortType;
+  }) => {
+    if (!initialRows) {
+      initialRows = tableDisplayRows;
+    }
     const rows = sortRows({
       rows: initialRows,
       sortCol: col,
       sortAscending: ascending,
+      customSort,
     });
 
     setTableDisplayRows(rows);
@@ -225,6 +239,7 @@ const SortTable = (props: Props): JSX.Element => {
         rows: tableDisplayRows,
         sortCol: col,
         sortAscending: !initialSortDsc,
+        customSort: initialSortColumn.customSort,
         onSort: (sortedRows) => {
           setSortCol(col);
           setSortAscending(!initialSortDsc);
@@ -291,7 +306,11 @@ const SortTable = (props: Props): JSX.Element => {
         onClick={() => {
           const col = header.sortKey ?? header.key;
           const isSortAscending = col !== sortCol || !sortAscending;
-          sortTableRows(col, isSortAscending);
+          sortTableRows({
+            col,
+            ascending: isSortAscending,
+            customSort: header.customSort,
+          });
         }}
         style={{
           border: 'none',
@@ -471,7 +490,7 @@ const SortTable = (props: Props): JSX.Element => {
               selected={sortCol}
               sortAscending={sortAscending}
               onChange={(col, sortAsc) => {
-                sortTableRows(col, sortAsc);
+                sortTableRows({ col, ascending: sortAsc });
               }}
             />
           ) : null}

@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { distance } from 'fastest-levenshtein';
-import { tableDataType, headerDataType } from './SortTable';
+import { tableDataType, headerDataType, CustomSortType } from './SortTable';
 
 const defaultSort = (a: string | number, b: string | number) => {
   if (a === b) {
@@ -14,16 +14,20 @@ export const sortRows = ({
   sortCol,
   sortAscending,
   onSort = () => {},
+  customSort,
 }: {
   rows: tableDataType[];
   sortCol: string;
   sortAscending: boolean | null;
   onSort?: (sortRows: tableDataType[]) => void | undefined;
+  customSort?: CustomSortType;
 }): tableDataType[] => {
   const sortedRows = [...rows]
     // eslint-disable-next-line arrow-body-style
     .sort((a, b) => {
-      return defaultSort(a[sortCol], b[sortCol]);
+      return customSort
+        ? customSort(a[sortCol], b[sortCol])
+        : defaultSort(a[sortCol], b[sortCol]);
     })
     .map((row, index) => ({ ...row, rowindex: index + 2 }));
 

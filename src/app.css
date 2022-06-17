@@ -1,5 +1,5 @@
 .emptyCell:after {
-  content: 'unknown';
+  content: '-';
   font-style: italic;
   color: #6e6e6e;
 }

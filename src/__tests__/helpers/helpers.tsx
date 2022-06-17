@@ -243,6 +243,7 @@ export const columnText = (container, columnIndex: number) => {
   rows.forEach((row) => {
     // rows is a nodeList and map, filter, reduce etc are not available
     cells.push(
+      // @ts-ignore
       row.querySelector(
         `[data-sorttable-data-cell]:nth-child(${columnIndex + 1})`
       ).innerHTML
@@ -263,6 +264,7 @@ export const columnTextWithHeader = (column) => {
 
   Array.from(rows).forEach((row) => {
     // console.log('CELL LENGTH: ', row.getElementsByTagName('td').length);
+    // @ts-ignore
     cells.push(row.querySelectorAll('td, th').item(columnIndex).innerHTML);
   });
   return cells;
