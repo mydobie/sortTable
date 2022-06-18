@@ -13,7 +13,6 @@ const newPackageJSON = {
   prettier: {},
   babel: {},
   eslintConfig: {},
-  stylelint: {},
   husky: {},
   jest: {},
   browserslist: {},
