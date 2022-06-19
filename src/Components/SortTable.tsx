@@ -80,7 +80,7 @@ interface Props {
   showPagination?: boolean;
   sortedCellClass?: string;
   tableClassName?: string;
-  useFuzzySearch?: boolean;
+  exactFilterMatch?: boolean;
 
   // Optional - callbacks
   onChange?: (props: {
@@ -96,7 +96,7 @@ interface Props {
   // For testing (wouldn't normally be used)
   debounceTimeout?: number;
   isResponsiveListAlwaysShow?: boolean;
-  maxFuzzyDistance?: number;
+  maxFuzzyDistance?: number; // Remove this in next major version
 }
 
 const SortTable = (props: Props): JSX.Element => {
@@ -115,7 +115,7 @@ const SortTable = (props: Props): JSX.Element => {
     initialSortDsc,
     isLoadingMessage,
     noDataMessage,
-    viewSteps,
+    viewSteps = [10, 25, 50],
 
     // Optional - config
     caseSensitiveFilter,
@@ -131,7 +131,7 @@ const SortTable = (props: Props): JSX.Element => {
     showPagination,
     sortedCellClass,
     tableClassName,
-    useFuzzySearch,
+    exactFilterMatch = false,
 
     // Optional - callbacks
     onChange = () => {},
@@ -142,7 +142,8 @@ const SortTable = (props: Props): JSX.Element => {
     maxFuzzyDistance = 3,
   } = props;
 
-  let rowsDisplayed = defaultToAll || !viewSteps ? null : viewSteps[0];
+  // let rowsDisplayed = defaultToAll || !viewSteps ? null : viewSteps[0];
+  let rowsDisplayed = !showPagination || defaultToAll ? null : viewSteps[0];
 
   if (initialRowsDisplayed && viewSteps) {
     rowsDisplayed = viewSteps.includes(initialRowsDisplayed)
@@ -204,8 +205,8 @@ const SortTable = (props: Props): JSX.Element => {
         filterValue: filter,
         caseSensitiveFilter,
         headers,
-        useFuzzySearch,
         maxFuzzyDistance,
+        exactFilterMatch,
       })
     );
     setFilterValue(filter);
@@ -250,8 +251,8 @@ const SortTable = (props: Props): JSX.Element => {
               filterValue: initialFilter,
               caseSensitiveFilter,
               headers,
-              useFuzzySearch,
               maxFuzzyDistance,
+              exactFilterMatch,
             });
 
             setTableDisplayRows(fRows);
@@ -349,7 +350,7 @@ const SortTable = (props: Props): JSX.Element => {
           key={header.key}
           aria-sort={setAriaSort(header.key)}
           style={header.style}
-          className={`${header.className} ${
+          className={`${header.className || ''} ${
             header.key === sortCol || header.sortKey === sortCol
               ? sortedCellClass
               : ''
@@ -389,7 +390,7 @@ const SortTable = (props: Props): JSX.Element => {
               key={`${rowData.id}${header.key}`}
               data-sorttable-data-cell
               role={isResponsive && !isResponsiveList ? 'rowheader' : undefined}
-              className={className}
+              className={className || ''}
             >
               {data}
             </th>
@@ -400,7 +401,7 @@ const SortTable = (props: Props): JSX.Element => {
             key={`${rowData.id}${header.key}`}
             data-sorttable-data-cell
             role={isResponsive && !isResponsiveList ? 'cell' : undefined}
-            className={className}
+            className={className || ''}
           >
             {isResponsive && !isResponsiveList ? (
               <span aria-hidden data-responsive-header>
@@ -496,7 +497,7 @@ const SortTable = (props: Props): JSX.Element => {
           ) : null}
 
           <table
-            className={`table ${tableClassName}`}
+            className={`table ${tableClassName || ''}`}
             id={sortTableId}
             aria-describedby={`${sortTableId}RowsShownSummary`}
             aria-rowcount={
@@ -515,7 +516,7 @@ const SortTable = (props: Props): JSX.Element => {
           >
             {caption ? <caption>{caption}</caption> : null}
             <thead
-              className={headerClassName}
+              className={headerClassName || ''}
               role={isResponsive && !isResponsiveList ? 'rowgroup' : undefined}
             >
               {buildHeaders}

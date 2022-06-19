@@ -198,7 +198,7 @@ The following props are available to be sent to the `SortTable` component:
     <td>viewSteps</td>
     <td>number[]</td>
     <td>no</td>
-    <td>[All]</td>
+    <td>[[10, 25, 50, All]</td>
     <td>Array of numbers that will populate the options in the elements per page drop down.</td>
   </tr>
   <tr>
@@ -255,7 +255,7 @@ The following props are available to be sent to the `SortTable` component:
     <td>isResponsive</td>
     <td>boolean</td>
     <td>no</td>
-    <td>false/td>
+    <td>false</td>
     <td>When set, css will be applied so the table displays as a list on small screens.  Note:  This works best when the row header is the first cell in a row.</td>
   </tr>
   <tr>
@@ -294,11 +294,11 @@ The following props are available to be sent to the `SortTable` component:
     <td>Class name(s) applied to the table.</td>
   </tr>
 <tr>
-    <td>useFuzzySearch</td>
+    <td>exactFilterMatch</td>
     <td>boolean</td>
     <td>no</td>
-    <td>true</td>
-    <td>Use "fuzzy search" matching where an exact string isn't needed to produce a match.  When set to `false` the string in the filter textbox must match a data element.</td>
+    <td>false</td>
+    <td>Require that the exact string entered in the filter text box be contained in a filterable cell.</td>
   </tr>
 <tr>
     <td>onChange</td>

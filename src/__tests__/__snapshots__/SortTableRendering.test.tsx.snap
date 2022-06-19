@@ -85,10 +85,12 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
       <table
         aria-describedby="sortTableRowsShownSummary"
         aria-rowcount="12"
-        class="table undefined"
+        class="table "
         id="sortTable"
       >
-        <thead>
+        <thead
+          class=""
+        >
           <tr
             aria-rowindex="1"
           >
@@ -111,7 +113,7 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
               </button>
             </th>
             <th
-              class="undefined "
+              class=" "
               scope="col"
             >
               <button
@@ -129,7 +131,7 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
               </button>
             </th>
             <th
-              class="undefined "
+              class=" "
               scope="col"
             >
               <button
@@ -147,7 +149,7 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
               </button>
             </th>
             <th
-              class="undefined "
+              class=" "
               scope="col"
             >
               <button
@@ -165,7 +167,7 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
               </button>
             </th>
             <th
-              class="undefined "
+              class=" "
               scope="col"
               style="color: purple;"
             >

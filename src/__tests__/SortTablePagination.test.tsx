@@ -249,7 +249,6 @@ describe('Sort Table Pagination', () => {
         );
 
         initialValues = columnText(container, testColumnIndex);
-        // console.log(container.innerHTML);
         container = await clickPaginationButton(container, 1);
       });
 

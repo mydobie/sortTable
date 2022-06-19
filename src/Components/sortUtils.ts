@@ -44,15 +44,15 @@ export const filterRows = ({
   filterValue = '',
   caseSensitiveFilter = false,
   headers,
-  useFuzzySearch = true,
   maxFuzzyDistance,
+  exactFilterMatch,
 }: {
   rows: tableDataType[];
   filterValue: string;
   caseSensitiveFilter: boolean | undefined;
   headers: headerDataType[];
-  useFuzzySearch: boolean | undefined;
   maxFuzzyDistance: number;
+  exactFilterMatch: boolean | undefined;
 }): tableDataType[] => {
   const filterText =
     caseSensitiveFilter === true ? filterValue : filterValue.toLowerCase();
@@ -69,7 +69,8 @@ export const filterRows = ({
         value = caseSensitiveFilter === true ? value : value.toLowerCase();
 
         if (
-          (useFuzzySearch && distance(value, filterText) <= maxFuzzyDistance) ||
+          (!exactFilterMatch &&
+            distance(value, filterText) <= maxFuzzyDistance) ||
           value.includes(filterText)
         ) {
           newTableDisplayRows[index].hide = false;

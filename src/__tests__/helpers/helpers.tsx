@@ -263,7 +263,6 @@ export const columnTextWithHeader = (column) => {
   const cells = [];
 
   Array.from(rows).forEach((row) => {
-    // console.log('CELL LENGTH: ', row.getElementsByTagName('td').length);
     // @ts-ignore
     cells.push(row.querySelectorAll('td, th').item(columnIndex).innerHTML);
   });

@@ -1,8 +1,0 @@
-.emptyCell:after {
-  content: '-';
-  font-style: italic;
-  color: #6e6e6e;
-}
-.sortedCellClass {
-  background-color: #ffcf002e;
-}

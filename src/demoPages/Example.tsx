@@ -3,7 +3,7 @@ import SortTable, {
   tableDataType,
   headerDataType,
   sortTableVersion,
-} from './Components/SortTable';
+} from '../Components/SortTable';
 
 import './app.css';
 
@@ -186,7 +186,6 @@ function App(): JSX.Element {
         isResponsive
         emptyCellClassName='emptyCell'
         sortedCellClass='sortedCellClass'
-        useFuzzySearch
         initialPage={2}
         initialFilter='cheese'
         initialRowsDisplayed={2}
