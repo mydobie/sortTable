@@ -1,6 +1,6 @@
 {
   "name": "@mydobie/sort-table",
-  "version": "3.2.1",
+  "version": "4.0.0",
   "main": "SortTable.js",
   "types": "SortTable.d.ts",
   "license": "MIT",
