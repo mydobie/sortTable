@@ -501,7 +501,9 @@ const SortTable = (props: Props): JSX.Element => {
           ) : null}
         </div>
         <div className='row'>
-          {isResponsiveAria || isResponsive ? (
+          {isResponsiveAria ||
+          (isResponsive && !isDesktop) ||
+          isResponsiveListAlwaysShow ? (
             <SortDropDown
               headers={headers}
               selected={sortCol}

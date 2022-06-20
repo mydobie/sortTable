@@ -2,11 +2,12 @@
 
 import React, { ReactElement } from 'react';
 import { BrowserRouter, HashRouter } from 'react-router-dom'; // Use `HashRouter as Router` when you can't control the URL ... like GitHub pages
-import 'bootstrap/dist/css/bootstrap.min.css';
+
 import { Container, Card } from 'react-bootstrap';
 import AppNavBar from './AppNavBar';
 import AppRoutes from './AppRoutes';
 
+import './bootstrapSCSS/index.scss';
 import './app.css';
 
 const Router =
