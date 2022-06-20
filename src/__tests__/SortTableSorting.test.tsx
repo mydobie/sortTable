@@ -264,12 +264,12 @@ describe('Sort Table Sorting Responsive', () => {
   });
 
   test('Columns are part of the sort drop down on responsive view', async () => {
-    await sortTableFactory({ isResponsive: true });
+    await sortTableFactory({ isResponsiveListAlwaysShow: true });
     expect(screen.getByTestId('sortDropDownWrapper')).toBeInTheDocument();
   });
 
   test('If no column is sorted, then the sort direction button is not shown', async () => {
-    await sortTableFactory({ isResponsive: true });
+    await sortTableFactory({ isResponsiveListAlwaysShow: true });
     expect(screen.getByTestId('sortDropDownColumn')).toBeInTheDocument();
     expect(
       (screen.getByTestId('sortDropDownColumn') as HTMLSelectElement).value
@@ -278,7 +278,7 @@ describe('Sort Table Sorting Responsive', () => {
   });
 
   test('Columns marked as not sortable are not part of the drop down', async () => {
-    await sortTableFactory({ isResponsive: true });
+    await sortTableFactory({ isResponsiveListAlwaysShow: true });
 
     const sortableHeaders = headers
       .filter((header) => !header.noSort)
@@ -294,7 +294,10 @@ describe('Sort Table Sorting Responsive', () => {
   });
 
   test('If a column is already sorted, then the sort column and direction are correct', async () => {
-    await sortTableFactory({ initialSort: 'name', isResponsive: true });
+    await sortTableFactory({
+      initialSort: 'name',
+      isResponsiveListAlwaysShow: true,
+    });
     expect(
       (screen.getByTestId('sortDropDownColumn') as HTMLSelectElement).value
     ).toEqual('name');
@@ -307,7 +310,7 @@ describe('Sort Table Sorting Responsive', () => {
   });
 
   test('Choosing a column, sorts the column ascending', async () => {
-    await sortTableFactory({ isResponsive: true });
+    await sortTableFactory({ isResponsiveListAlwaysShow: true });
     const sortedData = data.map((row) => row.name).sort();
 
     fireEvent.change(screen.getByTestId('sortDropDownColumn'), {
@@ -325,7 +328,10 @@ describe('Sort Table Sorting Responsive', () => {
   });
 
   test('Clicking the sort column switches the order to descending', async () => {
-    await sortTableFactory({ isResponsive: true, initialSort: 'name' });
+    await sortTableFactory({
+      isResponsiveListAlwaysShow: true,
+      initialSort: 'name',
+    });
     const sortedData = data.map((row) => row.name).sort();
     expect(
       screen
@@ -344,7 +350,7 @@ describe('Sort Table Sorting Responsive', () => {
   });
 
   test('Column with a sortKey is sorted according to the sortKey value', async () => {
-    await sortTableFactory({ isResponsive: true });
+    await sortTableFactory({ isResponsiveListAlwaysShow: true });
     expect(
       screen
         .getByTestId('sortDropDownColumn')
