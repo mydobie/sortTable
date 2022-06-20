@@ -3,24 +3,24 @@
 # See docker-container-dev-env.yml file and Readme for how this can be used
 # during development.
 
-FROM node:14.13-alpine3.10
+FROM node:16-buster
 
 
 # Where inside the container the files will appear
 WORKDIR /home/app
 
-# Install bash and git (git is required for Husky)
-RUN apk add --no-cache bash
-RUN apk add --no-cache git
-RUN apk add --no-cache vim
-RUN apk add --no-cache openssh-client
+# Install SSH config
+RUN mkdir -p /root/.ssh 
+ADD DOCKER_DEV_ENV/sshConfig /root/.ssh/config
+
+
+RUN apt-get update
+RUN apt-get install vim -y
 
 
 # Ports
 ENV PORT 3000
 EXPOSE 3000
-
-
 
 # Opens the terminal inside the container
 ENTRYPOINT /bin/bash

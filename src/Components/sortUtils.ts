@@ -1,36 +1,39 @@
 /* eslint-disable no-console */
 import { distance } from 'fastest-levenshtein';
-import { tableDataType, headerDataType } from './SortTable';
+import { tableDataType, headerDataType, CustomSortType } from './SortTable';
+
+const defaultSort = (a: string | number, b: string | number) => {
+  if (a === b) {
+    return 0;
+  }
+  return a === undefined || a > b ? 1 : -1;
+};
 
 export const sortRows = ({
   rows,
   sortCol,
   sortAscending,
   onSort = () => {},
+  customSort,
 }: {
   rows: tableDataType[];
   sortCol: string;
   sortAscending: boolean | null;
   onSort?: (sortRows: tableDataType[]) => void | undefined;
+  customSort?: CustomSortType;
 }): tableDataType[] => {
   const sortedRows = [...rows]
+    // eslint-disable-next-line arrow-body-style
     .sort((a, b) => {
-      if (a[sortCol] === b[sortCol]) {
-        return 0;
-      }
-      if (a[sortCol] === undefined) {
-        return sortAscending === false ? -1 : 1;
-      }
-      if (b[sortCol] === undefined) {
-        return sortAscending === true ? -1 : 1;
-      }
-
-      if (a[sortCol] < b[sortCol]) {
-        return sortAscending === true ? -1 : 1;
-      }
-      return sortAscending === false ? -1 : 1;
+      return customSort
+        ? customSort(a[sortCol], b[sortCol])
+        : defaultSort(a[sortCol], b[sortCol]);
     })
     .map((row, index) => ({ ...row, rowindex: index + 2 }));
+
+  if (!sortAscending) {
+    sortedRows.reverse();
+  }
 
   onSort(sortedRows);
   return sortedRows;
@@ -41,15 +44,15 @@ export const filterRows = ({
   filterValue = '',
   caseSensitiveFilter = false,
   headers,
-  useFuzzySearch = true,
   maxFuzzyDistance,
+  exactFilterMatch,
 }: {
   rows: tableDataType[];
   filterValue: string;
   caseSensitiveFilter: boolean | undefined;
   headers: headerDataType[];
-  useFuzzySearch: boolean | undefined;
   maxFuzzyDistance: number;
+  exactFilterMatch: boolean | undefined;
 }): tableDataType[] => {
   const filterText =
     caseSensitiveFilter === true ? filterValue : filterValue.toLowerCase();
@@ -66,7 +69,8 @@ export const filterRows = ({
         value = caseSensitiveFilter === true ? value : value.toLowerCase();
 
         if (
-          (useFuzzySearch && distance(value, filterText) <= maxFuzzyDistance) ||
+          (!exactFilterMatch &&
+            distance(value, filterText) <= maxFuzzyDistance) ||
           value.includes(filterText)
         ) {
           newTableDisplayRows[index].hide = false;

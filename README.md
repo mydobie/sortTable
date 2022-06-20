@@ -1,7 +1,5 @@
 # React Sort Table
 
-![Test and build](https://github.com/mydobie/sortTable/actions/workflows/test_and_build.yml/badge.svg)
-
 ## Description
 
 This is a lightweight replacement for the jQuery DataTables. The following options are supported:
@@ -47,7 +45,7 @@ Then run `npm install`.
 
 ### Method 3 point to GitHub repo
 
-There are some tags in the Feature Flag repository that contain the package code. In the `package.json` file you can point directly to one of these tags.
+There are some tags in the sortTable repository that contain the packaged code. In the `package.json` file you can point directly to one of these tags.
 
 1. Go to `https://github.com/mydobie/sortTable/tags` and look for tags that start with `npmbuild` followed by a version number. For example `npmbuild2.1.0`.
 1. In your `package.json` file, point to this repository and the tag. For example:
@@ -86,8 +84,6 @@ See the [React.lazy documentation](https://reactjs.org/docs/code-splitting.html#
 This component is configured to use the Bootstrap CSS for styling. The CSS is available at the [Bootstrap CDN](https://www.bootstrapcdn.com/) or by downloading the [Bootstrap SCSS.](https://getbootstrap.com/docs/5.0/getting-started/download/). Note that both Bootstrap 4 and 5 are supported.
 
 ### Including this component
-
-On the React file that you want to use the web components, include the modules you want to use. For example:
 
 ```
 import  SortTable  from '@mydobie/sort-table';
@@ -202,7 +198,7 @@ The following props are available to be sent to the `SortTable` component:
     <td>viewSteps</td>
     <td>number[]</td>
     <td>no</td>
-    <td>[All]</td>
+    <td>[[10, 25, 50, All]</td>
     <td>Array of numbers that will populate the options in the elements per page drop down.</td>
   </tr>
   <tr>
@@ -259,15 +255,26 @@ The following props are available to be sent to the `SortTable` component:
     <td>isResponsive</td>
     <td>boolean</td>
     <td>no</td>
-    <td>false/td>
-    <td>When set, css will be applied so the table displays as a list on small screens.  Note:  This works best when the row header is the first cell in a row.</td>
+    <td>true</td>
+    <td>
+    When set, the responsive view will be a definition list instead of a table on smaller screens.
+    </td>
   </tr>
   <tr>
-    <td>isResponsiveList</td>
+    <td>smallScreenSize</td>
+    <td>number</td>
+    <td>no</td>
+    <td>650</td>
+    <td>If `isResponsive` is not set or set to true, the width of the screen in pixels when the code will switch between table and responsive displays.  Note:  This value has no impact if `isResponsiveAria` is set.</td>
+  </tr>
+  <tr>
+    <td>isResponsiveAria</td>
     <td>boolean</td>
     <td>no</td>
     <td>false</td>
-    <td>When set, the responsive view will be a definition list instead of a table.  This provides more accessibility support when viewing in responsive mode.  Note:  Both the table and definition list will be in the DOM and CSS is used to hide/show the proper version.  If the table is very large, this may cause performance issues.  `isResponsive` must not be set as a prop in order for this feature to be active. </td>
+    <td>
+    When set, css will be applied so the table displays as a list on small screens.  Note:  This works best when the row header is the first cell in a row.  This method is not recommended unless there are compelling reasons to keep the table structure in the html on smaller screens
+     </td>
   </tr>
  <tr>
     <td>showFilter</td>
@@ -298,11 +305,11 @@ The following props are available to be sent to the `SortTable` component:
     <td>Class name(s) applied to the table.</td>
   </tr>
 <tr>
-    <td>useFuzzySearch</td>
+    <td>exactFilterMatch</td>
     <td>boolean</td>
     <td>no</td>
-    <td>true</td>
-    <td>Use "fuzzy search" matching where an exact string isn't needed to produce a match.  When set to `false` the string in the filter textbox must match a data element.</td>
+    <td>false</td>
+    <td>Require that the exact string entered in the filter text box be contained in a filterable cell.</td>
   </tr>
 <tr>
     <td>onChange</td>
@@ -424,10 +431,17 @@ Information for each header is contained in an object with the followign keys.
   </tr>
   <tr>
     <td>type</td>
-    <td>"size" | "alpha</td>
+    <td>"size" | "alpha" | "number"</td>
     <td>no</td>
     <td>"size"</td>
     <td>What sort icon is displayed when the column is sorted.</td>
+  </tr>
+  <tr>
+    <td>customSort</td>
+    <td>(a: any, b: any) => 0 | 1 | -1;</td>
+    <td>no</td>
+    <td>array.sort()</td>
+    <td>Custom sort function used to sort data in this column.</td>
   </tr>
 </table>
 
@@ -458,7 +472,7 @@ const data: tableDataType[] = [
 
 ```
 
-Information for each data row is contained in an object with the followign keys.
+Information for each data row is contained in an object with the following keys.
 
 <table>
   <tr>
@@ -510,7 +524,7 @@ The following sections describe how perform development on this component(s).
 If you are just getting started, perform the following tasks to ensure your environment is ready for development.
 
 1.  Verify node is installed => `node -v`. Ensure that it is the version listed in the `package.json` file
-1.  Install dependencies => `npm run d`
+1.  Install dependencies => `npm i`
 1.  Check for lint errors => `npm run lint`
 1.  Tun the tests => `npm run test`
 1.  Find security advisories => `npm run npmAudit`

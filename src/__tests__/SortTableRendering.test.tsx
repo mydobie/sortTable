@@ -188,16 +188,6 @@ describe('Sort Table Rendering', () => {
       ).not.toBeInTheDocument();
     });
 
-    test('Responsive data attribute is set', async () => {
-      let container;
-      await act(async () => {
-        container = await sortTableFactory({ isResponsive: true });
-      });
-      expect(
-        container.querySelector('table[data-sort-responsive]')
-      ).toBeInTheDocument();
-    });
-
     test('Custom table class name is set', async () => {
       let container;
       await act(async () => {
@@ -359,18 +349,16 @@ describe('Sort Table Rendering', () => {
       expect(results).toHaveNoViolations();
     });
 
-    test('Is accessible with defation list', async () => {
+    test('Is accessible with definition list', async () => {
       let container;
       await act(async () => {
         container = await sortTableFactory({
           showPagination: true,
-          isResponsiveList: true,
+          isResponsive: true,
           isResponsiveListAlwaysShow: true,
         });
       });
-      expect(
-        container.querySelector('[data-sort-responsive-list]')
-      ).toBeInTheDocument();
+      expect(container.querySelector('dl')).toBeInTheDocument();
       const results = await axe(`<main>${container.innerHTML}</main>`);
       expect(results).toHaveNoViolations();
     });

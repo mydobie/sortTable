@@ -4,7 +4,7 @@ Like a lightweight data tables (https://datatables.net/)
 */
 
 import React from 'react';
-import SortIcons from './SortIcons';
+import SortIcons, { SortType } from './SortIcons';
 import './sortTable.css';
 import TableSummary from './TableSummary';
 import SortDropDown from './SortDropDown';
@@ -15,6 +15,7 @@ const Filter = React.lazy(() => import('./Filter'));
 const Loading = React.lazy(() => import('./Loading'));
 const List = React.lazy(() => import('./List'));
 const ResponsiveCss = React.lazy(() => import('./ResponsiveCss'));
+import Table from './Table';
 
 export const sortTableVersion = process.env.REACT_APP_VERSION;
 
@@ -26,6 +27,9 @@ export type tableDataType = {
   hidden?: boolean;
   rowindex?: number;
 };
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type CustomSortType = (a: any, b: any) => 0 | 1 | -1;
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 export type headerType = string;
@@ -42,7 +46,8 @@ export type headerDataType = {
   sortKey?: headerType;
   // eslint-disable-next-line @typescript-eslint/ban-types
   style?: Object;
-  type?: string;
+  type?: SortType;
+  customSort?: CustomSortType;
 };
 
 interface Props {
@@ -71,12 +76,13 @@ interface Props {
   id?: string;
   isLoading?: boolean;
   isResponsive?: boolean;
-  isResponsiveList?: boolean;
+  isResponsiveAria?: boolean;
   showFilter?: boolean;
   showPagination?: boolean;
   sortedCellClass?: string;
   tableClassName?: string;
-  useFuzzySearch?: boolean;
+  exactFilterMatch?: boolean;
+  smallScreenSize?: number;
 
   // Optional - callbacks
   onChange?: (props: {
@@ -92,7 +98,7 @@ interface Props {
   // For testing (wouldn't normally be used)
   debounceTimeout?: number;
   isResponsiveListAlwaysShow?: boolean;
-  maxFuzzyDistance?: number;
+  maxFuzzyDistance?: number; // Remove this in next major version
 }
 
 const SortTable = (props: Props): JSX.Element => {
@@ -111,7 +117,7 @@ const SortTable = (props: Props): JSX.Element => {
     initialSortDsc,
     isLoadingMessage,
     noDataMessage,
-    viewSteps,
+    viewSteps = [10, 25, 50],
 
     // Optional - config
     caseSensitiveFilter,
@@ -121,13 +127,14 @@ const SortTable = (props: Props): JSX.Element => {
     headerClassName,
     id,
     isLoading,
-    isResponsive,
-    isResponsiveList,
+    isResponsive = true,
+    isResponsiveAria,
     showFilter,
     showPagination,
     sortedCellClass,
     tableClassName,
-    useFuzzySearch,
+    exactFilterMatch = false,
+    smallScreenSize = 650,
 
     // Optional - callbacks
     onChange = () => {},
@@ -138,7 +145,8 @@ const SortTable = (props: Props): JSX.Element => {
     maxFuzzyDistance = 3,
   } = props;
 
-  let rowsDisplayed = defaultToAll || !viewSteps ? null : viewSteps[0];
+  // let rowsDisplayed = defaultToAll || !viewSteps ? null : viewSteps[0];
+  let rowsDisplayed = !showPagination || defaultToAll ? null : viewSteps[0];
 
   if (initialRowsDisplayed && viewSteps) {
     rowsDisplayed = viewSteps.includes(initialRowsDisplayed)
@@ -147,12 +155,24 @@ const SortTable = (props: Props): JSX.Element => {
   }
 
   const sortTableId = id ?? 'sortTable';
+  const [isDesktop, setDesktop] = React.useState(
+    window.innerWidth > smallScreenSize
+  );
   const [tableDisplayRows, setTableDisplayRows] = React.useState(tableData);
   const [sortCol, setSortCol] = React.useState(''); // sort by this column
   const [sortAscending, setSortAscending] = React.useState(true);
   const [filterValue, setFilterValue] = React.useState('');
   const [maxNumber, setMaxNumber] = React.useState(rowsDisplayed); // aka number of rows shown at a time
   const [activePage, setActivePage] = React.useState(initialPage ?? 1);
+
+  const updateMedia = () => {
+    setDesktop(window.innerWidth > 650);
+  };
+
+  React.useEffect(() => {
+    window.addEventListener('resize', updateMedia);
+    return () => window.removeEventListener('resize', updateMedia);
+  }, []);
 
   const filteredRows = React.useCallback(
     () => tableDisplayRows.filter((row) => !row.hide),
@@ -166,15 +186,25 @@ const SortTable = (props: Props): JSX.Element => {
   );
 
   /* ***************************** */
-  const sortTableRows = (
-    col: string,
-    ascending: boolean,
-    initialRows = tableDisplayRows
-  ) => {
+  const sortTableRows = ({
+    col,
+    ascending,
+    initialRows,
+    customSort,
+  }: {
+    col: string;
+    ascending: boolean;
+    initialRows?: tableDataType[];
+    customSort?: CustomSortType;
+  }) => {
+    if (!initialRows) {
+      initialRows = tableDisplayRows;
+    }
     const rows = sortRows({
       rows: initialRows,
       sortCol: col,
       sortAscending: ascending,
+      customSort,
     });
 
     setTableDisplayRows(rows);
@@ -190,8 +220,8 @@ const SortTable = (props: Props): JSX.Element => {
         filterValue: filter,
         caseSensitiveFilter,
         headers,
-        useFuzzySearch,
         maxFuzzyDistance,
+        exactFilterMatch,
       })
     );
     setFilterValue(filter);
@@ -225,6 +255,7 @@ const SortTable = (props: Props): JSX.Element => {
         rows: tableDisplayRows,
         sortCol: col,
         sortAscending: !initialSortDsc,
+        customSort: initialSortColumn.customSort,
         onSort: (sortedRows) => {
           setSortCol(col);
           setSortAscending(!initialSortDsc);
@@ -235,8 +266,8 @@ const SortTable = (props: Props): JSX.Element => {
               filterValue: initialFilter,
               caseSensitiveFilter,
               headers,
-              useFuzzySearch,
               maxFuzzyDistance,
+              exactFilterMatch,
             });
 
             setTableDisplayRows(fRows);
@@ -283,6 +314,7 @@ const SortTable = (props: Props): JSX.Element => {
       header.key === sortCol || header.sortKey === sortCol
         ? header.type
         : 'sortable';
+
     const buttonIconColor = buttonIconType === 'sortable' ? '#ccc' : undefined;
     return (
       <button
@@ -290,7 +322,11 @@ const SortTable = (props: Props): JSX.Element => {
         onClick={() => {
           const col = header.sortKey ?? header.key;
           const isSortAscending = col !== sortCol || !sortAscending;
-          sortTableRows(col, isSortAscending);
+          sortTableRows({
+            col,
+            ascending: isSortAscending,
+            customSort: header.customSort,
+          });
         }}
         style={{
           border: 'none',
@@ -321,7 +357,7 @@ const SortTable = (props: Props): JSX.Element => {
   const buildHeaders = (
     <tr
       aria-rowindex={showPagination ? 1 : undefined}
-      role={isResponsive && !isResponsiveList ? 'row' : undefined}
+      role={isResponsiveAria ? 'row' : undefined}
     >
       {headers.map((header) => (
         <th
@@ -329,12 +365,12 @@ const SortTable = (props: Props): JSX.Element => {
           key={header.key}
           aria-sort={setAriaSort(header.key)}
           style={header.style}
-          className={`${header.className} ${
+          className={`${header.className || ''} ${
             header.key === sortCol || header.sortKey === sortCol
               ? sortedCellClass
               : ''
           }`}
-          role={isResponsive && !isResponsiveList ? 'columnheader' : undefined}
+          role={isResponsiveAria ? 'columnheader' : undefined}
         >
           {headerButton(header)}
         </th>
@@ -347,7 +383,7 @@ const SortTable = (props: Props): JSX.Element => {
     <tr
       key={rowData.id}
       aria-rowindex={showPagination ? rowData.rowindex : undefined}
-      role={isResponsive && !isResponsiveList ? 'row' : undefined}
+      role={isResponsiveAria ? 'row' : undefined}
     >
       {headers.map((header) => {
         const data = dangerouslySetInnerHTML ? (
@@ -368,8 +404,8 @@ const SortTable = (props: Props): JSX.Element => {
               scope='row'
               key={`${rowData.id}${header.key}`}
               data-sorttable-data-cell
-              role={isResponsive && !isResponsiveList ? 'rowheader' : undefined}
-              className={className}
+              role={isResponsiveAria ? 'rowheader' : undefined}
+              className={className || ''}
             >
               {data}
             </th>
@@ -379,10 +415,10 @@ const SortTable = (props: Props): JSX.Element => {
           <td
             key={`${rowData.id}${header.key}`}
             data-sorttable-data-cell
-            role={isResponsive && !isResponsiveList ? 'cell' : undefined}
-            className={className}
+            role={isResponsiveAria ? 'cell' : undefined}
+            className={className || ''}
           >
-            {isResponsive && !isResponsiveList ? (
+            {isResponsiveAria ? (
               <span aria-hidden data-responsive-header>
                 {header.name}
               </span>
@@ -436,10 +472,11 @@ const SortTable = (props: Props): JSX.Element => {
   if (tableDisplayRows.length === 0) {
     return <>{noData}</>;
   }
+
   return (
     <div className='container-fluid'>
       <React.Suspense fallback={<></>}>
-        {isResponsive && !isResponsiveList ? <ResponsiveCss /> : null}
+        {isResponsiveAria ? <ResponsiveCss /> : null}
 
         <div
           className='row'
@@ -464,66 +501,54 @@ const SortTable = (props: Props): JSX.Element => {
           ) : null}
         </div>
         <div className='row'>
-          {isResponsive || isResponsiveList ? (
+          {isResponsiveAria || isResponsive ? (
             <SortDropDown
               headers={headers}
               selected={sortCol}
               sortAscending={sortAscending}
               onChange={(col, sortAsc) => {
-                sortTableRows(col, sortAsc);
+                sortTableRows({ col, ascending: sortAsc });
               }}
             />
           ) : null}
-
-          <table
-            className={`table ${tableClassName}`}
-            id={sortTableId}
-            aria-describedby={`${sortTableId}RowsShownSummary`}
-            aria-rowcount={
-              showPagination || showFilter
-                ? tableDisplayRows.length + 1
-                : undefined
-            }
-            data-sort-responsive={
-              (isResponsive && !isResponsiveList) ?? undefined
-            }
-            data-sort-responsive-has-list={isResponsiveList ?? undefined}
-            data-sort-responsive-has-list-always-hide={
-              isResponsiveListAlwaysShow ?? undefined
-            }
-            role={isResponsive && !isResponsiveList ? 'table' : undefined}
-          >
-            {caption ? <caption>{caption}</caption> : null}
-            <thead
-              className={headerClassName}
-              role={isResponsive && !isResponsiveList ? 'rowgroup' : undefined}
+          {isDesktop || !isResponsive ? (
+            <Table
+              caption={caption}
+              tableClassName={tableClassName}
+              sortTableId={sortTableId}
+              isResponsiveAria={isResponsiveAria}
+              isResponsive={isResponsive}
+              ariaRowCount={
+                showPagination || showFilter
+                  ? tableDisplayRows.length + 1
+                  : undefined
+              }
             >
-              {buildHeaders}
-            </thead>
-            {!isLoading ? (
-              <tbody
-                role={
-                  isResponsive && !isResponsiveList ? 'rowgroup' : undefined
-                }
-                data-testid='sortTableBody'
-              >
-                {buildData()}
-              </tbody>
-            ) : null}
-          </table>
-
-          {isResponsiveList ? (
-            <List
-              headers={headers}
-              tableData={displayRows()}
-              isResponsiveListAlwaysShow={isResponsiveListAlwaysShow}
-            />
+              <>
+                <thead
+                  className={headerClassName || ''}
+                  role={isResponsiveAria ? 'rowgroup' : undefined}
+                >
+                  {buildHeaders}
+                </thead>
+                {!isLoading ? (
+                  <tbody
+                    role={isResponsiveAria ? 'rowgroup' : undefined}
+                    data-testid='sortTableBody'
+                  >
+                    {buildData()}
+                  </tbody>
+                ) : null}
+              </>
+            </Table>
           ) : null}
 
+          {(!isDesktop && isResponsive) || isResponsiveListAlwaysShow ? (
+            <List headers={headers} tableData={displayRows()} />
+          ) : null}
           {tableDisplayRows.findIndex((row) => !row.hide) === -1
             ? allFiltered
             : null}
-
           {isLoading && !isLoadingMessage ? <Loading /> : null}
           {isLoading && isLoadingMessage ? isLoadingMessage : null}
         </div>

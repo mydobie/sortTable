@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
+import App from './demoPages/App';
 
 const RenderApp: ReactElement = <App />;
 

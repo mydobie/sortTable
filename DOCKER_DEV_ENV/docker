@@ -5,14 +5,14 @@ cd "$(dirname "$0")/.."
 containername=node-dev-env
 
 # imagename must match the value for image: in the docker-compose-dev-env.yml file
-imagename=node-dev-env:14.13
+imagename=node-dev-env:16
 
 
 
 case $1 in
   create) 
           echo "Creating image and container $containername ..."; 
-          docker-compose --file DOCKER_DEV_ENV/docker-compose-dev-env.yml run --service-ports --name $containername node_dev_env;;
+          docker-compose --file DOCKER_DEV_ENV/docker-compose-dev-env.yml run --service-ports --name $containername node-dev-env;;
 
   start) 
           echo "Starting container $containername ...";

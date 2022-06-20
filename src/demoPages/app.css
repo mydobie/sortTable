@@ -1,0 +1,18 @@
+.emptyCell:after {
+  content: '-';
+  color: #6e6e6e;
+}
+
+.code {
+  padding-left: 2em;
+  display: block;
+}
+
+.accordion-button {
+  background-color: #ccc;
+  color: #000;
+}
+
+.sortedCell {
+  background-color: #cece6c30 !important;
+}

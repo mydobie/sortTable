@@ -4,7 +4,7 @@
   "main": "SortTable.js",
   "types": "SortTable.d.ts",
   "license": "MIT",
-  "homepage": "https://mydobie.github.io/sortTable/",
+  "homepage": "./",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/"
   },
@@ -13,11 +13,11 @@
     "lib/**/*"
   ],
   "engines": {
-    "node": "^14"
+    "node": "16 || 18"
   },
   "peerDependencies": {
-    "react": "16.8.0 - 17.999.999",
-    "react-dom": "16.8.0 - 17.999.999"
+    "react": "16.8.0 - 18.999.999",
+    "react-dom": "16.8.0 - 18.999.999"
   },
   "dependencies": {
     "fastest-levenshtein": "^1.0.12",
@@ -25,44 +25,38 @@
   },
   "devDependencies": {
     "bootstrap": "^5.1.3",
-    "react": "16.8.0 - 17.999.999",
-    "react-dom": "16.8.0 - 17.999.999",
-    "react-router": "^5.2.0",
-    "react-router-dom": "^5.2.0",
-    "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^12.1.2",
-    "@testing-library/react-hooks": "^7.0.1",
-    "@testing-library/user-event": "^13.4.1",
+    "react": "16.8.0 - 18.999.999",
+    "react-bootstrap": "^2.4.0",
+    "react-dom": "16.8.0 - 18.999.999",
+    "react-router": "^6.3.0",
+    "react-router-dom": "^6.3.0",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^12.1.5",
+    "@testing-library/react-hooks": "^8.0.0",
+    "@testing-library/user-event": "^14.2.0",
     "@types/jest-axe": "^3.5.1",
-    "@types/react-router-dom": "^5.3.1",
-    "@types/styled-components": "5.1.15",
+    "@types/react-router-dom": "^5.3.3",
+    "@types/styled-components": "5.1.25",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
-    "@typescript-eslint/parser": "^5.0.0",
-    "eslint-config-airbnb": "^18.2.1",
-    "eslint-config-airbnb-typescript": "^14.0.1",
-    "eslint-config-prettier": "^8.1.0",
+    "@typescript-eslint/parser": "^5.26.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.24.0",
     "eslint-plugin-react-hooks": "^4.2.0",
-    "eslint-watch": "^7.0.0",
-    "husky": "^7.0.0",
-    "jest-axe": "^5.0.1",
-    "lint-staged": "^11.2.3",
+    "eslint-watch": "^8.0.0",
+    "husky": "^8.0.1",
+    "jest-axe": "^6.0.0",
+    "lint-staged": "^12.4.2",
     "onchange": "^7.1.0",
-    "prettier": "^2.3.2",
-    "react-scripts": "^4.0.3",
+    "prettier": "^2.6.2",
+    "react-scripts": "^5.0.1",
     "sass": "1.39.2",
-    "stylelint": "^13.12.0",
-    "stylelint-config-prettier": "^9.0.3",
-    "typescript": "^4.4.4",
-    "uglify-js": "^3.12.3"
-  },
-  "resolutions": {
-    "glob-parent": "5.1.2",
-    "set-value": "4.0.1",
-    "immer": "9.0.6"
+    "typescript": "^4.7.2",
+    "uglify-js": "^3.15.5"
   },
   "scripts": {
     "eject": "react-scripts eject",
@@ -73,6 +67,7 @@
     "----------------------------------------------------------1": "",
     "buildts": "npm run buildVersionsPage && tsc --project tsconfig-build-files.json",
     "build": "npm run d && npm run test && npm run npmAudit && npm run build:ci",
+    "build:hash": "REACT_APP_USE_HASH_ROUTER=true npm run build:ci",
     "build:ci": "npm run buildVersionsPage && REACT_APP_GIT_SHA=`git rev-parse --short HEAD` react-scripts build",
     "test": "react-scripts test --coverage  --passWithNoTests --testPathIgnorePatterns /helpers --watchAll=false ",
     "test:watch": "react-scripts test ",
@@ -91,7 +86,6 @@
     "----------------------------------------------------------4": "",
     "clean": "rm -rf node_modules && rm -rf package-lock.json && npm run d",
     "uglify": "uglifyjs ",
-    "preinstall": "npx npm-force-resolutions",
     "prepare": "husky install",
     "checkCoverage": "node ./utils/testCoverage.js",
     "npmAudit": "npm audit --production --audit-level=high --registry=https://registry.npmjs.org",
@@ -166,8 +160,9 @@
       "!<rootDir>/node_modules/",
       "!<rootDir>/src/setupTests.js",
       "!<rootDir>/src/__tests__/helpers/**/*.{js,jsx,ts,tsx}",
-      "!<rootDir>/src/App.tsx",
-      "!<rootDir>/src/index.tsx"
+      "!<rootDir>/src/index.tsx",
+      "!<rootDir>/src/demoPages/*",
+      "!<rootDir>/src/sampleData/*"
     ],
     "coverageReporters": [
       "html",

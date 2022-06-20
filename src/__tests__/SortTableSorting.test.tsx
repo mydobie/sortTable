@@ -1,5 +1,5 @@
 /* eslint-disable react/react-in-jsx-scope */
-import { screen, fireEvent } from '@testing-library/react';
+import { screen, fireEvent, render } from '@testing-library/react';
 import {
   sortTableFactory,
   data,
@@ -8,6 +8,7 @@ import {
   clickHeader,
   columnTextWithHeader,
 } from './helpers/helpers';
+import SortTable from '../Components/SortTable';
 
 describe('Sort Table Sorting', () => {
   test('Column marked as pre-sort is sorted', async () => {
@@ -69,7 +70,7 @@ describe('Sort Table Sorting', () => {
       container
         .querySelectorAll('thead th')
         .item(nameIndex)
-        .querySelector('path[data-icontype="sortable"]')
+        .querySelector('svg[data-icontype="sortable"]')
     ).toBeInTheDocument();
   });
 
@@ -217,7 +218,7 @@ describe('Sort Table Sorting', () => {
       container
         .querySelectorAll('thead th')
         .item(undefinedTypeIndex)
-        .querySelector('button svg path[data-icontype="defaultAscending"]')
+        .querySelector('svg[data-icontype="defaultAscending"]')
     ).toBeInTheDocument();
   });
 
@@ -235,7 +236,7 @@ describe('Sort Table Sorting', () => {
       container
         .querySelectorAll('thead th')
         .item(alphaTypeIndex)
-        .querySelector('button svg path[data-icontype="alphaAscending"]')
+        .querySelector('svg[data-icontype="alphaAscending"]')
     ).toBeInTheDocument();
   });
 
@@ -251,14 +252,14 @@ describe('Sort Table Sorting', () => {
       container
         .querySelectorAll('thead th')
         .item(sizeTypeIndex)
-        .querySelector('button svg path[data-icontype="defaultAscending"]')
+        .querySelector('svg[data-icontype="defaultAscending"]')
     ).toBeInTheDocument();
   });
 });
 
 describe('Sort Table Sorting Responsive', () => {
   test('Sort drop down is not available on non responsive view', async () => {
-    await sortTableFactory();
+    await sortTableFactory({ isResponsive: false });
     expect(screen.queryByTestId('sortDropDownWrapper')).not.toBeInTheDocument();
   });
 
@@ -270,7 +271,9 @@ describe('Sort Table Sorting Responsive', () => {
   test('If no column is sorted, then the sort direction button is not shown', async () => {
     await sortTableFactory({ isResponsive: true });
     expect(screen.getByTestId('sortDropDownColumn')).toBeInTheDocument();
-    expect(screen.getByTestId('sortDropDownColumn').value).toEqual('');
+    expect(
+      (screen.getByTestId('sortDropDownColumn') as HTMLSelectElement).value
+    ).toEqual('');
     expect(screen.queryByTestId('sortDropDownButton')).not.toBeInTheDocument();
   });
 
@@ -292,7 +295,9 @@ describe('Sort Table Sorting Responsive', () => {
 
   test('If a column is already sorted, then the sort column and direction are correct', async () => {
     await sortTableFactory({ initialSort: 'name', isResponsive: true });
-    expect(screen.getByTestId('sortDropDownColumn').value).toEqual('name');
+    expect(
+      (screen.getByTestId('sortDropDownColumn') as HTMLSelectElement).value
+    ).toEqual('name');
     expect(screen.getByTestId('sortDropDownButton')).toBeInTheDocument();
     expect(
       screen
@@ -339,17 +344,6 @@ describe('Sort Table Sorting Responsive', () => {
   });
 
   test('Column with a sortKey is sorted according to the sortKey value', async () => {
-    // const sorted = data
-    //   .sort((a, b) => {
-    //     const intA = a.saledaynum;
-    //     const intB = b.saledaynum;
-    //     if (intA === intB) return 0;
-    //     if (intA === undefined) return 1;
-    //     if (intB === undefined) return -1;
-    //     return intA - intB;
-    //   })
-    //   .map((item) => item.day ?? '');
-
     await sortTableFactory({ isResponsive: true });
     expect(
       screen
@@ -362,5 +356,124 @@ describe('Sort Table Sorting Responsive', () => {
     // const nameColumn = columnTextWithHeader('day');
     // expect(nameColumn).toEqual(sorted);
     // TODO fix this test.  The responsive header html is preventing the sort from working.
+  });
+});
+
+describe('Custom sort function', () => {
+  const myCustomSort = (a, b) => {
+    if (a === b || (a !== 'first' && b !== 'first')) return 0;
+    return a === 'first' ? -1 : 1;
+  };
+  const headers = [
+    { name: 'My Column', key: 'custom', customSort: myCustomSort },
+  ];
+
+  const data = [
+    {
+      id: 1,
+      custom: 'second',
+    },
+    {
+      id: 2,
+      custom: 'last',
+    },
+    {
+      id: 3,
+      custom: 'first',
+    },
+  ];
+
+  test('Column with custom sort is sorted ascending', async () => {
+    const wrapper = <SortTable tableData={data} headers={headers} />;
+
+    let { container } = render(wrapper);
+    fireEvent.click(
+      // @ts-ignore
+      container.querySelector('thead th').querySelector('button')
+    );
+
+    await new Promise((r) => setTimeout(r, 25)); // time to to allow debounce to finish
+
+    let cells = [];
+    container.querySelectorAll('tbody tr td').forEach((cell) => {
+      // @ts-ignore
+      cells.push(cell.innerHTML);
+    });
+
+    expect(cells).toEqual(['first', 'second', 'last']);
+    expect(container.querySelector('th')?.getAttribute('aria-sort')).toEqual(
+      'ascending'
+    );
+  });
+
+  test('Column with custom sort is sorted descending', async () => {
+    const wrapper = <SortTable tableData={data} headers={headers} />;
+
+    let { container } = render(wrapper);
+    fireEvent.click(
+      // @ts-ignore
+      container.querySelector('thead th').querySelector('button')
+    );
+
+    fireEvent.click(
+      // @ts-ignore
+      container.querySelector('thead th').querySelector('button')
+    );
+
+    await new Promise((r) => setTimeout(r, 25)); // time to to allow debounce to finish
+
+    let cells = [];
+    container.querySelectorAll('tbody tr td').forEach((cell) => {
+      // @ts-ignore
+      cells.push(cell.innerHTML);
+    });
+
+    expect(cells).toEqual(['last', 'second', 'first']);
+    expect(container.querySelector('th')?.getAttribute('aria-sort')).toEqual(
+      'descending'
+    );
+  });
+
+  test('Column with custom sort sorts correctly if is the initial sort ascending', async () => {
+    const wrapper = (
+      <SortTable tableData={data} headers={headers} initialSort='custom' />
+    );
+
+    let { container } = render(wrapper);
+
+    let cells = [];
+    container.querySelectorAll('tbody tr td').forEach((cell) => {
+      // @ts-ignore
+      cells.push(cell.innerHTML);
+    });
+
+    expect(cells).toEqual(['first', 'second', 'last']);
+    expect(container.querySelector('th')?.getAttribute('aria-sort')).toEqual(
+      'ascending'
+    );
+  });
+
+  test('Column with custom sort sorts correctly if is the initial sort descending', async () => {
+    const wrapper = (
+      <SortTable
+        tableData={data}
+        headers={headers}
+        initialSort='custom'
+        initialSortDsc
+      />
+    );
+
+    let { container } = render(wrapper);
+
+    let cells = [];
+    container.querySelectorAll('tbody tr td').forEach((cell) => {
+      // @ts-ignore
+      cells.push(cell.innerHTML);
+    });
+
+    expect(cells).toEqual(['last', 'second', 'first']);
+    expect(container.querySelector('th')?.getAttribute('aria-sort')).toEqual(
+      'descending'
+    );
   });
 });

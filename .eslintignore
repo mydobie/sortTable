@@ -12,3 +12,4 @@ npm-cache/
 lint-staged.config.js
 src/__tests__
 /utils
+public/versions.json
