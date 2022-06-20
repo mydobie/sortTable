@@ -1,4 +1,5 @@
 /// <reference types="react" />
+import { SortType } from './SortIcons';
 import './sortTable.css';
 export declare const sortTableVersion: string | undefined;
 export declare type tableDataType = {
@@ -7,6 +8,7 @@ export declare type tableDataType = {
     hidden?: boolean;
     rowindex?: number;
 };
+export declare type CustomSortType = (a: any, b: any) => 0 | 1 | -1;
 export declare type headerType = string;
 export declare type headerDataType = {
     name: string;
@@ -17,7 +19,8 @@ export declare type headerDataType = {
     rowheader?: boolean;
     sortKey?: headerType;
     style?: Object;
-    type?: string;
+    type?: SortType;
+    customSort?: CustomSortType;
 };
 interface Props {
     headers: headerDataType[];
@@ -40,12 +43,13 @@ interface Props {
     id?: string;
     isLoading?: boolean;
     isResponsive?: boolean;
-    isResponsiveList?: boolean;
+    isResponsiveAria?: boolean;
     showFilter?: boolean;
     showPagination?: boolean;
     sortedCellClass?: string;
     tableClassName?: string;
-    useFuzzySearch?: boolean;
+    exactFilterMatch?: boolean;
+    smallScreenSize?: number;
     onChange?: (props: {
         sortedColumn: headerType;
         sortedAscending: boolean;

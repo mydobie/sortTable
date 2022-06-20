@@ -1,17 +1,18 @@
-import { tableDataType, headerDataType } from './SortTable';
-export declare const sortRows: ({ rows, sortCol, sortAscending, onSort, }: {
+import { tableDataType, headerDataType, CustomSortType } from './SortTable';
+export declare const sortRows: ({ rows, sortCol, sortAscending, onSort, customSort, }: {
     rows: tableDataType[];
     sortCol: string;
     sortAscending: boolean | null;
     onSort?: ((sortRows: tableDataType[]) => void | undefined) | undefined;
+    customSort?: CustomSortType | undefined;
 }) => tableDataType[];
-export declare const filterRows: ({ rows, filterValue, caseSensitiveFilter, headers, useFuzzySearch, maxFuzzyDistance, }: {
+export declare const filterRows: ({ rows, filterValue, caseSensitiveFilter, headers, maxFuzzyDistance, exactFilterMatch, }: {
     rows: tableDataType[];
     filterValue: string;
     caseSensitiveFilter: boolean | undefined;
     headers: headerDataType[];
-    useFuzzySearch: boolean | undefined;
     maxFuzzyDistance: number;
+    exactFilterMatch: boolean | undefined;
 }) => tableDataType[];
 export declare const displayRows: ({ sortedAndFilteredRows, activePage, numberPerPage, }: {
     sortedAndFilteredRows: tableDataType[];
