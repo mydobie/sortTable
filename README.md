@@ -261,6 +261,13 @@ The following props are available to be sent to the `SortTable` component:
     </td>
   </tr>
   <tr>
+    <td>smallScreenSize</td>
+    <td>number</td>
+    <td>no</td>
+    <td>650</td>
+    <td>If `isResponsive` is not set or set to true, the width of the screen in pixels when the code will switch between table and responsive displays.  Note:  This value has no impact if `isResponsiveAria` is set.</td>
+  </tr>
+  <tr>
     <td>isResponsiveAria</td>
     <td>boolean</td>
     <td>no</td>

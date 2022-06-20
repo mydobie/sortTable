@@ -82,6 +82,7 @@ interface Props {
   sortedCellClass?: string;
   tableClassName?: string;
   exactFilterMatch?: boolean;
+  smallScreenSize?: number;
 
   // Optional - callbacks
   onChange?: (props: {
@@ -133,6 +134,7 @@ const SortTable = (props: Props): JSX.Element => {
     sortedCellClass,
     tableClassName,
     exactFilterMatch = false,
+    smallScreenSize = 650,
 
     // Optional - callbacks
     onChange = () => {},
@@ -153,7 +155,9 @@ const SortTable = (props: Props): JSX.Element => {
   }
 
   const sortTableId = id ?? 'sortTable';
-  const [isDesktop, setDesktop] = React.useState(window.innerWidth > 650);
+  const [isDesktop, setDesktop] = React.useState(
+    window.innerWidth > smallScreenSize
+  );
   const [tableDisplayRows, setTableDisplayRows] = React.useState(tableData);
   const [sortCol, setSortCol] = React.useState(''); // sort by this column
   const [sortAscending, setSortAscending] = React.useState(true);
