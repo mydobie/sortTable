@@ -7,9 +7,9 @@ div[data-sort-responsive-list-always-show] {
   display: block !important; /* This is only used for testing */
 }
 
-table[data-sort-responsive-has-list-always-hide] {
+/* table[data-sort-responsive-has-list-always-hide] {
   display: none !important;
-}
+} */
 
 div[data-sort-responsive-list] {
   width: 100%;

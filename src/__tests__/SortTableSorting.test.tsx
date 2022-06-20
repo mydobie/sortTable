@@ -259,7 +259,7 @@ describe('Sort Table Sorting', () => {
 
 describe('Sort Table Sorting Responsive', () => {
   test('Sort drop down is not available on non responsive view', async () => {
-    await sortTableFactory();
+    await sortTableFactory({ isResponsive: false });
     expect(screen.queryByTestId('sortDropDownWrapper')).not.toBeInTheDocument();
   });
 

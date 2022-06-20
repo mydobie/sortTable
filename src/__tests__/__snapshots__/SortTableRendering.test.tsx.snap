@@ -82,10 +82,63 @@ exports[`Sort Table Rendering Snapshot test 1`] = `
       class="row"
       style=""
     >
+      <div
+        class="row"
+        data-sort-dropdown="true"
+        data-testid="sortDropDownWrapper"
+      >
+        <div
+          class="col-auto"
+          style="padding-right: 0px;"
+        >
+          <label
+            for="sortDropDownSortDropDown"
+          >
+            Sort:
+          </label>
+        </div>
+        <div
+          class="col-auto"
+          style="padding-right: 0px;"
+        >
+          <select
+            class="form-control form-select"
+            data-testid="sortDropDownColumn"
+            id="sortDropDownSortDropDown"
+          >
+            <option
+              value=""
+            >
+              Select a sort
+            </option>
+            <option
+              value="price"
+            >
+              Price
+            </option>
+            <option
+              value="name"
+            >
+              Product Name
+            </option>
+            <option
+              value="stock"
+            >
+              Stock
+            </option>
+            <option
+              value="saledaynum"
+            >
+              Sale day
+            </option>
+          </select>
+        </div>
+      </div>
       <table
         aria-describedby="sortTableRowsShownSummary"
         aria-rowcount="12"
         class="table "
+        data-sort-responsive-has-list="true"
         id="sortTable"
       >
         <thead

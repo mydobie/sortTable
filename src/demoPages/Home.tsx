@@ -45,7 +45,6 @@ function Home(): JSX.Element {
         sortedCellClass='sortedCell'
         emptyCellClassName='emptyCell'
         defaultToAll
-        isResponsive
         isLoading={loading}
       />
 
@@ -65,7 +64,6 @@ function Home(): JSX.Element {
                   tableClassName='table-hover table-sm'
                 </span>
                 <span className='code'>defaultToAll</span>
-                <span className='code'>isResponsive </span>
                 <span className='code'>emptyCellClassName='emptyCell' </span>
                 <span className='code'>isLoading=&#123;loading&#125;</span>
                 /&gt;

@@ -25,7 +25,7 @@ const List = (props: listProps): JSX.Element => {
   const { headers, tableData } = props;
 
   return (
-    <div>
+    <div data-sort-responsive-list>
       {tableData.map((row) => (
         <dl key={row.id}>
           {headers.map((header) => (

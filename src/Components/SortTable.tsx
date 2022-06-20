@@ -76,7 +76,7 @@ interface Props {
   id?: string;
   isLoading?: boolean;
   isResponsive?: boolean;
-  isResponsiveList?: boolean;
+  isResponsiveAria?: boolean;
   showFilter?: boolean;
   showPagination?: boolean;
   sortedCellClass?: string;
@@ -126,8 +126,8 @@ const SortTable = (props: Props): JSX.Element => {
     headerClassName,
     id,
     isLoading,
-    isResponsive,
-    isResponsiveList,
+    isResponsive = true,
+    isResponsiveAria,
     showFilter,
     showPagination,
     sortedCellClass,
@@ -353,7 +353,7 @@ const SortTable = (props: Props): JSX.Element => {
   const buildHeaders = (
     <tr
       aria-rowindex={showPagination ? 1 : undefined}
-      role={isResponsive && !isResponsiveList ? 'row' : undefined}
+      role={isResponsiveAria ? 'row' : undefined}
     >
       {headers.map((header) => (
         <th
@@ -366,7 +366,7 @@ const SortTable = (props: Props): JSX.Element => {
               ? sortedCellClass
               : ''
           }`}
-          role={isResponsive && !isResponsiveList ? 'columnheader' : undefined}
+          role={isResponsiveAria ? 'columnheader' : undefined}
         >
           {headerButton(header)}
         </th>
@@ -379,7 +379,7 @@ const SortTable = (props: Props): JSX.Element => {
     <tr
       key={rowData.id}
       aria-rowindex={showPagination ? rowData.rowindex : undefined}
-      role={isResponsive && !isResponsiveList ? 'row' : undefined}
+      role={isResponsiveAria ? 'row' : undefined}
     >
       {headers.map((header) => {
         const data = dangerouslySetInnerHTML ? (
@@ -400,7 +400,7 @@ const SortTable = (props: Props): JSX.Element => {
               scope='row'
               key={`${rowData.id}${header.key}`}
               data-sorttable-data-cell
-              role={isResponsive && !isResponsiveList ? 'rowheader' : undefined}
+              role={isResponsiveAria ? 'rowheader' : undefined}
               className={className || ''}
             >
               {data}
@@ -411,10 +411,10 @@ const SortTable = (props: Props): JSX.Element => {
           <td
             key={`${rowData.id}${header.key}`}
             data-sorttable-data-cell
-            role={isResponsive && !isResponsiveList ? 'cell' : undefined}
+            role={isResponsiveAria ? 'cell' : undefined}
             className={className || ''}
           >
-            {isResponsive && !isResponsiveList ? (
+            {isResponsiveAria ? (
               <span aria-hidden data-responsive-header>
                 {header.name}
               </span>
@@ -472,7 +472,7 @@ const SortTable = (props: Props): JSX.Element => {
   return (
     <div className='container-fluid'>
       <React.Suspense fallback={<></>}>
-        {isResponsive && !isResponsiveList ? <ResponsiveCss /> : null}
+        {isResponsiveAria ? <ResponsiveCss /> : null}
 
         <div
           className='row'
@@ -497,7 +497,7 @@ const SortTable = (props: Props): JSX.Element => {
           ) : null}
         </div>
         <div className='row'>
-          {isResponsive || isResponsiveList ? (
+          {isResponsiveAria || isResponsive ? (
             <SortDropDown
               headers={headers}
               selected={sortCol}
@@ -507,13 +507,13 @@ const SortTable = (props: Props): JSX.Element => {
               }}
             />
           ) : null}
-          {isDesktop || !isResponsiveList ? (
+          {isDesktop || !isResponsive ? (
             <Table
               caption={caption}
               tableClassName={tableClassName}
               sortTableId={sortTableId}
+              isResponsiveAria={isResponsiveAria}
               isResponsive={isResponsive}
-              isResponsiveList={isResponsiveList}
               ariaRowCount={
                 showPagination || showFilter
                   ? tableDisplayRows.length + 1
@@ -523,17 +523,13 @@ const SortTable = (props: Props): JSX.Element => {
               <>
                 <thead
                   className={headerClassName || ''}
-                  role={
-                    isResponsive && !isResponsiveList ? 'rowgroup' : undefined
-                  }
+                  role={isResponsiveAria ? 'rowgroup' : undefined}
                 >
                   {buildHeaders}
                 </thead>
                 {!isLoading ? (
                   <tbody
-                    role={
-                      isResponsive && !isResponsiveList ? 'rowgroup' : undefined
-                    }
+                    role={isResponsiveAria ? 'rowgroup' : undefined}
                     data-testid='sortTableBody'
                   >
                     {buildData()}
@@ -543,7 +539,7 @@ const SortTable = (props: Props): JSX.Element => {
             </Table>
           ) : null}
 
-          {(!isDesktop && isResponsiveList) || isResponsiveListAlwaysShow ? (
+          {(!isDesktop && isResponsive) || isResponsiveListAlwaysShow ? (
             <List headers={headers} tableData={displayRows()} />
           ) : null}
           {tableDisplayRows.findIndex((row) => !row.hide) === -1

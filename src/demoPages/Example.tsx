@@ -208,7 +208,7 @@ function App(): JSX.Element {
         initialSort='month'
         caption='Store inventory'
         tableClassName='table-hover table-sm'
-        isResponsiveList
+        isResponsive
       />
       <hr />
       <ul>

@@ -188,16 +188,6 @@ describe('Sort Table Rendering', () => {
       ).not.toBeInTheDocument();
     });
 
-    test('Responsive data attribute is set', async () => {
-      let container;
-      await act(async () => {
-        container = await sortTableFactory({ isResponsive: true });
-      });
-      expect(
-        container.querySelector('table[data-sort-responsive]')
-      ).toBeInTheDocument();
-    });
-
     test('Custom table class name is set', async () => {
       let container;
       await act(async () => {
@@ -364,7 +354,7 @@ describe('Sort Table Rendering', () => {
       await act(async () => {
         container = await sortTableFactory({
           showPagination: true,
-          isResponsiveList: true,
+          isResponsive: true,
           isResponsiveListAlwaysShow: true,
         });
       });

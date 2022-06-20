@@ -4,16 +4,16 @@ import React from 'react';
 const Table = ({
   tableClassName,
   sortTableId,
+  isResponsiveAria,
   isResponsive,
-  isResponsiveList,
   ariaRowCount,
   caption,
   children,
 }: {
   tableClassName: string | undefined;
   sortTableId: string;
+  isResponsiveAria: boolean | undefined;
   isResponsive: boolean | undefined;
-  isResponsiveList: boolean | undefined;
   ariaRowCount: number | undefined;
   caption: string | undefined;
   children: JSX.Element;
@@ -24,9 +24,9 @@ const Table = ({
       id={sortTableId}
       aria-describedby={`${sortTableId}RowsShownSummary`}
       aria-rowcount={ariaRowCount}
-      data-sort-responsive={(isResponsive && !isResponsiveList) ?? undefined}
-      data-sort-responsive-has-list={isResponsiveList ?? undefined}
-      role={isResponsive ? 'table' : undefined}
+      data-sort-responsive={isResponsiveAria ?? undefined}
+      data-sort-responsive-has-list={isResponsive ?? undefined}
+      role={isResponsiveAria ? 'table' : undefined}
     >
       {caption ? <caption>{caption}</caption> : null}
       {children}
