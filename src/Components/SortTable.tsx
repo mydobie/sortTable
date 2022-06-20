@@ -15,6 +15,7 @@ const Filter = React.lazy(() => import('./Filter'));
 const Loading = React.lazy(() => import('./Loading'));
 const List = React.lazy(() => import('./List'));
 const ResponsiveCss = React.lazy(() => import('./ResponsiveCss'));
+import Table from './Table';
 
 export const sortTableVersion = process.env.REACT_APP_VERSION;
 
@@ -152,12 +153,22 @@ const SortTable = (props: Props): JSX.Element => {
   }
 
   const sortTableId = id ?? 'sortTable';
+  const [isDesktop, setDesktop] = React.useState(window.innerWidth > 650);
   const [tableDisplayRows, setTableDisplayRows] = React.useState(tableData);
   const [sortCol, setSortCol] = React.useState(''); // sort by this column
   const [sortAscending, setSortAscending] = React.useState(true);
   const [filterValue, setFilterValue] = React.useState('');
   const [maxNumber, setMaxNumber] = React.useState(rowsDisplayed); // aka number of rows shown at a time
   const [activePage, setActivePage] = React.useState(initialPage ?? 1);
+
+  const updateMedia = () => {
+    setDesktop(window.innerWidth > 650);
+  };
+
+  React.useEffect(() => {
+    window.addEventListener('resize', updateMedia);
+    return () => window.removeEventListener('resize', updateMedia);
+  }, []);
 
   const filteredRows = React.useCallback(
     () => tableDisplayRows.filter((row) => !row.hide),
@@ -457,6 +468,7 @@ const SortTable = (props: Props): JSX.Element => {
   if (tableDisplayRows.length === 0) {
     return <>{noData}</>;
   }
+
   return (
     <div className='container-fluid'>
       <React.Suspense fallback={<></>}>
@@ -495,56 +507,48 @@ const SortTable = (props: Props): JSX.Element => {
               }}
             />
           ) : null}
-
-          <table
-            className={`table ${tableClassName || ''}`}
-            id={sortTableId}
-            aria-describedby={`${sortTableId}RowsShownSummary`}
-            aria-rowcount={
-              showPagination || showFilter
-                ? tableDisplayRows.length + 1
-                : undefined
-            }
-            data-sort-responsive={
-              (isResponsive && !isResponsiveList) ?? undefined
-            }
-            data-sort-responsive-has-list={isResponsiveList ?? undefined}
-            data-sort-responsive-has-list-always-hide={
-              isResponsiveListAlwaysShow ?? undefined
-            }
-            role={isResponsive && !isResponsiveList ? 'table' : undefined}
-          >
-            {caption ? <caption>{caption}</caption> : null}
-            <thead
-              className={headerClassName || ''}
-              role={isResponsive && !isResponsiveList ? 'rowgroup' : undefined}
+          {isDesktop || !isResponsiveList ? (
+            <Table
+              caption={caption}
+              tableClassName={tableClassName}
+              sortTableId={sortTableId}
+              isResponsive={isResponsive}
+              isResponsiveList={isResponsiveList}
+              ariaRowCount={
+                showPagination || showFilter
+                  ? tableDisplayRows.length + 1
+                  : undefined
+              }
             >
-              {buildHeaders}
-            </thead>
-            {!isLoading ? (
-              <tbody
-                role={
-                  isResponsive && !isResponsiveList ? 'rowgroup' : undefined
-                }
-                data-testid='sortTableBody'
-              >
-                {buildData()}
-              </tbody>
-            ) : null}
-          </table>
-
-          {isResponsiveList ? (
-            <List
-              headers={headers}
-              tableData={displayRows()}
-              isResponsiveListAlwaysShow={isResponsiveListAlwaysShow}
-            />
+              <>
+                <thead
+                  className={headerClassName || ''}
+                  role={
+                    isResponsive && !isResponsiveList ? 'rowgroup' : undefined
+                  }
+                >
+                  {buildHeaders}
+                </thead>
+                {!isLoading ? (
+                  <tbody
+                    role={
+                      isResponsive && !isResponsiveList ? 'rowgroup' : undefined
+                    }
+                    data-testid='sortTableBody'
+                  >
+                    {buildData()}
+                  </tbody>
+                ) : null}
+              </>
+            </Table>
           ) : null}
 
+          {(!isDesktop && isResponsiveList) || isResponsiveListAlwaysShow ? (
+            <List headers={headers} tableData={displayRows()} />
+          ) : null}
           {tableDisplayRows.findIndex((row) => !row.hide) === -1
             ? allFiltered
             : null}
-
           {isLoading && !isLoadingMessage ? <Loading /> : null}
           {isLoading && isLoadingMessage ? isLoadingMessage : null}
         </div>

@@ -359,7 +359,7 @@ describe('Sort Table Rendering', () => {
       expect(results).toHaveNoViolations();
     });
 
-    test('Is accessible with defation list', async () => {
+    test('Is accessible with definition list', async () => {
       let container;
       await act(async () => {
         container = await sortTableFactory({
@@ -368,9 +368,7 @@ describe('Sort Table Rendering', () => {
           isResponsiveListAlwaysShow: true,
         });
       });
-      expect(
-        container.querySelector('[data-sort-responsive-list]')
-      ).toBeInTheDocument();
+      expect(container.querySelector('dl')).toBeInTheDocument();
       const results = await axe(`<main>${container.innerHTML}</main>`);
       expect(results).toHaveNoViolations();
     });
