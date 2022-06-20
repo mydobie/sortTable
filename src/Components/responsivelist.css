@@ -2,7 +2,6 @@ div[data-sort-dropdown] {
   display: none;
 }
 
-
 div[data-sort-responsive-list-always-show] {
   display: block !important; /* This is only used for testing */
 }
