@@ -1,0 +1,1 @@
+{"version":3,"file":"static/js/366.ac8d8255.chunk.js","mappings":"+LAKA,EAFsB,kBAAmB","sources":["Components/ResponsiveCss.tsx"],"sourcesContent":["import React from 'react';\nimport './responsive.css';\n\nconst ResponsiveCss = (): JSX.Element => <></>;\n\nexport default ResponsiveCss;\n"],"names":[],"sourceRoot":""}

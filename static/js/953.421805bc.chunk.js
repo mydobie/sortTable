@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunk_mydobie_sort_table=self.webpackChunk_mydobie_sort_table||[]).push([[953],{953:function(e,a,l){l.r(a);l(791);var s=l(184);a.default=function(e){var a=e.color,l=e.size,i=null!==l&&void 0!==l?l:"40px",n={width:i,height:i,color:null!==a&&void 0!==a?a:"#aaa "};return(0,s.jsx)("div",{className:"spinner-border",role:"status",style:n,"data-sort-table-loading":!0,children:(0,s.jsx)("span",{className:"sr-only visually-hidden",children:"Loading..."})})}}}]);
+//# sourceMappingURL=953.421805bc.chunk.js.map

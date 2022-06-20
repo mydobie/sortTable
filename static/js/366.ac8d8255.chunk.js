@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunk_mydobie_sort_table=self.webpackChunk_mydobie_sort_table||[]).push([[366],{366:function(e,t,n){n.r(t),n.d(t,{default:function(){return u}});n(791);var r=n(184),u=function(){return(0,r.jsx)(r.Fragment,{})}}}]);
+//# sourceMappingURL=366.ac8d8255.chunk.js.map
