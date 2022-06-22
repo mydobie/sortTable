@@ -1,16 +1,33 @@
 import React from 'react';
-import { ReactComponent as SortableIcon } from './Icons/arrow-down-up.svg';
+// import { ReactComponent as SortableIcon } from './Icons/arrow-down-up.svg';
+import SortableIcon from './Icons/ArrowDownUp';
 
-import { ReactComponent as AlphaAscIcon } from './Icons/sort-alpha-down.svg';
-import { ReactComponent as AlphaDescIcon } from './Icons/sort-alpha-up-alt.svg';
+import AlphaAscIcon from './Icons/SortAlphaDown';
+import AlphaDescIcon from './Icons/SortAlphaUpAlt';
 
-import { ReactComponent as SortAscIcon } from './Icons/sort-down-alt.svg';
-import { ReactComponent as SortDescIcon } from './Icons/sort-up.svg';
+import SortAscIcon from './Icons/SortDownAlt';
+import SortDescIcon from './Icons/SortUp';
 
-import { ReactComponent as NumericAscIcon } from './Icons/sort-numeric-down.svg';
-import { ReactComponent as NumericDescIcon } from './Icons/sort-numeric-up-alt.svg';
+import NumericAscIcon from './Icons/SortNumericDown';
+import NumericDescIcon from './Icons/SortNumericUpAlt';
 
 export type SortType = 'size' | 'alpha' | 'number' | 'sortable';
+
+const IconWrapper = ({
+  children,
+  type,
+}: {
+  children: JSX.Element;
+  type: string;
+}) => (
+  <span
+    style={{ display: 'inline-block', paddingRight: '5px' }}
+    data-icontype={type}
+    aria-hidden='true'
+  >
+    {children}
+  </span>
+);
 
 interface Props {
   sortAsc?: boolean;
@@ -22,44 +39,50 @@ interface Props {
 const SortIcons = ({
   sortAsc = true,
   color,
-  size = 1,
+  size = 20,
   type = 'size',
 }: Props) => {
   const iconColor = color || (type === 'sortable' ? '#ccc' : '#000');
 
-  const iconProps = {
-    style: {
-      color: iconColor,
-      display: 'inline-block',
-      paddingRight: '5px',
-      transform: `scale(${size})`,
-    },
-    'aria-hidden': true,
-  };
-
   switch (type) {
     case 'alpha':
       return sortAsc === true ? (
-        <AlphaAscIcon {...iconProps} data-icontype='alphaAscending' />
+        <IconWrapper type='alphaAscending'>
+          <AlphaAscIcon color={iconColor} size={size} />
+        </IconWrapper>
       ) : (
-        <AlphaDescIcon {...iconProps} data-icontype='alphaDescending' />
+        <IconWrapper type='alphaDescending'>
+          <AlphaDescIcon color={iconColor} size={size} />
+        </IconWrapper>
       );
 
     case 'number':
       return sortAsc === true ? (
-        <NumericAscIcon {...iconProps} />
+        <IconWrapper type='numericAscending'>
+          <NumericAscIcon color={iconColor} size={size} />
+        </IconWrapper>
       ) : (
-        <NumericDescIcon {...iconProps} />
+        <IconWrapper type='numericDescending'>
+          <NumericDescIcon color={iconColor} size={size} />
+        </IconWrapper>
       );
 
     case 'sortable':
-      return <SortableIcon {...iconProps} data-icontype='sortable' />;
+      return (
+        <IconWrapper type='sortable'>
+          <SortableIcon color={iconColor} size={20} />
+        </IconWrapper>
+      );
 
     default:
       return sortAsc === true ? (
-        <SortAscIcon {...iconProps} data-icontype='defaultAscending' />
+        <IconWrapper type='defaultAscending'>
+          <SortAscIcon color={iconColor} size={size} />
+        </IconWrapper>
       ) : (
-        <SortDescIcon {...iconProps} data-icontype='defaultDescending' />
+        <IconWrapper type='defaultDescending'>
+          <SortDescIcon color={iconColor} size={size} />
+        </IconWrapper>
       );
   }
 };
