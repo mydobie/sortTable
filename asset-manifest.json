@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "./static/css/main.6ef0c04f.css",
-    "main.js": "./static/js/main.4539ad00.js",
+    "main.js": "./static/js/main.fc4941e9.js",
     "static/css/736.6cc1ef73.chunk.css": "./static/css/736.6cc1ef73.chunk.css",
     "static/js/736.fa2834b4.chunk.js": "./static/js/736.fa2834b4.chunk.js",
     "static/js/596.e497a44c.chunk.js": "./static/js/596.e497a44c.chunk.js",
@@ -10,16 +10,9 @@
     "static/js/168.8977adb8.chunk.js": "./static/js/168.8977adb8.chunk.js",
     "static/css/366.779fb5bd.chunk.css": "./static/css/366.779fb5bd.chunk.css",
     "static/js/366.ac8d8255.chunk.js": "./static/js/366.ac8d8255.chunk.js",
-    "static/media/sort-numeric-down.svg": "./static/media/sort-numeric-down.81afd68fe7712b52dbbf1e6198e98195.svg",
-    "static/media/sort-numeric-up-alt.svg": "./static/media/sort-numeric-up-alt.8472c356ba08bace9f55524e942552ef.svg",
-    "static/media/sort-alpha-up-alt.svg": "./static/media/sort-alpha-up-alt.6700607149f10f922ab946d198dc75b5.svg",
-    "static/media/sort-alpha-down.svg": "./static/media/sort-alpha-down.d549fbc8d7be3c0daa7340be34524385.svg",
-    "static/media/sort-down-alt.svg": "./static/media/sort-down-alt.a98249b378a88873e26ad81ec80c42e4.svg",
-    "static/media/sort-up.svg": "./static/media/sort-up.53995365fd8cca356b8b4debc7098f52.svg",
-    "static/media/arrow-down-up.svg": "./static/media/arrow-down-up.f9283270b5cd5ddfe621fba5e12de7fb.svg",
     "index.html": "./index.html",
     "main.6ef0c04f.css.map": "./static/css/main.6ef0c04f.css.map",
-    "main.4539ad00.js.map": "./static/js/main.4539ad00.js.map",
+    "main.fc4941e9.js.map": "./static/js/main.fc4941e9.js.map",
     "736.6cc1ef73.chunk.css.map": "./static/css/736.6cc1ef73.chunk.css.map",
     "736.fa2834b4.chunk.js.map": "./static/js/736.fa2834b4.chunk.js.map",
     "596.e497a44c.chunk.js.map": "./static/js/596.e497a44c.chunk.js.map",
@@ -31,6 +24,6 @@
   },
   "entrypoints": [
     "static/css/main.6ef0c04f.css",
-    "static/js/main.4539ad00.js"
+    "static/js/main.fc4941e9.js"
   ]
 }
