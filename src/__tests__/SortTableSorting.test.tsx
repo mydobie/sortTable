@@ -70,7 +70,7 @@ describe('Sort Table Sorting', () => {
       container
         .querySelectorAll('thead th')
         .item(nameIndex)
-        .querySelector('svg[data-icontype="sortable"]')
+        .querySelector('[data-icontype="sortable"]')
     ).toBeInTheDocument();
   });
 
@@ -218,7 +218,7 @@ describe('Sort Table Sorting', () => {
       container
         .querySelectorAll('thead th')
         .item(undefinedTypeIndex)
-        .querySelector('svg[data-icontype="defaultAscending"]')
+        .querySelector('[data-icontype="defaultAscending"]')
     ).toBeInTheDocument();
   });
 
@@ -236,7 +236,7 @@ describe('Sort Table Sorting', () => {
       container
         .querySelectorAll('thead th')
         .item(alphaTypeIndex)
-        .querySelector('svg[data-icontype="alphaAscending"]')
+        .querySelector('[data-icontype="alphaAscending"]')
     ).toBeInTheDocument();
   });
 
@@ -252,7 +252,7 @@ describe('Sort Table Sorting', () => {
       container
         .querySelectorAll('thead th')
         .item(sizeTypeIndex)
-        .querySelector('svg[data-icontype="defaultAscending"]')
+        .querySelector('[data-icontype="defaultAscending"]')
     ).toBeInTheDocument();
   });
 });

@@ -9,7 +9,7 @@ const newPackageJSON = {
   ...packageJSON,
   dependencies: packageJSON.dependencies,
   scripts: {},
-  devDependencies: packageJSON.devDependencies,
+  devDependencies: {},
   prettier: {},
   babel: {},
   eslintConfig: {},
